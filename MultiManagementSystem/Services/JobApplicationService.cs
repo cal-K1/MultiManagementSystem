@@ -33,5 +33,4 @@ namespace MultiManagementSystem.Services
             };
         }
     }
-
 }
