@@ -25,7 +25,7 @@ namespace MultiManagementSystem.Services
         {
             JobApplication newApplication = new JobApplication
             {
-                ApplicationID = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid().ToString(),
                 ApplicantName = name,
                 ApplicantPhoneNumber = phoneNumber,
                 ApplicationText = applicationText

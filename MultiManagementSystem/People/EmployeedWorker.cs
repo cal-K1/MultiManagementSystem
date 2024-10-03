@@ -5,9 +5,9 @@ namespace MultiManagementSystem.People;
 public class EmployeedWorker : Worker
 {
     [Required]
-    string Id { get; set; } = string.Empty;
+    public string Id { get; set; } = string.Empty;
 
-    EmployeeType EmployeType { get; set; }
+    public EmployeeType EmployeType { get; set; }
     
 }
 

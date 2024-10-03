@@ -4,7 +4,7 @@ namespace MultiManagementSystem.People;
 
 public class User
 {
-    string Name { get; set; } = string.Empty;
+    public string Name { get; set; } = string.Empty;
 
-    string Password = string.Empty;
+    public string Password = string.Empty;
 }

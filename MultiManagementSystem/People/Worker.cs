@@ -4,11 +4,11 @@ namespace MultiManagementSystem.People;
 
 public class Worker : User
 {
-    string JobTitle = string.Empty;
-
-    int MonthlySalary = 0;
-
-    int WeeklyHours = 0;
-
-    int LeaveDaysRemaining = 0;
+    public string JobTitle = string.Empty;
+     
+    public int MonthlySalary = 0;
+     
+    public int WeeklyHours = 0;
+     
+    public int LeaveDaysRemaining = 0;
 }

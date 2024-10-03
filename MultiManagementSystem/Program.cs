@@ -1,12 +1,18 @@
 using MultiManagementSystem.Components;
 using MultiManagementSystem.Services.Abstraction;
 using MultiManagementSystem.Services;
+using Microsoft.EntityFrameworkCore;
+using MultiManagementSystem.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+var connectionString = builder.Configuration.GetConnectionString("MultiManagementSystem");
+builder.Services.AddDbContext<ManagementSystemDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 
