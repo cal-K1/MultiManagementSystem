@@ -1,4 +1,6 @@
-﻿namespace MultiManagementSystem.People;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace MultiManagementSystem.People;
 
 public class Worker : User
 {

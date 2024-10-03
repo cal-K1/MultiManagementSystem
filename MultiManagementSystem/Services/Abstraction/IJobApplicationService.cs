@@ -6,9 +6,9 @@ public interface IApplicationService
 {
     void GetApplication();
 
-    void DeclineApplication(Application application);
+    void DeclineApplication(JobApplication application);
 
-    void AcceptApplication(Application application);
+    void AcceptApplication(JobApplication application);
 
     Task ApplyJob(string name, string phoneNumber, string applicationText);
 }

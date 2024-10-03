@@ -9,14 +9,13 @@ namespace MultiManagementSystem.Services
         {
             return;
         }
-
-        public void AcceptApplication(Application application)
+        public void AcceptApplication(JobApplication application)
         {
             application.ApplicationState = ApplicationState.Accepted;
             return;
         }
 
-        public void DeclineApplication(Application application)
+        public void DeclineApplication(JobApplication application)
         {
             application.ApplicationState = ApplicationState.Declined;
             return;
@@ -24,7 +23,7 @@ namespace MultiManagementSystem.Services
 
         public async Task ApplyJob(string name, string phoneNumber, string applicationText)
         {
-            Application newApplication = new Application
+            JobApplication newApplication = new JobApplication
             {
                 ApplicationID = Guid.NewGuid().ToString(),
                 ApplicantName = name,

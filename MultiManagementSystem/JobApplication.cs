@@ -2,9 +2,8 @@
 
 namespace MultiManagementSystem;
 
-public class Application
+public class JobApplication
 {
-    [Key]
     public required string ApplicationID = string.Empty;
 
     public string ApplicantName { get; set; } = string.Empty;

@@ -2,10 +2,17 @@
 
 namespace MultiManagementSystem.People;
 
-public class Management : User
+public class EmployeedWorker : Worker
 {
     [Required]
     string Id { get; set; } = string.Empty;
 
-    bool HasManagerPermissions = true;
+    EmployeeType EmployeType { get; set; }
+    
+}
+
+public enum EmployeeType
+{
+    PartTime = 0,
+    FullTime = 1,
 }
