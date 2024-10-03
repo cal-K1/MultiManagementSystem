@@ -15,6 +15,7 @@ builder.Services.AddDbContext<ManagementSystemDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
+builder.Services.AddDbContext<ManagementSystemDbContext>();
 
 var app = builder.Build();
 

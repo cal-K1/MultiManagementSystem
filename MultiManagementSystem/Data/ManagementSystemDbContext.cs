@@ -27,7 +27,6 @@ namespace MultiManagementSystem.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                // Configure the database provider manually (e.g., SQL Server)DFFGDGFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDGF
                 optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS; Database=MultiManagementSystem; Integrated Security=True; trustServerCertificate=true");
             }
         }

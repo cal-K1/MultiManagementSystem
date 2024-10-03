@@ -1,9 +1,9 @@
-﻿using MultiManagementSystem.Services.Abstraction;
-using static System.Net.Mime.MediaTypeNames;
+﻿using MultiManagementSystem.Data;
+using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services
 {
-    public class ApplicationService : IApplicationService
+    public class ApplicationService(ManagementSystemDbContext dbContext) : IApplicationService
     {
         public void GetApplication()
         {
@@ -28,8 +28,12 @@ namespace MultiManagementSystem.Services
                 Id = Guid.NewGuid().ToString(),
                 ApplicantName = name,
                 ApplicantPhoneNumber = phoneNumber,
-                ApplicationText = applicationText
+                ApplicationText = applicationText,
+                ApplicationState = ApplicationState.Pending
             };
+
+            await dbContext.JobApplication.AddAsync(newApplication);
+            await dbContext.SaveChangesAsync();
         }
     }
 }
