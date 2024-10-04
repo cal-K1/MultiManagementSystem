@@ -4,11 +4,11 @@ namespace MultiManagementSystem.Services.Abstraction;
 
 public interface IApplicationService
 {
-    void GetApplication();
+    JobApplication GetApplication(string Id);
 
-    void DeclineApplication(JobApplication application);
+    Task DeclineApplication(JobApplication application);
 
-    void AcceptApplication(JobApplication application);
+    Task AcceptApplication(JobApplication application);
 
     Task ApplyJob(string name, string phoneNumber, string applicationText);
 }

@@ -5,20 +5,28 @@ namespace MultiManagementSystem.Services
 {
     public class ApplicationService(ManagementSystemDbContext dbContext) : IApplicationService
     {
-        public void GetApplication()
+        public JobApplication GetApplication(string Id)
         {
-            return;
+            foreach (JobApplication jobApplication in dbContext.JobApplication)
+            {
+                if (jobApplication.Id == Id)
+                {
+                    return jobApplication;
+                }
+            }
+
+            return null!;
         }
-        public void AcceptApplication(JobApplication application)
+        public async Task AcceptApplication(JobApplication application)
         {
             application.ApplicationState = ApplicationState.Accepted;
-            return;
+            await dbContext.SaveChangesAsync();
         }
 
-        public void DeclineApplication(JobApplication application)
+        public async Task DeclineApplication(JobApplication application)
         {
             application.ApplicationState = ApplicationState.Declined;
-            return;
+            await dbContext.SaveChangesAsync();
         }
 
         public async Task ApplyJob(string name, string phoneNumber, string applicationText)
