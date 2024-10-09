@@ -1,22 +1,24 @@
 ﻿@namespace MultiManagementSystem.Components.Pages
 
-@page "/application/{SelectedApplication.Id}"
+@page "/application/{Id}"
 
-<h3>Applicant Details</h3>
+<h3>Job Application Details</h3>
 
-<div @onload="SetJobApplicationValues">
+@if (SelectedApplication != null)
+{
     <div>
-        <label for="name">Name:</label>
-        <input id="name" class="form-control" type="text" value="@DisplayApplicantName" readonly />
+        <p><strong>Applicant Name:</strong> @DisplayApplicantName</p>
+        <p><strong>Phone Number:</strong> @DisplayApplicantPhoneNumber</p>
+        <p><strong>Application Text:</strong></p>
+        <p>@DisplayApplicantText</p>
     </div>
 
     <div>
-        <label for="phone">Phone Number:</label>
-        <input id="phone" class="form-control" type="text" value="@DisplayApplicantPhoneNumber" readonly />
+        <button class="btn btn-success" @onclick="AcceptApplication">Accept</button>
+        <button class="btn btn-danger" @onclick="DeclineApplication">Decline</button>
     </div>
-
-    <div>
-        <label for="text">Text:</label>
-        <textarea id="text" class="form-control" readonly>@DisplayApplicantText</textarea>
-    </div>
-</div>
+}
+else
+{
+    <p>Application not found.</p>
+}

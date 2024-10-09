@@ -6,7 +6,7 @@ public class JobApplication
 {
     [Key]
     [Required]
-    public string Id = string.Empty;
+    public string Id { get; set; } = string.Empty;
 
     public string ApplicantName { get; set; } = string.Empty;
 

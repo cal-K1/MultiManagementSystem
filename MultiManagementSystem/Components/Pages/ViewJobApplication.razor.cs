@@ -8,19 +8,38 @@ public partial class ViewJobApplication
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
 
+    // Accept the ID of the application as a parameter
+    [Parameter]
+    public string Id { get; set; } = string.Empty;
+
     public JobApplication SelectedApplication { get; set; } = new JobApplication();
 
-    public string DisplayApplicantName {  get; set; } = string.Empty;
-    public string DisplayApplicantPhoneNumber {  get; set; } = string.Empty;
+    public string DisplayApplicantName { get; set; } = string.Empty;
+    public string DisplayApplicantPhoneNumber { get; set; } = string.Empty;
     public string DisplayApplicantText { get; set; } = string.Empty;
 
-
-    public void SetJobApplicationValues()
+    protected override void OnInitialized()
     {
-        SelectedApplication = applicationService.GetApplication(SelectedApplication.Id);
+        // Fetch the application data based on the passed Id synchronously
+        if (!string.IsNullOrEmpty(Id))
+        {
+            SelectedApplication = applicationService.GetApplication(Id);
+            if (SelectedApplication != null)
+            {
+                DisplayApplicantName = SelectedApplication.ApplicantName;
+                DisplayApplicantPhoneNumber = SelectedApplication.ApplicantPhoneNumber;
+                DisplayApplicantText = SelectedApplication.ApplicationText;
+            }
+        }
+    }
 
-        DisplayApplicantName = SelectedApplication.ApplicantName;
-        DisplayApplicantPhoneNumber = SelectedApplication.ApplicantPhoneNumber;
-        DisplayApplicantText = SelectedApplication.ApplicationText;
+    private async Task AcceptApplication()
+    {
+        await applicationService.AcceptApplication(SelectedApplication);
+    }
+
+    private async Task DeclineApplication()
+    {
+        await applicationService.DeclineApplication(SelectedApplication);
     }
 }

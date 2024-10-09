@@ -5,17 +5,17 @@ namespace MultiManagementSystem.Services
 {
     public class ApplicationService(ManagementSystemDbContext dbContext) : IApplicationService
     {
-        public JobApplication GetApplication(string id)
+        public JobApplication GetApplication(string Id)
         {
-            var application = dbContext.JobApplication.FirstOrDefault(jobApplication => jobApplication.Id == id);
+            var application = dbContext.JobApplication.FirstOrDefault(jobApplication => jobApplication.Id == Id);
             if (application == null)
             {
-                throw new InvalidOperationException($"Job application with ID {id} not found.");
+                throw new InvalidOperationException($"Job application with ID {Id} not found.");
             }
             return application;
         }
 
-        public List<JobApplication> GetAllPendingJobApplications()
+        public async Task<List<JobApplication>> GetAllPendingJobApplications()
         {
             List<JobApplication> allJobApplications = dbContext.JobApplication
                 .Where(application => application.ApplicationState == ApplicationState.Pending)

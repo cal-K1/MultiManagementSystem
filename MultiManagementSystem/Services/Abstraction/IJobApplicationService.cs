@@ -6,6 +6,8 @@ public interface IApplicationService
 {
     JobApplication GetApplication(string Id);
 
+    Task<List<JobApplication>> GetAllPendingJobApplications();
+
     Task DeclineApplication(JobApplication application);
 
     Task AcceptApplication(JobApplication application);
