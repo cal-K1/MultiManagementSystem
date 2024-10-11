@@ -2,7 +2,7 @@
 
 <h3>Job Apply Page</h3>
 
-<form >
+<form>
     <label for="name">Name:</label><br>
     <input type="text" id="name" @bind-value="@_name" /><br /><br />
 
@@ -10,7 +10,8 @@
     <input type="tel" id="phone" @bind-value="@_phoneNumber"/><br /><br />
 
     <label for="description">Description:</label><br>
-    <input id="description" @bind-value="@_description" rows="4" cols="50"><br /><br />
+
+    <textarea type="text" id="description" @bind="@_description" rows="15" cols="70"></textarea>
 
     <button @onclick="SubmitForm" type="button">Submit</button>
 </form>
