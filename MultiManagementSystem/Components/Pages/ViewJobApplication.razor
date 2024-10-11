@@ -4,21 +4,40 @@
 
 <h3>Job Application Details</h3>
 
-@if (SelectedApplication != null)
+@if (_applicationDealtWith == false)
 {
-    <div>
-        <p><strong>Applicant Name:</strong> @DisplayApplicantName</p>
-        <p><strong>Phone Number:</strong> @DisplayApplicantPhoneNumber</p>
-        <p><strong>Application Text:</strong></p>
-        <p>@DisplayApplicantText</p>
-    </div>
+    @if (SelectedApplication != null)
+    {
+        <div>
+            <p><strong>Applicant Name:</strong> @DisplayApplicantName</p>
+            <p><strong>Phone Number:</strong> @DisplayApplicantPhoneNumber</p>
+            <p><strong>Application Text:</strong></p>
+            <p>@DisplayApplicantText</p>
+        </div>
 
-    <div>
-        <button class="btn btn-success" @onclick="AcceptApplication">Accept</button>
-        <button class="btn btn-danger" @onclick="DeclineApplication">Decline</button>
-    </div>
+        <div>
+            <button class="btn btn-success" @onclick="AcceptApplication">Accept</button>
+            <button class="btn btn-danger" @onclick="DeclineApplication">Decline</button>
+        </div>
+    }
+    else
+    {
+        <p>Application not found.</p>
+    }
 }
 else
 {
-    <p>Application not found.</p>
+    <h2 style="text-align: center;">Application Status</h2>
+
+    @if (_applicationDealtWith == true)
+    {
+        <h3 style="text-align: center; color: black;">Application @SelectedApplication.ApplicationState</h3>
+    }
+
+
+    <div style="text-align: center; margin-top: 30px;">
+        <button @onclick="ReturnToHome" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+            Go to Home
+        </button>
+    </div>
 }

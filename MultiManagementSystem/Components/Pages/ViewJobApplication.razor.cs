@@ -8,6 +8,9 @@ public partial class ViewJobApplication
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
 
+    [Inject]
+    NavigationManager NavigationManager { get; set; } = default!;
+
     // Accept the ID of the application as a parameter
     [Parameter]
     public string Id { get; set; } = string.Empty;
@@ -17,6 +20,8 @@ public partial class ViewJobApplication
     public string DisplayApplicantName { get; set; } = string.Empty;
     public string DisplayApplicantPhoneNumber { get; set; } = string.Empty;
     public string DisplayApplicantText { get; set; } = string.Empty;
+
+    private bool _applicationDealtWith { get; set; } = false;
 
     protected override void OnInitialized()
     {
@@ -36,10 +41,17 @@ public partial class ViewJobApplication
     private async Task AcceptApplication()
     {
         await applicationService.AcceptApplication(SelectedApplication);
+        _applicationDealtWith = true;
     }
 
     private async Task DeclineApplication()
     {
         await applicationService.DeclineApplication(SelectedApplication);
+        _applicationDealtWith = true;
+    }
+
+    private void ReturnToHome()
+    {
+        NavigationManager.NavigateTo("/");
     }
 }
