@@ -2,7 +2,7 @@
 
 namespace MultiManagementSystem.People;
 
-public class EmployeedWorker : Worker
+public class EmployedWorker : Worker
 {
     [Required]
     public string Id { get; set; } = string.Empty;

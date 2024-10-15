@@ -26,7 +26,7 @@ namespace MultiManagementSystem.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "EmployeedWorker",
+                name: "EmployedWorker",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
@@ -61,7 +61,7 @@ namespace MultiManagementSystem.Migrations
                 name: "ContractWorker");
 
             migrationBuilder.DropTable(
-                name: "EmployeedWorker");
+                name: "EmployedWorker");
 
             migrationBuilder.DropTable(
                 name: "JobApplication");

@@ -70,7 +70,7 @@ namespace MultiManagementSystem.Migrations
                     b.ToTable("ContractWorker", (string)null);
                 });
 
-            modelBuilder.Entity("MultiManagementSystem.People.EmployeedWorker", b =>
+            modelBuilder.Entity("MultiManagementSystem.People.EmployedWorker", b =>
                 {
                     b.Property<string>("Id")
                         .HasColumnType("nvarchar(450)");
@@ -84,7 +84,7 @@ namespace MultiManagementSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("EmployeedWorker", (string)null);
+                    b.ToTable("EmployedWorker", (string)null);
                 });
 
             modelBuilder.Entity("MultiManagementSystem.People.Management", b =>

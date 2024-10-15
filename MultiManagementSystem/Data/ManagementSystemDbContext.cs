@@ -18,7 +18,7 @@ namespace MultiManagementSystem.Data
             modelBuilder.Entity<Management>().ToTable("Manager").HasKey(a => a.Id);
             modelBuilder.Entity<JobApplication>().ToTable("JobApplication").HasKey(j => j.Id);
             modelBuilder.Entity<ContractWorker>().ToTable("ContractWorker").HasKey(c => c.Id);
-            modelBuilder.Entity<EmployeedWorker>().ToTable("EmployeedWorker").HasKey(e => e.Id);
+            modelBuilder.Entity<EmployedWorker>().ToTable("EmployedWorker").HasKey(e => e.Id);
 
             base.OnModelCreating(modelBuilder);
         } 
@@ -34,6 +34,6 @@ namespace MultiManagementSystem.Data
         public DbSet<Management> Manager { get; set; }
         public DbSet<JobApplication> JobApplication { get; set; }
         public DbSet<ContractWorker> ContractWorkers { get; set; }
-        public DbSet<EmployeedWorker> EmployeedWorker { get; set; }
+        public DbSet<EmployedWorker> EmployeedWorker { get; set; }
     }
 }
