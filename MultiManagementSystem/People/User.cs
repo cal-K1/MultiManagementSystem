@@ -2,7 +2,7 @@
 
 namespace MultiManagementSystem.People;
 
-public class User
+public abstract class User
 {
     public string Name { get; set; } = string.Empty;
 

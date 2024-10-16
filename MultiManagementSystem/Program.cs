@@ -14,22 +14,21 @@ var connectionString = builder.Configuration.GetConnectionString("MultiManagemen
 builder.Services.AddDbContext<ManagementSystemDbContext>(options =>
     options.UseSqlServer(connectionString));
 
+// Register application services
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
-builder.Services.AddDbContext<ManagementSystemDbContext>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 

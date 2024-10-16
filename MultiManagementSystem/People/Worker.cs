@@ -2,7 +2,7 @@
 
 namespace MultiManagementSystem.People;
 
-public class Worker : User
+public abstract class Worker : User
 {
     public string JobTitle = string.Empty;
      

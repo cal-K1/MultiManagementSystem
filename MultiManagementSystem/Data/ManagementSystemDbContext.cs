@@ -7,35 +7,57 @@ namespace MultiManagementSystem.Data
     public class ManagementSystemDbContext : DbContext
     {
         public ManagementSystemDbContext(DbContextOptions<ManagementSystemDbContext> options)
-            : base(options) // This line passes the options to the base DbContext
+            : base(options)
         {
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Apply configurations from the assembly (if there are any configuration classes)
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            modelBuilder.Entity<Management>().ToTable("Manager").HasKey(a => a.Id);
-            modelBuilder.Entity<JobApplication>().ToTable("JobApplication").HasKey(j => j.Id);
-            modelBuilder.Entity<ContractWorker>().ToTable("ContractWorker").HasKey(c => c.Id);
-            modelBuilder.Entity<EmployedWorker>().ToTable("EmployedWorker").HasKey(e => e.Id);
-            modelBuilder.Entity<LeaveRequest>().ToTable("LeaveRequest").HasKey(l => l.Id);
+            // Ignore the Worker base class to prevent creating a table for it
+            modelBuilder.Ignore<Worker>();
+
+            // Configure each derived entity explicitly
+            modelBuilder.Entity<Management>()
+                .ToTable("Managers")
+                .HasKey(m => m.Id);
+
+            modelBuilder.Entity<JobApplication>()
+                .ToTable("JobApplications")
+                .HasKey(j => j.Id);
+
+            // Configure ContractWorker
+            modelBuilder.Entity<ContractWorker>()
+                .ToTable("ContractWorkers")
+                .HasKey(c => c.Id);
+
+            // Configure EmployedWorker
+            modelBuilder.Entity<EmployedWorker>()
+                .ToTable("EmployedWorkers")
+                .HasKey(e => e.Id);
+
+            modelBuilder.Entity<LeaveRequest>()
+                .ToTable("LeaveRequests")
+                .HasKey(l => l.Id);
 
             base.OnModelCreating(modelBuilder);
-        } 
+        }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS; Database=MultiManagementSystem; Integrated Security=True; trustServerCertificate=true");
+                optionsBuilder.UseSqlServer("Server=localhost\\SQLEXPRESS; Database=MultiManagementSystem; Integrated Security=True; TrustServerCertificate=True");
             }
         }
 
-        public DbSet<Management> Manager { get; set; }
-        public DbSet<JobApplication> JobApplication { get; set; }
+        // DbSet properties for each entity
+        public DbSet<Management> Managers { get; set; }
+        public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<ContractWorker> ContractWorkers { get; set; }
-        public DbSet<EmployedWorker> EmployedWorker { get; set; }
-        public DbSet<LeaveRequest> LeaveRequest { get; set; }
+        public DbSet<EmployedWorker> EmployedWorkers { get; set; }
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
     }
 }

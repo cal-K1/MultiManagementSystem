@@ -10,7 +10,7 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     public async Task<Worker> GetWorker(string workerId)
     {
         // First, try to find an EmployedWorker with the given ID
-        var employedWorker = await dbContext.EmployedWorker
+        var employedWorker = await dbContext.EmployedWorkers
                                            .FirstOrDefaultAsync(e => e.Id == workerId);
         if (employedWorker != null)
         {
@@ -29,10 +29,9 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
         return null;
     }
 
-
     public int GetWorkerLeaveDaysRemaining(string WorkerId)
     {
-        var employedWorker = dbContext.EmployedWorker.FirstOrDefault(employedWorker => employedWorker.Id == WorkerId);
+        var employedWorker = dbContext.EmployedWorkers.FirstOrDefault(employedWorker => employedWorker.Id == WorkerId);
         if (employedWorker == null)
         {
             var contractWorker = dbContext.ContractWorkers.FirstOrDefault(contractWorker => contractWorker.Id == WorkerId);

@@ -17,7 +17,7 @@ public partial class RequestLeave(ManagementSystemDbContext dbContext)
     public EmployedWorker EmployedWorker { get; set; } = null!;
     public ContractWorker ContractWorker { get; set; } = null!;
 
-    string Id { get; set; }// = CurrentUser.Id;
+    string Id { get; set; }// = //CurrentUser.Id;
 
     private async void SubmitLeaveRequest()
     {
@@ -26,8 +26,8 @@ public partial class RequestLeave(ManagementSystemDbContext dbContext)
         LeaveRequest leaveRequest = new()
         { 
             Id = new Guid().ToString(),
-            Worker = worker,
-            WorkerName = worker.Name,
+            Worker = EmployedWorker,
+            WorkerName = EmployedWorker.Name,
             StartDate = RequestLeaveStart,
             EndDate = RequestLeaveEnd,
             LeaveDescription = RequestDescription,

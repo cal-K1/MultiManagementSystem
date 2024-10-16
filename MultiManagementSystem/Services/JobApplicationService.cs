@@ -7,7 +7,7 @@ namespace MultiManagementSystem.Services
     {
         public JobApplication GetApplication(string Id)
         {
-            var application = dbContext.JobApplication.FirstOrDefault(jobApplication => jobApplication.Id == Id);
+            var application = dbContext.JobApplications.FirstOrDefault(jobApplication => jobApplication.Id == Id);
             if (application == null)
             {
                 throw new InvalidOperationException($"Job application with ID {Id} not found.");
@@ -17,7 +17,7 @@ namespace MultiManagementSystem.Services
 
         public async Task<List<JobApplication>> GetAllPendingJobApplications()
         {
-            List<JobApplication> allJobApplications = dbContext.JobApplication
+            List<JobApplication> allJobApplications = dbContext.JobApplications
                 .Where(application => application.ApplicationState == ApplicationState.Pending)
                 .ToList();
 
@@ -47,7 +47,7 @@ namespace MultiManagementSystem.Services
                 ApplicationState = ApplicationState.Pending
             };
 
-            await dbContext.JobApplication.AddAsync(newApplication);
+            await dbContext.JobApplications.AddAsync(newApplication);
             await dbContext.SaveChangesAsync();
         }
     }

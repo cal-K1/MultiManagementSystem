@@ -35,7 +35,7 @@ namespace MultiManagementSystem.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EmployeedWorker", x => x.Id);
+                    table.PrimaryKey("PK_EmployedWorker", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
