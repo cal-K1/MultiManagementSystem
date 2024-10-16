@@ -17,6 +17,7 @@ builder.Services.AddDbContext<ManagementSystemDbContext>(options =>
 // Register application services
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
+builder.Services.AddScoped<ILeaveService, LeaveService>();
 
 var app = builder.Build();
 

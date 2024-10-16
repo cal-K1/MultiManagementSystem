@@ -1,17 +1,18 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Data;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services;
 
-public class LeaveService
+public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
 {
     [Inject]
     private IWorkerService workerService { get; set; } = default!;
 
     private string x = string.Empty;
 
-    private void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, ContractWorker contractWorker = null!, EmployedWorker employedWorker = null!)
+    public void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, ContractWorker contractWorker = null!, EmployedWorker employedWorker = null!)
     {
         if (contractWorker == null && employedWorker == null)
         {
@@ -31,11 +32,9 @@ public class LeaveService
         }
     }
 
-    private void RequestLeave(string WorkerId, DateTime startDate, DateTime endDate, ContractWorker contractWorker = null!, EmployedWorker employedWorker = null!)
+    public async Task AddNewLeaveRequest(Worker worker, LeaveRequest leaveRequest)
     {
-        if (contractWorker == null && employedWorker == null)
-        {
-            return;
-        }
+        await dbContext.LeaveRequests.AddAsync(leaveRequest);
+        await dbContext.SaveChangesAsync();
     }
 }
