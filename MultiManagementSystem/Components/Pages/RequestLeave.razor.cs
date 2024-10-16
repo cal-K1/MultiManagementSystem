@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Data;
 using MultiManagementSystem.People;
-using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
-using System.Diagnostics.CodeAnalysis;
 
 namespace MultiManagementSystem.Components.Pages;
 
-public partial class RequestLeave
+public partial class RequestLeave(ManagementSystemDbContext dbContext)
 {
     [Inject]
     private IWorkerService workerService { get; set; } = default!;
@@ -18,37 +17,23 @@ public partial class RequestLeave
     public EmployedWorker EmployedWorker { get; set; } = null!;
     public ContractWorker ContractWorker { get; set; } = null!;
 
-    Worker worker { get; set; }
+    string Id { get; set; }// = CurrentUser.Id;
 
-    private void SubmitLeaveRequest()
+    private async void SubmitLeaveRequest()
     {
-        SetWorker("123");
-
+        var worker = await workerService.GetWorker(Id);
+         
         LeaveRequest leaveRequest = new()
         { 
             Id = new Guid().ToString(),
-            WorkerId = "123",
-            WorkerName = "123",
+            Worker = worker,
+            WorkerName = worker.Name,
             StartDate = RequestLeaveStart,
             EndDate = RequestLeaveEnd,
             LeaveDescription = RequestDescription,
+            State = LeaveRequestState.Pending,
         };
-    }
 
-    public void SetWorker(string Id)
-    {
-        if (EmployedWorker == null && ContractWorker == null)
-        {
-            return;
-        }
-
-        if (workerService.GetEmployedWorker(EmployedWorker.Id) != null)
-        {
-            var worker = EmployedWorker as Worker;
-        }
-        else
-        {
-            var worker = workerService.GetContractWorker(EmployedWorker.Id);
-        }
+        //dbContext.LeaveRequest.AddAsync(leaveRequest);
     }
 }

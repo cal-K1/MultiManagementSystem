@@ -4,7 +4,6 @@ namespace MultiManagementSystem.Services.Abstraction;
 
 public interface IWorkerService
 {
-    EmployedWorker GetEmployedWorker(string employedWorkerId);
-    ContractWorker GetContractWorker(string contractWorkerId);
+    Task<Worker> GetWorker(string workerId);
     int GetWorkerLeaveDaysRemaining(string WorkerId);
 }

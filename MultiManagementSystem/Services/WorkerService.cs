@@ -7,31 +7,32 @@ namespace MultiManagementSystem.Services;
 
 public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
 {
-    public EmployedWorker GetEmployedWorker(string employedWorkerId)
+    public async Task<Worker> GetWorker(string workerId)
     {
-        var employedWorker = dbContext.EmployeedWorker.FirstOrDefault(employedWorker => employedWorker.Id == employedWorkerId);
-        if (employedWorker == null)
+        // First, try to find an EmployedWorker with the given ID
+        var employedWorker = await dbContext.EmployedWorker
+                                           .FirstOrDefaultAsync(e => e.Id == workerId);
+        if (employedWorker != null)
         {
-            return null!;
+            return employedWorker;
         }
 
-        return employedWorker;
-    }
-
-    public ContractWorker GetContractWorker(string contractWorkerId)
-    {
-        var contractWorker = dbContext.ContractWorkers.FirstOrDefault(contractWorker => contractWorker.Id == contractWorkerId);
-        if (contractWorker == null)
+        // If not found, try to find a ContractWorker with the given ID
+        var contractWorker = await dbContext.ContractWorkers
+                                           .FirstOrDefaultAsync(c => c.Id == workerId);
+        if (contractWorker != null)
         {
-            return null!;
+            return contractWorker;
         }
 
-        return contractWorker;
+        // If neither is found, return null or throw an exception
+        return null;
     }
+
 
     public int GetWorkerLeaveDaysRemaining(string WorkerId)
     {
-        var employedWorker = dbContext.EmployeedWorker.FirstOrDefault(employedWorker => employedWorker.Id == WorkerId);
+        var employedWorker = dbContext.EmployedWorker.FirstOrDefault(employedWorker => employedWorker.Id == WorkerId);
         if (employedWorker == null)
         {
             var contractWorker = dbContext.ContractWorkers.FirstOrDefault(contractWorker => contractWorker.Id == WorkerId);
