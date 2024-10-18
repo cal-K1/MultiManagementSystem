@@ -4,26 +4,37 @@
 
 <h3>Create New Worker</h3>
 
-@if (showForm)
+@if (showConfirmation)
 {
-    <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="SetNewWorker">
+    <div class="alert alert-success" role="alert">
+        <strong>Success!</strong> The worker has been created successfully.
+    </div>
+    <button class="btn btn-primary" @onclick="ResetForm">Create Another Worker</button>
+}
+else if (showForm)
+{
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="SubmitValues">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
+
         <div>
             <label>Name:</label>
-            <InputText @bind-Value="Name" class="form-control" />
+            <InputText @bind-Value="Name" class="form-control" required />
         </div>
         <div>
             <label>Password:</label>
-            <InputText @bind-Value="Password" type="password" class="form-control" />
+            <InputText @bind-Value="Password" type="password" class="form-control" required />
         </div>
 
-        @if (isFullTime)
+        @if (isEmployed)
         {
             <div>
                 <label>Employee Type:</label>
-                <InputSelect @bind-Value="EmployeeType" class="form-control">
-                    <option value="EmployeeType.FullTime">Full-Time</option>
-                    <option value="EmployeeType.PartTime">Part-Time</option>
+                <InputSelect @bind-Value="SelectedEmployeeType" class="form-control" required>
+                    <option value="FullTime">Full-Time</option>
+                    <option value="PartTime">Part-Time</option>
                 </InputSelect>
+                <ValidationMessage For="@(() => SelectedEmployeeType)" />
             </div>
         }
 
@@ -33,7 +44,7 @@
 else
 {
     <div>
-        <button @onclick="() => SelectEmployeeType(true)" class="btn btn-success">Full-Time Employee</button>
-        <button @onclick="() => SelectEmployeeType(false)" class="btn btn-info">Contract Employee</button>
+        <button @onclick="() => SelectEmployeeType(true)" class="btn btn-success">Employed</button>
+        <button @onclick="() => SelectEmployeeType(false)" class="btn btn-info">Contract</button>
     </div>
 }

@@ -60,22 +60,31 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     {
         EmployedWorker employedWorker = new()
         { 
+            Id = Guid.NewGuid().ToString(),
             Name = name,
             Password = password,
             EmployeeType = employeeType,
+            WorkerNumber = CreateNewWorkerNumber(),
+            LeaveDaysRemaining = 25,
+
         };
 
         await dbContext.EmployedWorkers.AddAsync(employedWorker);
+        await dbContext.SaveChangesAsync();
     }
 
     public async Task CreateNewContractWorker(string name, string password)
     {
         ContractWorker contractWorker = new()
         {
+            Id = Guid.NewGuid().ToString(),
             Name = name,
             Password = password,
+            WorkerNumber = CreateNewWorkerNumber(),
+            LeaveDaysRemaining = 25,
         };
 
         await dbContext.ContractWorkers.AddAsync(contractWorker);
+        await dbContext.SaveChangesAsync();
     }
 }
