@@ -56,4 +56,26 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
         return workerNumber;
     }
 
+    public async Task CreateNewEmployedWorker(string name, string password, EmployeeType employeeType)
+    {
+        EmployedWorker employedWorker = new()
+        { 
+            Name = name,
+            Password = password,
+            EmployeeType = employeeType,
+        };
+
+        await dbContext.EmployedWorkers.AddAsync(employedWorker);
+    }
+
+    public async Task CreateNewContractWorker(string name, string password)
+    {
+        ContractWorker contractWorker = new()
+        {
+            Name = name,
+            Password = password,
+        };
+
+        await dbContext.ContractWorkers.AddAsync(contractWorker);
+    }
 }

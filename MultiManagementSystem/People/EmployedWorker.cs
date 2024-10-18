@@ -15,4 +15,5 @@ public enum EmployeeType
 {
     PartTime = 0,
     FullTime = 1,
+    None = 2,
 }

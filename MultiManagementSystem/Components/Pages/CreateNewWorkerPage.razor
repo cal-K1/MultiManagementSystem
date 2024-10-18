@@ -1,0 +1,39 @@
+﻿@page "/create"
+@using MultiManagementSystem.People
+@namespace MultiManagementSystem.Components.Pages
+
+<h3>Create New Worker</h3>
+
+@if (showForm)
+{
+    <EditForm Model="@this" OnValidSubmit="SetNewWorker">
+        <div>
+            <label>Name:</label>
+            <InputText @bind-Value="Name" class="form-control" />
+        </div>
+        <div>
+            <label>Password:</label>
+            <InputText @bind-Value="Password" type="password" class="form-control" />
+        </div>
+
+        @if (isFullTime)
+        {
+            <div>
+                <label>Employee Type:</label>
+                <InputSelect @bind-Value="EmployeeType" class="form-control">
+                    <option value="EmployeeType.FullTime">Full-Time</option>
+                    <option value="EmployeeType.PartTime">Part-Time</option>
+                </InputSelect>
+            </div>
+        }
+
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </EditForm>
+}
+else
+{
+    <div>
+        <button @onclick="() => SelectEmployeeType(true)" class="btn btn-success">Full-Time Employee</button>
+        <button @onclick="() => SelectEmployeeType(false)" class="btn btn-info">Contract Employee</button>
+    </div>
+}
