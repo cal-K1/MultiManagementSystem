@@ -23,26 +23,33 @@ public partial class RequestLeave
 
     private async Task SubmitLeaveRequest()
     {
-        //var worker = await workerService.GetWorker(Id);
-
-        EmployedWorker employedWorker = new()
+        try
         {
-            Id = Guid.NewGuid().ToString(),
-            Name = "Callum",
-            LeaveDaysRemaining = 10,
-        };
+            //var worker = await workerService.GetWorker(Id);
 
-        LeaveRequest leaveRequest = new()
-        { 
-            Id = new Guid().ToString(),
-            Worker = employedWorker,
-            WorkerName = employedWorker.Name,
-            StartDate = RequestLeaveStart,
-            EndDate = RequestLeaveEnd,
-            LeaveDescription = RequestDescription,
-            State = LeaveRequestState.Pending,
-        };
+            EmployedWorker employedWorker = new()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Name = "Callum",
+                LeaveDaysRemaining = 100,
+            };
 
-        await leaveService.AddNewLeaveRequest(employedWorker,leaveRequest);
+            LeaveRequest leaveRequest = new()
+            {
+                Id = Guid.NewGuid().ToString(),
+                Worker = employedWorker,
+                WorkerName = employedWorker.Name,
+                StartDate = RequestLeaveStart,
+                EndDate = RequestLeaveEnd,
+                LeaveDescription = RequestDescription,
+                State = LeaveRequestState.Pending,
+            };
+
+            await leaveService.AddNewLeaveRequest(employedWorker, leaveRequest);
+        }
+        catch(Exception ex)
+        {
+            Console.WriteLine($"Error: {ex}");
+        }
     }
 }

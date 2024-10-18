@@ -6,7 +6,7 @@
 
 @if (showForm)
 {
-    <EditForm Model="@this" OnValidSubmit="SetNewWorker">
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="SetNewWorker">
         <div>
             <label>Name:</label>
             <InputText @bind-Value="Name" class="form-control" />
@@ -28,7 +28,7 @@
         }
 
         <button type="submit" class="btn btn-primary">Submit</button>
-    </EditForm>
+    </Microsoft.AspNetCore.Components.Forms.EditForm>
 }
 else
 {
