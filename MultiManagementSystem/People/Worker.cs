@@ -4,6 +4,8 @@ namespace MultiManagementSystem.People;
 
 public abstract class Worker : User
 {
+    public string WorkerNumber = string.Empty;
+
     public string JobTitle = string.Empty;
      
     public int MonthlySalary = 0;

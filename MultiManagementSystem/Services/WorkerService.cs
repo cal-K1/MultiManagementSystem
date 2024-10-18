@@ -44,4 +44,17 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
 
         return employedWorker.LeaveDaysRemaining;
     }
+
+    public string CreateNewWorkerNumber()
+    {
+        // Generate a random letter and a 6 digit number.
+        char randomLetter = (char)new Random().Next('A', 'Z' + 1);
+        int randomNumber = new Random().Next(0, 1000000);
+
+        // Combine the letter and number into the worker number format
+        string workerNumber = $"{randomLetter}{randomNumber:D6}";
+
+        return workerNumber;
+    }
+
 }

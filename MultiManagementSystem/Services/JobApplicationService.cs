@@ -1,4 +1,5 @@
-﻿using MultiManagementSystem.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MultiManagementSystem.Data;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services
@@ -17,9 +18,9 @@ namespace MultiManagementSystem.Services
 
         public async Task<List<JobApplication>> GetAllPendingJobApplications()
         {
-            List<JobApplication> allJobApplications = dbContext.JobApplications
+            List<JobApplication> allJobApplications = await dbContext.JobApplications
                 .Where(application => application.ApplicationState == ApplicationState.Pending)
-                .ToList();
+                .ToListAsync();
 
             return allJobApplications;
         }
