@@ -25,8 +25,7 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
             return contractWorker;
         }
 
-        // If neither is found, return null or throw an exception
-        return null;
+        return null!;
     }
 
     public int GetWorkerLeaveDaysRemaining(string WorkerId)
