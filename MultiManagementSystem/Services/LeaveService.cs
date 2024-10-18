@@ -28,7 +28,14 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
         }
         else
         {
-            contractWorker.LeaveDaysRemaining -= daysRequested;
+            if (contractWorker != null) 
+            {
+                contractWorker.LeaveDaysRemaining -= daysRequested;
+            }
+            else
+            {
+                throw new Exception("Worker was null");
+            }
         }
     }
 
