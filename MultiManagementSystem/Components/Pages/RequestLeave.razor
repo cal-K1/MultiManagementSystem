@@ -6,30 +6,39 @@
 
 <h3>Leave Request Form</h3>
 
-<Microsoft.AspNetCore.Components.Forms.EditForm Model="this" OnValidSubmit="SubmitLeaveRequest">
-    <DataAnnotationsValidator />
-    <ValidationSummary />
+@if (IsRequestSubmitted == false)
+{
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="this" OnValidSubmit="SubmitLeaveRequest">
+        <DataAnnotationsValidator />
+        <ValidationSummary />
 
-    <div>
-        <label for="startDate">Start Date:</label>
-        <InputDate @bind-Value="RequestLeaveStart" id="startDate" class="form-control" />
-    </div>
+        <div>
+            <label for="startDate">Start Date:</label>
+            <InputDate @bind-Value="RequestLeaveStart" id="startDate" class="form-control" />
+        </div>
 
-    <div>
-        <label for="endDate">End Date:</label>
-        <InputDate @bind-Value="RequestLeaveEnd" id="endDate" class="form-control" />
-        @if (RequestLeaveStart > RequestLeaveEnd)
-        {
-            <div class="text-danger">End date cannot be before start date.</div>
-        }
-    </div>
+        <div>
+            <label for="endDate">End Date:</label>
+            <InputDate @bind-Value="RequestLeaveEnd" id="endDate" class="form-control" />
+            @if (RequestLeaveStart > RequestLeaveEnd)
+            {
+                <div class="text-danger">End date cannot be before start date.</div>
+            }
+        </div>
 
-    <div>
-        <label for="description">Reason for Leave:</label>
-        <InputTextArea @bind-Value="RequestDescription" id="description" class="form-control" />
-    </div>
+        <div>
+            <label for="description">Reason for Leave:</label>
+            <InputTextArea @bind-Value="RequestDescription" id="description" class="form-control" />
+        </div>
 
-    <div class="mt-3">
-        <button type="submit" class="btn btn-primary" disabled="@(RequestLeaveStart > RequestLeaveEnd)">Submit</button>
-    </div>
-</Microsoft.AspNetCore.Components.Forms.EditForm>
+        <div class="mt-3">
+            <button type="submit" class="btn btn-primary" disabled="@(RequestLeaveStart > RequestLeaveEnd)">Submit</button>
+        </div>
+    </Microsoft.AspNetCore.Components.Forms.EditForm>
+}
+else
+{
+    <div class="alert alert-success mt-3">Leave request submitted successfully.</div>
+
+    <button class="navigate-home-button" @onclick="NavigateHome">Return</button>
+}

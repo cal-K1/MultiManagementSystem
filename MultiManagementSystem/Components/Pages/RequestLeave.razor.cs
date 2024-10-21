@@ -11,6 +11,8 @@ public partial class RequestLeave
     private IWorkerService workerService { get; set; } = default!;
     [Inject]
     private ILeaveService leaveService { get; set; } = default!;
+    [Inject]
+    NavigationManager NavigationManager { get; set; } = default!;
     LeaveRequest LeaveRequest { get; set; } = default!;
     public DateTime RequestLeaveStart { get; set; } = DateTime.Now;
     public DateTime RequestLeaveEnd { get; set;} = DateTime.Now;
@@ -18,6 +20,7 @@ public partial class RequestLeave
 
     public EmployedWorker EmployedWorker { get; set; } = null!;
     public ContractWorker ContractWorker { get; set; } = null!;
+    private bool IsRequestSubmitted { get; set; } = false;
 
     public string? Id { get; set; }// = //CurrentUser.Id;
 
@@ -46,10 +49,16 @@ public partial class RequestLeave
             };
 
             await leaveService.AddNewLeaveRequest(employedWorker, leaveRequest);
+            IsRequestSubmitted = true;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             Console.WriteLine($"Error: {ex}");
         }
+    }
+
+    public void NavigateHome()
+    {
+        NavigationManager.NavigateTo("/");
     }
 }
