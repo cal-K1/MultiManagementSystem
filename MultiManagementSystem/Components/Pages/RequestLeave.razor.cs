@@ -14,8 +14,8 @@ public partial class RequestLeave
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     LeaveRequest LeaveRequest { get; set; } = default!;
-    public DateTime RequestLeaveStart { get; set; } = DateTime.Now;
-    public DateTime RequestLeaveEnd { get; set;} = DateTime.Now;
+    public DateTime RequestLeaveStart { get; set; } = DateTime.Now.Date;
+    public DateTime RequestLeaveEnd { get; set;} = DateTime.Now.Date;
     public string RequestDescription { get; set; } = string.Empty;
 
     public EmployedWorker EmployedWorker { get; set; } = null!;
