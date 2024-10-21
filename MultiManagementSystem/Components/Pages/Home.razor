@@ -2,6 +2,13 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1 class="hr-title">HR Management System</h1>
 
-Welcome to your new app.
+<h2 class="hr-paragraph">Select an action below</h2>
+
+<div class="button-container">
+    <button class="btn btn-primary" @onclick="NavigateApply">Apply for Leave</button>
+    <button class="btn btn-secondary" @onclick="NavigateView">View Employees</button>
+    <button class="btn btn-success" @onclick="NavigateCreate">Create New Worker</button>
+    <button class="btn btn-info" @onclick="NavigateRequest">Request Assistance</button>
+</div>

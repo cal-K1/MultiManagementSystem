@@ -1,0 +1,17 @@
+﻿.hr-title {
+    text-align: center;
+}
+
+.hr-paragraph {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.button-container {
+    text-align: center;
+    margin-top: 20px;
+}
+
+    .button-container button {
+        margin: 5px;
+    }
