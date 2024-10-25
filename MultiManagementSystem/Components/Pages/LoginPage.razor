@@ -1,0 +1,19 @@
+﻿@page "/login"
+
+<h3>Login</h3>
+
+<p>Please enter your worker number and password to login.</p>
+
+<div>
+    <label for="workerNumber">Worker Number:</label>
+    <input type="text" id="workerNumber" @bind="WorkerNumber" placeholder="Enter worker number" />
+</div>
+
+<div>
+    <label for="password">Password:</label> 
+    <input type="password" id="password" @bind="Password" placeholder="Enter password" />
+</div>
+
+<button @onclick="Submit">Login</button>
+
+<p>@Message</p>
