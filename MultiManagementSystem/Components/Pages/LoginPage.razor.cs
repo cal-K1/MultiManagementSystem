@@ -19,6 +19,11 @@ namespace MultiManagementSystem.Components.Pages
             if (authorizationService.IsLoginSuccessful(Password, WorkerNumber))
             {
                 CurrentUser =  await authorizationService.GetWorkerFromWorkerNumber(WorkerNumber);
+
+                if (CurrentUser == null)
+                {
+                    Message = "No User Found";
+                }
             }
             else
             {

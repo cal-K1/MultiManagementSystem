@@ -4,13 +4,9 @@ namespace MultiManagementSystem.People;
 
 public abstract class Worker : User
 {
-    public string WorkerNumber = string.Empty;
-
-    public string JobTitle = string.Empty;
-     
-    public int MonthlySalary = 0;
-     
-    public int WeeklyHours = 0;
-     
-    public int LeaveDaysRemaining = 0;
+    public string WorkerNumber { get; set; } = string.Empty;
+    public string JobTitle { get; set; } = string.Empty;
+    public int MonthlySalary { get; set; } = 0;
+    public int WeeklyHours { get; set; } = 0;
+    public int LeaveDaysRemaining { get; set; } = 0;
 }

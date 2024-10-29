@@ -26,4 +26,9 @@ public partial class Home
     {
         NavigationManager.NavigateTo("/request");
     }
+
+    private void NavigateLogin()
+    {
+        NavigationManager.NavigateTo("/login");
+    }
 }

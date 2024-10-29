@@ -26,13 +26,31 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
 
     public bool IsLoginSuccessful(string enteredPassword, string workerNumber)
     {
-        if (string.IsNullOrWhiteSpace(enteredPassword) || string.IsNullOrWhiteSpace(workerNumber))
+        try
         {
+            // Validate input
+            if (string.IsNullOrWhiteSpace(enteredPassword) ||
+                string.IsNullOrWhiteSpace(workerNumber) ||
+                dbContext.EmployedWorkers == null ||
+                dbContext.ContractWorkers == null)
+            {
+                return false;
+            }
+
+            // Check in both Employed and Contract workers for matching credentials
+            bool isEmployedWorker = dbContext.EmployedWorkers.Any(worker =>
+                worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
+
+            bool isContractWorker = dbContext.ContractWorkers.Any(worker =>
+                worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
+
+            return isEmployedWorker || isContractWorker;
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex.ToString());
             return false;
         }
-
-        return dbContext.EmployedWorkers.Any(worker => worker.Password == enteredPassword && worker.WorkerNumber == workerNumber) ||
-               dbContext.ContractWorkers.Any(worker => worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
     }
 
     public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
@@ -52,5 +70,4 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
 
         return contractWorker; // Return if found in ContractWorkers (or null if not found in either)
     }
-
 }

@@ -6,10 +6,9 @@ public class EmployedWorker : Worker
 {
     [Required]
     public string Id { get; set; } = string.Empty;
-
     public EmployeeType EmployeeType { get; set; }
-    
 }
+
 
 public enum EmployeeType
 {
