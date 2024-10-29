@@ -37,11 +37,15 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
                 return false;
             }
 
-            // Check in both Employed and Contract workers for matching credentials
-            bool isEmployedWorker = dbContext.EmployedWorkers.Any(worker =>
+            // Fetch data into memory for client-side evaluation
+            var employedWorkers = dbContext.EmployedWorkers.ToList();
+            var contractWorkers = dbContext.ContractWorkers.ToList();
+
+            // Check for matching credentials
+            bool isEmployedWorker = employedWorkers.Any(worker =>
                 worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
 
-            bool isContractWorker = dbContext.ContractWorkers.Any(worker =>
+            bool isContractWorker = contractWorkers.Any(worker =>
                 worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
 
             return isEmployedWorker || isContractWorker;
@@ -52,6 +56,7 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
             return false;
         }
     }
+
 
     public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
     {
