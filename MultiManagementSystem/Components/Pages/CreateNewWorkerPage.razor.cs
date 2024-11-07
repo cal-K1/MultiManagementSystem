@@ -11,6 +11,7 @@ public partial class CreateNewWorkerPage
 
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
+    public string NewWorkerNumber {  get; set; } = string.Empty;
     public string SelectedEmployeeType { get; set; } = string.Empty;
     public bool isEmployed = false;
     public bool showForm = false;
@@ -27,33 +28,22 @@ public partial class CreateNewWorkerPage
         }
     }
 
-    private void SubmitValues()
+    public void CreateNewWorker()
     {
         Worker worker = new Worker()
         {
+            Name = Name,
             Id = Guid.NewGuid().ToString(),
             WorkerNumber = workerService.CreateNewWorkerNumber(),
+            Password = Password,
         };
 
-        workerService.CreateNewWorker(worker.Name, worker.Password);
+        NewWorkerNumber = worker.WorkerNumber;
+        workerService.CreateNewWorker(worker.Name, worker.Password, worker.WorkerNumber);
 
         // Show the confirmation screen after successful creation
         showForm = false;
         showConfirmation = true;
-    }
-
-    public void CreateNewWorker()
-    {
-        if (SelectedEmployeeType == "FullTime")
-        {
-            Worker worker = new Worker()
-            {
-                Id = Guid.NewGuid().ToString(),
-                WorkerNumber = workerService.CreateNewWorkerNumber(),
-            };
-
-            workerService.CreateNewWorker(worker.Name, worker.Password);
-        }
     }
 
     private void ResetForm()

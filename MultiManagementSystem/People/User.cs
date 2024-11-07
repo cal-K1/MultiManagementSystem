@@ -2,9 +2,10 @@
 
 namespace MultiManagementSystem.People;
 
-public abstract class User
+public abstract class UserBase
 {
     public string Name { get; set; } = string.Empty;
 
-    public string Password = string.Empty;
+    public abstract string Password { get; set; }
+
 }

@@ -48,14 +48,14 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
         return workerNumber;
     }
 
-    public async Task CreateNewWorker(string name, string password)
+    public async Task CreateNewWorker(string name, string password, string workerNumber)
     {
         Worker worker = new()
         {
             Id = Guid.NewGuid().ToString(),
             Name = name,
             Password = password,
-            WorkerNumber = CreateNewWorkerNumber(),
+            WorkerNumber = workerNumber,
         };
 
         await dbContext.Workers.AddAsync(worker);

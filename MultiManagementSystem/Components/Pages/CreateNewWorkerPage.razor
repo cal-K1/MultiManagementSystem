@@ -8,12 +8,13 @@
 {
     <div class="alert alert-success" role="alert">
         <strong>Success!</strong> The worker has been created successfully.
+        <strong>Your worker number is @NewWorkerNumber.</strong>
     </div>
     <button class="btn btn-primary" @onclick="ResetForm">Create Another Worker</button>
 }
 else if (showForm)
 {
-    <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="SubmitValues">
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="CreateNewWorker">
         <DataAnnotationsValidator />
         <ValidationSummary />
 
@@ -44,7 +45,6 @@ else if (showForm)
 else
 {
     <div>
-        <button @onclick="() => SelectEmployeeType(true)" class="btn btn-success">Employed</button>
-        <button @onclick="() => SelectEmployeeType(false)" class="btn btn-info">Contract</button>
+        <button @onclick="() => SelectEmployeeType(false)" class="btn btn-info">Create New Worker</button>
     </div>
 }
