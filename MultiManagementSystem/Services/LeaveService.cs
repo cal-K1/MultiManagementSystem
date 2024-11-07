@@ -12,9 +12,9 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
 
     private string x = string.Empty;
 
-    public void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, ContractWorker contractWorker = null!, EmployedWorker employedWorker = null!)
+    public void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, Worker worker)
     {
-        if (contractWorker == null && employedWorker == null)
+        if (worker == null)
         {
             return;
         }
@@ -22,20 +22,16 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
         TimeSpan leaveTimeSpanRequested = endDate - startDate;
         int daysRequested = leaveTimeSpanRequested.Days;
 
-        if (workerService.GetWorkerLeaveDaysRemaining(WorkerId) >= daysRequested && employedWorker != null)
+        if (workerService.GetWorkerLeaveDaysRemaining(WorkerId) >= daysRequested)
         {
-            employedWorker.LeaveDaysRemaining -= daysRequested;
-        }
-        else
-        {
-            if (contractWorker != null) 
+            var user = dbContext.UserId.FirstOrDefault(u => u.Id == worker.Id);
+
+            if (user == null)
             {
-                contractWorker.LeaveDaysRemaining -= daysRequested;
+                throw new Exception($"User with Id {worker.Id} not found.");
             }
-            else
-            {
-                throw new Exception("Worker was null");
-            }
+
+            user.LeaveDaysRemaining -= daysRequested;
         }
     }
 

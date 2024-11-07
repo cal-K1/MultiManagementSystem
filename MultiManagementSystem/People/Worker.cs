@@ -1,12 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MultiManagementSystem.People;
 
-public abstract class Worker : User
+public class Worker : User
 {
+    [ForeignKey("UserId")]
+    public string? Id { get; set; }
     public string WorkerNumber { get; set; } = string.Empty;
-    public string JobTitle { get; set; } = string.Empty;
-    public int MonthlySalary { get; set; } = 0;
-    public int WeeklyHours { get; set; } = 0;
-    public int LeaveDaysRemaining { get; set; } = 0;
 }

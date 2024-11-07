@@ -9,40 +9,32 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
 {
     public async Task<Worker> GetWorker(string workerId)
     {
-        // First, try to find an EmployedWorker with the given ID
-        var employedWorker = await dbContext.EmployedWorkers
-                                           .FirstOrDefaultAsync(e => e.Id == workerId);
-        if (employedWorker != null)
+        // First, try to find an Worker with the given ID
+        var worker = await dbContext.Workers.FirstOrDefaultAsync(e => e.Id == workerId);
+        if (worker != null)
         {
-            return employedWorker;
-        }
-
-        // If not found, try to find a ContractWorker with the given ID
-        var contractWorker = await dbContext.ContractWorkers
-                                           .FirstOrDefaultAsync(c => c.Id == workerId);
-        if (contractWorker != null)
-        {
-            return contractWorker;
+            return worker;
         }
 
         return null!;
     }
 
-    public int GetWorkerLeaveDaysRemaining(string WorkerId)
+    public int GetWorkerLeaveDaysRemaining(string workerId)
     {
-        var employedWorker = dbContext.EmployedWorkers.FirstOrDefault(employedWorker => employedWorker.Id == WorkerId);
-        if (employedWorker == null)
+        // Retrieve the worker by their Id (foreign key to UserId)
+        var worker = dbContext.Workers.FirstOrDefault(w => w.Id == workerId);
+        var user = dbContext.UserId.FirstOrDefault(u => u.Id == worker.Id);
+
+        // Retrieve LeaveDaysRemaining from the UserId table where UserId.Id matches Worker.Id
+        if (worker == null || user == null)
         {
-            var contractWorker = dbContext.ContractWorkers.FirstOrDefault(contractWorker => contractWorker.Id == WorkerId);
-            if (contractWorker == null)
-            {
-                throw new InvalidOperationException($"Worker with ID {WorkerId} not found.");
-            }
-            return contractWorker.LeaveDaysRemaining;
+            throw new InvalidOperationException($"Worker or User with ID {workerId} not found.");
         }
 
-        return employedWorker.LeaveDaysRemaining;
+        return user.LeaveDaysRemaining;
     }
+
+
 
     public string CreateNewWorkerNumber()
     {
@@ -56,35 +48,17 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
         return workerNumber;
     }
 
-    public async Task CreateNewEmployedWorker(string name, string password, EmployeeType employeeType)
+    public async Task CreateNewWorker(string name, string password)
     {
-        EmployedWorker employedWorker = new()
-        { 
-            Id = Guid.NewGuid().ToString(),
-            Name = name,
-            Password = password,
-            EmployeeType = employeeType,
-            WorkerNumber = CreateNewWorkerNumber(),
-            LeaveDaysRemaining = 25,
-
-        };
-
-        await dbContext.EmployedWorkers.AddAsync(employedWorker);
-        await dbContext.SaveChangesAsync();
-    }
-
-    public async Task CreateNewContractWorker(string name, string password)
-    {
-        ContractWorker contractWorker = new()
+        Worker worker = new()
         {
             Id = Guid.NewGuid().ToString(),
             Name = name,
             Password = password,
             WorkerNumber = CreateNewWorkerNumber(),
-            LeaveDaysRemaining = 25,
         };
 
-        await dbContext.ContractWorkers.AddAsync(contractWorker);
+        await dbContext.Workers.AddAsync(worker);
         await dbContext.SaveChangesAsync();
     }
 }

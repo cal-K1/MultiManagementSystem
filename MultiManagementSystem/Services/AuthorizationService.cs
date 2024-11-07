@@ -31,24 +31,18 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
             // Validate input
             if (string.IsNullOrWhiteSpace(enteredPassword) ||
                 string.IsNullOrWhiteSpace(workerNumber) ||
-                dbContext.EmployedWorkers == null ||
-                dbContext.ContractWorkers == null)
+                dbContext.Workers == null)
             {
                 return false;
             }
 
             // Fetch data into memory for client-side evaluation
-            var employedWorkers = dbContext.EmployedWorkers.ToList();
-            var contractWorkers = dbContext.ContractWorkers.ToList();
+            var allWorkers = dbContext.Workers.ToList();
 
-            // Check for matching credentials
-            bool isEmployedWorker = employedWorkers.Any(worker =>
+            bool isWorkerLoginSuccessfull = allWorkers.Any(worker =>
                 worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
 
-            bool isContractWorker = contractWorkers.Any(worker =>
-                worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
-
-            return isEmployedWorker || isContractWorker;
+            return isWorkerLoginSuccessfull;
         }
         catch (Exception ex)
         {
@@ -60,19 +54,18 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
 
     public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
     {
-        // Check if the worker exists in EmployedWorkers
-        var employedWorker = await dbContext.EmployedWorkers
+        // Check if the worker exists in Workers.
+        var worker = await dbContext.Workers
             .FirstOrDefaultAsync(worker => worker.WorkerNumber == workerNumber);
 
-        if (employedWorker != null)
+        if (worker != null)
         {
-            return employedWorker; // Return if found in EmployedWorkers
+            // Return if found in Workers.
+            return worker;
         }
-
-        // Check if the worker exists in ContractWorkers
-        var contractWorker = await dbContext.ContractWorkers
-            .FirstOrDefaultAsync(worker => worker.WorkerNumber == workerNumber);
-
-        return contractWorker; // Return if found in ContractWorkers (or null if not found in either)
+        else
+        {
+            throw new Exception($"Worker with worker number {workerNumber} not found.");
+        }
     }
 }

@@ -17,9 +17,6 @@ public partial class RequestLeave
     public DateTime RequestLeaveStart { get; set; } = DateTime.Now.Date;
     public DateTime RequestLeaveEnd { get; set;} = DateTime.Now.Date;
     public string RequestDescription { get; set; } = string.Empty;
-
-    public EmployedWorker EmployedWorker { get; set; } = null!;
-    public ContractWorker ContractWorker { get; set; } = null!;
     private bool IsRequestSubmitted { get; set; } = false;
 
     public string? Id { get; set; }// = //CurrentUser.Id;
@@ -28,27 +25,24 @@ public partial class RequestLeave
     {
         try
         {
-            //var worker = await workerService.GetWorker(Id);
-
-            EmployedWorker employedWorker = new()
+            Worker worker = new()
             {
                 Id = Guid.NewGuid().ToString(),
                 Name = "Callum",
-                LeaveDaysRemaining = 100,
             };
 
             LeaveRequest leaveRequest = new()
             {
                 Id = Guid.NewGuid().ToString(),
-                Worker = employedWorker,
-                WorkerName = employedWorker.Name,
+                Worker = worker,
+                WorkerName = worker.Name,
                 StartDate = RequestLeaveStart,
                 EndDate = RequestLeaveEnd,
                 LeaveDescription = RequestDescription,
                 State = LeaveRequestState.Pending,
             };
 
-            await leaveService.AddNewLeaveRequest(employedWorker, leaveRequest);
+            await leaveService.AddNewLeaveRequest(worker, leaveRequest);
             IsRequestSubmitted = true;
         }
         catch (Exception ex)

@@ -29,35 +29,31 @@ public partial class CreateNewWorkerPage
 
     private void SubmitValues()
     {
-        if (isEmployed)
+        Worker worker = new Worker()
         {
-            CreateNewEmployedWorker();
-        }
-        else
-        {
-            CreateNewContractWorker();
-        }
+            Id = Guid.NewGuid().ToString(),
+            WorkerNumber = workerService.CreateNewWorkerNumber(),
+        };
+
+        workerService.CreateNewWorker(worker.Name, worker.Password);
 
         // Show the confirmation screen after successful creation
         showForm = false;
         showConfirmation = true;
     }
 
-    public void CreateNewEmployedWorker()
+    public void CreateNewWorker()
     {
         if (SelectedEmployeeType == "FullTime")
         {
-            workerService.CreateNewEmployedWorker(Name, Password, EmployeeType.FullTime);
-        }
-        else
-        {
-            workerService.CreateNewEmployedWorker(Name, Password, EmployeeType.PartTime);
-        }
-    }
+            Worker worker = new Worker()
+            {
+                Id = Guid.NewGuid().ToString(),
+                WorkerNumber = workerService.CreateNewWorkerNumber(),
+            };
 
-    public void CreateNewContractWorker()
-    {
-        workerService.CreateNewContractWorker(Name, Password);
+            workerService.CreateNewWorker(worker.Name, worker.Password);
+        }
     }
 
     private void ResetForm()
