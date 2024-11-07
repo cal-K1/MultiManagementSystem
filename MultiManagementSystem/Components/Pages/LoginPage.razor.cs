@@ -36,5 +36,10 @@ namespace MultiManagementSystem.Components.Pages
                 Message = "Login attempt failed \n Please try again";
             }
         }
+
+        private void NavigateCreate()
+        {
+            NavigationManager.NavigateTo("/create");
+        }
     }
 }

@@ -36,6 +36,7 @@ public partial class RequestLeave
                 Id = Guid.NewGuid().ToString(),
                 Worker = worker,
                 WorkerName = worker.Name,
+                WorkerId = worker.Id,
                 StartDate = RequestLeaveStart,
                 EndDate = RequestLeaveEnd,
                 LeaveDescription = RequestDescription,
