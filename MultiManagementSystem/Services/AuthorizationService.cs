@@ -51,7 +51,6 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
         }
     }
 
-
     public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
     {
         // Check if the worker exists in Workers.
