@@ -1,21 +1,21 @@
 ﻿@page "/"
 
-<h3>Login</h3>
+<div class="login-container">
+    <h3 class="login-header">Login</h3>
+    <p>Please enter your worker number and password to login.</p>
 
-<p>Please enter your worker number and password to login.</p>
+    <div class="form-field">
+        <label for="workerNumber">Worker Number:</label>
+        <input type="text" id="workerNumber" @bind="WorkerNumber" placeholder="Enter worker number" />
+    </div>
 
-<div>
-    <label for="workerNumber">Worker Number:</label>
-    <input type="text" id="workerNumber" @bind="WorkerNumber" placeholder="Enter worker number" />
+    <div class="form-field">
+        <label for="password">Password:</label>
+        <input type="password" id="password" @bind="Password" placeholder="Enter password" />
+    </div>
+
+    <button class="submit-button" @onclick="Submit">Login</button>
+    <button class="navigate-button" @onclick="NavigateCreate">Create Worker</button>
+
+    <p>@Message</p>
 </div>
-
-<div>
-    <label for="password">Password:</label> 
-    <input type="password" id="password" @bind="Password" placeholder="Enter password" />
-</div>
-
-<button class="submit-button" @onclick="Submit">Login</button>
-
-<button class="navigate-button" @onclick="NavigateCreate">Create Worker</button>
-
-<p>@Message</p>
