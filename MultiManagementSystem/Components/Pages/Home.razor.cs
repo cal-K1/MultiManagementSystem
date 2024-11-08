@@ -1,9 +1,12 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.People;
 
 namespace MultiManagementSystem.Components.Pages;
 
 public partial class Home
 {
+    Worker worker = null!;
+
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
 
