@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -10,6 +11,9 @@ public partial class CreateNewWorkerPage
     private IWorkerService workerService { get; set; } = default!;
 
     [Inject]
+    private IAuthorizationService authorizationService { get; set; } = default!;
+
+    [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
     public string Name { get; set; } = string.Empty;
@@ -18,7 +22,8 @@ public partial class CreateNewWorkerPage
     public string SelectedEmployeeType { get; set; } = string.Empty;
     public bool isEmployed = false;
     public bool showForm = false;
-    public bool showConfirmation = false; // New flag for confirmation
+    public bool showConfirmation = false;
+    public bool showInvalidPassword = false;
 
     private void SelectEmployeeType(bool isEmployedSelected)
     {
@@ -40,6 +45,12 @@ public partial class CreateNewWorkerPage
             WorkerNumber = workerService.CreateNewWorkerNumber(),
             Password = Password,
         };
+
+        if (!authorizationService.IsPasswordValid(worker.Password))
+        {
+            showInvalidPassword = true;
+            return;
+        }
 
         NewWorkerNumber = worker.WorkerNumber;
         workerService.CreateNewWorker(worker.Name, worker.Password, worker.WorkerNumber);

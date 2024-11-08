@@ -18,6 +18,20 @@
         <!-- Navigate Home Button -->
         <button class="btn btn-primary mt-3" @onclick="NavigateHome">Navigate Home</button>
     }
+    else if (showInvalidPassword)
+    {
+        <div class="password-error" style="color: red; text-align: center; margin-top: 1rem;">
+            <p>Password is invalid. It must meet the following requirements:</p>
+            <ul style="list-style-type: none; padding: 0;">
+                <li>At least 6 characters long</li>
+                <li>At least one uppercase letter (A-Z)</li>
+                <li>At least one digit (0-9)</li>
+
+                <button class="btn btn-primary mt-3" @onclick="NavigateHome">Navigate Home</button>
+
+            </ul>
+        </div>
+    }
     else
     {
         <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="CreateNewWorker">
