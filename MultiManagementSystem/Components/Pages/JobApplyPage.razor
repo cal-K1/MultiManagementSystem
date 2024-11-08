@@ -1,21 +1,20 @@
 ﻿@page "/apply"
 
-<h3>Job Apply Page</h3>
+<h3 class="header-text" style="text-align: center;">Job Apply Page</h3>
 
 @if (_submitted == false)
 {
-    <form>
-        <label for="name">Name:</label><br>
-        <input type="text" id="name" @bind-value="@_name" /><br /><br />
+    <form class="form-submit">
+        <label class="label-input" for="name">Name:</label>
+        <input class="input-box" type="text" id="name" @bind-value="@_name" />
 
-        <label for="phone">Phone Number:</label><br>
-        <input type="tel" id="phone" @bind-value="@_phoneNumber" /><br /><br />
+        <label class="label-input" for="phone">Phone Number:</label>
+        <input class="input-box" type="tel" id="phone" @bind-value="@_phoneNumber" />
 
-        <label for="description">Description:</label><br>
+        <label class="label-input" for="description">Description:</label>
+        <textarea class="description-box" id="description" @bind="@_description" rows="5"></textarea>
 
-        <textarea type="text" id="description" @bind="@_description" rows="15" cols="70"></textarea>
-
-        <button @onclick="SubmitForm" type="button">Submit</button>
+        <button class="submit-button" @onclick="SubmitForm" type="button">Submit</button>
     </form>
 }
 else
@@ -29,4 +28,3 @@ else
         </button>
     </div>
 }
-
