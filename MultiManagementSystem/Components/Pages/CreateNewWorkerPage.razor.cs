@@ -9,6 +9,9 @@ public partial class CreateNewWorkerPage
     [Inject]
     private IWorkerService workerService { get; set; } = default!;
 
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
+
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string NewWorkerNumber {  get; set; } = string.Empty;
@@ -54,5 +57,10 @@ public partial class CreateNewWorkerPage
         SelectedEmployeeType = string.Empty;
         showForm = false;
         showConfirmation = false;
+    }
+
+    private void NavigateHome()
+    {
+        NavigationManager.NavigateTo("/");
     }
 }

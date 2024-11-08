@@ -54,6 +54,6 @@ public partial class RequestLeave
 
     public void NavigateHome()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/home");
     }
 }

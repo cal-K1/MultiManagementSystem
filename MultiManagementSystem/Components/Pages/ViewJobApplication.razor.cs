@@ -52,6 +52,6 @@ public partial class ViewJobApplication
 
     private void ReturnToHome()
     {
-        NavigationManager.NavigateTo("/");
+        NavigationManager.NavigateTo("/home");
     }
 }
