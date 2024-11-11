@@ -34,8 +34,6 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
         return user.LeaveDaysRemaining;
     }
 
-
-
     public string CreateNewWorkerNumber()
     {
         // Generate a random letter and a 6 digit number.
