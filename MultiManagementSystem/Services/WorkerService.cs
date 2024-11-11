@@ -36,15 +36,27 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
 
     public string CreateNewWorkerNumber()
     {
-        // Generate a random letter and a 6 digit number.
-        char randomLetter = (char)new Random().Next('A', 'Z' + 1);
-        int randomNumber = new Random().Next(0, 1000000);
+        string workerNumber = string.Empty;
+        bool isWorkerNumberUnique = false;
 
-        // Combine the letter and number into the worker number format
-        string workerNumber = $"{randomLetter}{randomNumber:D6}";
+        var random = new Random();
+
+        while (!isWorkerNumberUnique)
+        {
+            char randomLetter = (char)random.Next('A', 'Z' + 1);
+            int randomNumber = random.Next(0, 1000000);
+
+            workerNumber = $"{randomLetter}{randomNumber:D6}";
+
+            if (!IsWorkerNumberAlreadyInUse(workerNumber))
+            {
+                isWorkerNumberUnique = true;
+            }
+        }
 
         return workerNumber;
     }
+
 
     public async Task CreateNewWorker(string name, string password, string workerNumber)
     {
@@ -58,5 +70,15 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
 
         await dbContext.Workers.AddAsync(worker);
         await dbContext.SaveChangesAsync();
+    }
+
+    private bool IsWorkerNumberAlreadyInUse(string workerNumber)
+    {
+        if (dbContext.Workers.Any(w => w.WorkerNumber == workerNumber))
+        {
+            return true;
+        }
+
+        return false;
     }
 }
