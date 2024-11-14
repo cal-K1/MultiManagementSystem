@@ -6,6 +6,10 @@ namespace MultiManagementSystem.Services
 {
     public class ApplicationService(ManagementSystemDbContext dbContext) : IApplicationService
     {
+        /// <summary>
+        /// Returns a job application that matches the Id passed in.
+        /// </summary>
+        /// <returns>A job application in the database with the specified Id.</returns>
         public JobApplication GetApplication(string Id)
         {
             var application = dbContext.JobApplications.FirstOrDefault(jobApplication => jobApplication.Id == Id);
@@ -16,6 +20,10 @@ namespace MultiManagementSystem.Services
             return application;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>A list of all job applications in the database that have ApplicationState as 'Pending'.</returns>
         public async Task<List<JobApplication>> GetAllPendingJobApplications()
         {
             List<JobApplication> allJobApplications = await dbContext.JobApplications
@@ -25,18 +33,27 @@ namespace MultiManagementSystem.Services
             return allJobApplications;
         }
 
+        /// <summary>
+        /// Accepts a job application and saves the changes in the database.
+        /// </summary>
         public async Task AcceptApplication(JobApplication application)
         {
             application.ApplicationState = ApplicationState.Accepted;
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Declines a job application and saves the changes in the database.
+        /// </summary>
         public async Task DeclineApplication(JobApplication application)
         {
             application.ApplicationState = ApplicationState.Declined;
             await dbContext.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Creates a job application and saves it in the database.
+        /// </summary>
         public async Task ApplyJob(string name, string phoneNumber, string applicationText)
         {
             JobApplication newApplication = new JobApplication

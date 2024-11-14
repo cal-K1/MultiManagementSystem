@@ -12,6 +12,10 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
 
     private string x = string.Empty;
 
+    /// <summary>
+    /// Subtracts the correct number of leave days from the worker.
+    /// </summary>
+    /// <exception cref="Exception"></exception>
     public void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, Worker worker)
     {
         if (worker == null)
@@ -35,6 +39,9 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
         }
     }
 
+    /// <summary>
+    /// Creates a new leave request and saves it in the database.
+    /// </summary>
     public async Task AddNewLeaveRequest(Worker worker, LeaveRequest leaveRequest)
     {
         await dbContext.LeaveRequests.AddAsync(leaveRequest);
