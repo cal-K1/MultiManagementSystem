@@ -48,7 +48,6 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
                 return false;
             }
 
-            // Fetch data into memory for client-side evaluation
             var allWorkers = dbContext.Workers.ToList();
 
             bool isWorkerLoginSuccessfull = allWorkers.Any(worker =>
