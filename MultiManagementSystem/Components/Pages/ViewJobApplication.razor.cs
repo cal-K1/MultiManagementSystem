@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -7,6 +8,9 @@ public partial class ViewJobApplication
 {
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
+    
+    [Inject]
+    private Services.Abstraction.IAuthorizationService authorizationService { get; set; } = default!;
 
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
@@ -25,7 +29,7 @@ public partial class ViewJobApplication
 
     protected override void OnInitialized()
     {
-        // Fetch the application data based on the passed Id synchronously
+        // Fetch the application data based on the passed Id synchronously.
         if (!string.IsNullOrEmpty(Id))
         {
             SelectedApplication = applicationService.GetApplication(Id);

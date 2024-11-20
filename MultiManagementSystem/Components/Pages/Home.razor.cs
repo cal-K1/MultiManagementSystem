@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.People;
+using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
 
@@ -9,6 +10,9 @@ public partial class Home
 
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
+
+    [Inject]
+    private IAuthorizationService authorizationService { get; set; } = default!;
 
     private void NavigateApply()
     {
@@ -33,5 +37,15 @@ public partial class Home
     private void NavigateLogin()
     {
         NavigationManager.NavigateTo("/login");
+    }
+
+    private bool IsWorkerManager()
+    {
+        if (authorizationService.CurrentWorker.Manager == true)
+        {
+            return true;
+        }
+
+        return false;
     }
 }
