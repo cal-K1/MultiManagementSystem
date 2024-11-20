@@ -19,7 +19,8 @@ public partial class CreateNewWorkerPage
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string NewWorkerNumber {  get; set; } = string.Empty;
-    public string SelectedEmployeeType { get; set; } = string.Empty;
+    public bool IsManager { get; set; } = false;
+
     public bool isEmployed = false;
     public bool showForm = false;
     public bool showConfirmation = false;
@@ -28,12 +29,6 @@ public partial class CreateNewWorkerPage
     private void SelectEmployeeType(bool isEmployedSelected)
     {
         showForm = true;
-        isEmployed = isEmployedSelected;
-
-        if (isEmployed)
-        {
-            SelectedEmployeeType = string.Empty;
-        }
     }
 
     public void CreateNewWorker()
@@ -44,6 +39,7 @@ public partial class CreateNewWorkerPage
             Id = Guid.NewGuid().ToString(),
             WorkerNumber = workerService.CreateNewWorkerNumber(),
             Password = Password,
+            Manager = IsManager,
         };
 
         if (!authorizationService.IsPasswordValid(worker.Password))
@@ -65,9 +61,9 @@ public partial class CreateNewWorkerPage
         // Reset the form to allow creating another worker
         Name = string.Empty;
         Password = string.Empty;
-        SelectedEmployeeType = string.Empty;
         showForm = false;
         showConfirmation = false;
+        IsManager = false;
     }
 
     private void NavigateHome()
