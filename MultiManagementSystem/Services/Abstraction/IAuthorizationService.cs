@@ -4,8 +4,10 @@ namespace MultiManagementSystem.Services.Abstraction;
 
 public interface IAuthorizationService
 {
+    public Worker CurrentWorker { get; }
+
     bool IsUserNameValid(string userName);
     bool IsPasswordValid(string password);
-    bool IsLoginSuccessful(string enteredPassword, string workerNumber);
+    Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
     Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
 }

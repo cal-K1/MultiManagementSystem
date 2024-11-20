@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
+using NSubstitute;
 
 namespace Tests.ServiceTests.AuthorizationServiceTests
 {
@@ -38,7 +39,7 @@ namespace Tests.ServiceTests.AuthorizationServiceTests
         {
             // Arrange
             using var dbContext = CreateDbContext();
-            var service = new AuthorizationService(dbContext);
+            var service = new AuthorizationService(Substitute.For<IServiceProvider>());
 
             // Act
             var result = service.IsLoginSuccessful(enteredPassword, workerNumber);

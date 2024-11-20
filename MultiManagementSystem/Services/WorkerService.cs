@@ -12,10 +12,10 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     /// </summary>
     /// <param name="workerId"></param>
     /// <returns>The worker with given worker number.</returns>
-    public async Task<Worker> GetWorker(string workerId)
+    public async Task<Worker> GetWorkerByWorkerNumber(string workerNumber)
     {
         // First, try to find an Worker with the given ID
-        var worker = await dbContext.Workers.FirstOrDefaultAsync(e => e.Id == workerId);
+        var worker = await dbContext.Workers.FirstOrDefaultAsync(e => e.WorkerNumber == workerNumber);
         if (worker != null)
         {
             return worker;

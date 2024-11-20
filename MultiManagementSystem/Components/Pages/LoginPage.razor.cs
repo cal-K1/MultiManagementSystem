@@ -13,16 +13,13 @@ namespace MultiManagementSystem.Components.Pages
         private string WorkerNumber { get; set; } = string.Empty;
         private string Password { get; set; } = string.Empty;
         private string Message { get; set; } = string.Empty;
-        Worker CurrentUser { get; set; } = default!;
 
         private async Task Submit()
         {
             // Basic validation for demonstration
-            if (authorizationService.IsLoginSuccessful(Password, WorkerNumber))
+            if (await authorizationService.IsLoginSuccessful(Password, WorkerNumber))
             {
-                CurrentUser =  await authorizationService.GetWorkerFromWorkerNumber(WorkerNumber);
-
-                if (CurrentUser == null)
+                if (authorizationService.CurrentWorker == null)
                 {
                     Message = "No User Found";
                     return;

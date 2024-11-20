@@ -8,9 +8,10 @@ namespace MultiManagementSystem.Components.Pages;
 public partial class RequestLeave
 {
     [Inject]
-    private IWorkerService workerService { get; set; } = default!;
-    [Inject]
     private ILeaveService leaveService { get; set; } = default!;
+
+    [Inject]
+    private IAuthorizationService authorizationService { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     LeaveRequest LeaveRequest { get; set; } = default!;
@@ -19,31 +20,22 @@ public partial class RequestLeave
     public string RequestDescription { get; set; } = string.Empty;
     private bool IsRequestSubmitted { get; set; } = false;
 
-    public string? Id { get; set; }// = //CurrentUser.Id;
-
     private async Task SubmitLeaveRequest()
     {
         try
         {
-            Worker worker = new()
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = "Callum",
-            };
-
             LeaveRequest leaveRequest = new()
             {
                 Id = Guid.NewGuid().ToString(),
-                Worker = worker,
-                WorkerName = worker.Name,
-                WorkerId = worker.Id,
+                WorkerName = authorizationService.CurrentWorker.Name,
+                WorkerId = authorizationService.CurrentWorker.Id!,
                 StartDate = RequestLeaveStart,
                 EndDate = RequestLeaveEnd,
                 LeaveDescription = RequestDescription,
                 State = LeaveRequestState.Pending,
             };
 
-            await leaveService.AddNewLeaveRequest(worker, leaveRequest);
+            await leaveService.AddNewLeaveRequest(authorizationService.CurrentWorker, leaveRequest);
             IsRequestSubmitted = true;
         }
         catch (Exception ex)

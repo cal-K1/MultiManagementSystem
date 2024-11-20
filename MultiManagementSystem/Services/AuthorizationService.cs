@@ -5,10 +5,9 @@ using MultiManagementSystem.People;
 
 namespace MultiManagementSystem.Services.Abstraction;
 
-public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthorizationService
+public class AuthorizationService(IServiceProvider serviceProvider) : IAuthorizationService
 {
-    [Inject]
-    private IWorkerService workerService { get; set; } = default!;
+    public Worker CurrentWorker { get; private set; }
 
     /// <summary>
     /// Checks if the username is of the correct length (between 2 and 60 characters.
@@ -36,8 +35,12 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
     /// Checks if the workerNumber and password match a worker in the db.
     /// </summary>
     /// <returns>true if login is successful.</returns>
-    public bool IsLoginSuccessful(string enteredPassword, string workerNumber)
+    public async Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber)
     {
+        using var scope = serviceProvider.CreateScope();
+        var workerService = scope.ServiceProvider.GetRequiredService<IWorkerService>();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+
         try
         {
             // Validate input
@@ -52,6 +55,11 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
 
             bool isWorkerLoginSuccessfull = allWorkers.Any(worker =>
                 worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
+
+            if (isWorkerLoginSuccessfull)
+            {
+                CurrentWorker = await workerService.GetWorkerByWorkerNumber(workerNumber);
+            }
 
             return isWorkerLoginSuccessfull;
         }
@@ -68,6 +76,9 @@ public class AuthorizationService(ManagementSystemDbContext dbContext) : IAuthor
     /// <returns>The worker with the specified Id in the database.</returns>
     public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
     {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+
         // Check if the worker exists in Workers.
         var worker = await dbContext.Workers
             .FirstOrDefaultAsync(worker => worker.WorkerNumber == workerNumber);
