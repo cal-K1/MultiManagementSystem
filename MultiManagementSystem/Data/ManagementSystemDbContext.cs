@@ -16,21 +16,37 @@ namespace MultiManagementSystem.Data
             // Apply configurations from the assembly (if there are any configuration classes)
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-            // Ignore the Worker base class to prevent creating a table for it
-            modelBuilder.Ignore<Worker>();
-
-            // Configure each derived entity explicitly
+            // Configure derived entities explicitly
             modelBuilder.Entity<Management>()
                 .ToTable("Managers")
                 .HasKey(m => m.Id);
 
             modelBuilder.Entity<Worker>()
                 .ToTable("Workers")
-                .HasKey(m => m.Id);
+                .HasKey(w => w.Id);
+
+            // Configure the Worker entity and the embedded JobRole
+            modelBuilder.Entity<Worker>(entity =>
+            {
+                entity.Property(w => w.Id).IsRequired();
+                entity.Property(w => w.Name).IsRequired();
+                entity.Property(w => w.WorkerNumber).IsRequired();
+                entity.Property(w => w.Password).IsRequired();
+                entity.Property(w => w.Manager).IsRequired();
+                entity.Property(w => w.Country).IsRequired();
+
+                // Configure the JobRole as an owned entity within Worker
+                entity.OwnsOne(w => w.JobRole, jobRole =>
+                {
+                    jobRole.Property(j => j.JobTitle).IsRequired();
+                    jobRole.Property(j => j.Salary).IsRequired();
+                    jobRole.Property(j => j.Description).IsRequired();
+                });
+            });
 
             modelBuilder.Entity<UserId>()
                 .ToTable("UserId")
-                .HasKey(m => m.Id);
+                .HasKey(u => u.Id);
 
             modelBuilder.Entity<JobApplication>()
                 .ToTable("JobApplications")
@@ -42,6 +58,7 @@ namespace MultiManagementSystem.Data
 
             base.OnModelCreating(modelBuilder);
         }
+
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -38,7 +38,6 @@ namespace MultiManagementSystem.Components.Pages
             {
                 JobRole jobRole = new JobRole()
                 {
-                    Id = Guid.NewGuid().ToString(), 
                     JobTitle = WorkerJobTitle,
                     Salary = WorkerSalary,
                     Description = WorkerDescription
