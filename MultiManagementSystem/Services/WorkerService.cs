@@ -31,14 +31,12 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     /// <exception cref="InvalidOperationException"></exception
     public int GetWorkerLeaveDaysRemaining(string workerId)
     {
-        // Retrieve the worker by their Id (foreign key to UserId)
         var worker = dbContext.Workers.FirstOrDefault(w => w.Id == workerId);
         var user = dbContext.UserId.FirstOrDefault(u => u.Id == worker.Id);
 
-        // Retrieve LeaveDaysRemaining from the UserId table where UserId.Id matches Worker.Id
-        if (worker == null || user == null)
+        if (worker == null)
         {
-            throw new InvalidOperationException($"Worker or User with ID {workerId} not found.");
+            return -1;
         }
 
         return user.LeaveDaysRemaining;
