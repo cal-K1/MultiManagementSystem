@@ -50,7 +50,7 @@ public partial class CreateNewWorkerPage
         }
 
         NewWorkerNumber = worker.WorkerNumber;
-        workerService.CreateNewWorker(worker.Name, worker.Password, worker.WorkerNumber);
+        workerService.CreateNewWorkerInDb(worker);
 
         // Show the confirmation screen after successful creation
         showForm = false;

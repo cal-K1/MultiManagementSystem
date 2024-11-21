@@ -7,7 +7,7 @@ public interface IWorkerService
     Task<Worker> GetWorkerByWorkerNumber(string workerNumber);
     int GetWorkerLeaveDaysRemaining(string WorkerId);
     public string CreateNewWorkerNumber();
-    Task CreateNewWorker(string name, string password, string workerNumber);
+    Task CreateNewWorkerInDb(Worker worker);
     List<Worker> GetWorkersByCountry(WorkerCountry country);
     Task SaveJobRole(Worker worker, JobRole jobRole);
 }

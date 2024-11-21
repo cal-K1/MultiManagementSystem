@@ -72,16 +72,8 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     /// <summary>
     /// Creates a worker with the specified properties passed in as parameters and saves it in the database.
     /// </summary>
-    public async Task CreateNewWorker(string name, string password, string workerNumber)
+    public async Task CreateNewWorkerInDb(Worker worker)
     {
-        Worker worker = new()
-        {
-            Id = Guid.NewGuid().ToString(),
-            Name = name,
-            Password = password,
-            WorkerNumber = workerNumber,
-        };
-
         await dbContext.Workers.AddAsync(worker);
         await dbContext.SaveChangesAsync();
     }
