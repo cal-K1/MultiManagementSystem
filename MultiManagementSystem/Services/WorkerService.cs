@@ -105,4 +105,20 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     /// </summary>
     /// <returns>A list of Workers that have a Country property that matches the inputted country.</returns>
     public List<Worker> GetWorkersByCountry(WorkerCountry country) => dbContext.Workers.Where(worker => worker.Country == country).ToList();
+
+    /// <summary>
+    /// Sets the workers JobRole property to the given jobRole and saves the changes to the database.
+    /// </summary>
+    public async Task SaveJobRole(Worker worker, JobRole jobRole)
+    {
+        if (worker == null || jobRole == null)
+        {
+            throw new Exception(message: $"Worker or JobRole is null.");
+        }
+
+        worker.JobRole = jobRole;
+
+        dbContext.Workers.Update(worker);
+        await dbContext.SaveChangesAsync();
+    }
 }

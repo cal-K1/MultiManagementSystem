@@ -9,4 +9,5 @@ public interface IWorkerService
     public string CreateNewWorkerNumber();
     Task CreateNewWorker(string name, string password, string workerNumber);
     List<Worker> GetWorkersByCountry(WorkerCountry country);
+    Task SaveJobRole(Worker worker, JobRole jobRole);
 }

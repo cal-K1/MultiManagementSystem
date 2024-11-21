@@ -10,6 +10,7 @@ public class Worker : UserBase
     public bool Manager { get; set; } = false;
     public override string Password { get; set; } = string.Empty;
     public WorkerCountry Country { get; set; } = WorkerCountry.Default;
+    public JobRole JobRole { get; set; } = default!;
 }
 
 public enum WorkerCountry

@@ -17,6 +17,8 @@
 
         <!-- Navigate Home Button -->
         <button class="btn btn-primary mt-3" @onclick="NavigateHome">Navigate Home</button>
+
+        <button class="job-role-button>" @onclick="NavigateAssignJobRole">Assign Job Role</button>
     }
     else if (showInvalidPassword)
     {
@@ -60,18 +62,16 @@
                         <InputSelect id="workerCountry" @bind-Value="WorkerCountry" class="form-control">
                             @foreach (WorkerCountry country in Enum.GetValues(typeof(WorkerCountry)))
                             {
-                                var countryName = country.ToString() ?? string.Empty;
+                                string countryName = country.ToString() ?? string.Empty;
 
                                 // Format the name by adding spaces between words
-                                var formattedCountry = string.Concat(countryName.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())).Trim();
+                                string formattedCountry = string.Concat(countryName.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())).Trim();
 
                                 <option value="@countryName">@formattedCountry</option>
                             }
                         </InputSelect>
                     </div>
-
                 </div>
-
 
                 <button type="submit" class="btn btn-primary mt-4">Submit</button>
             </div>

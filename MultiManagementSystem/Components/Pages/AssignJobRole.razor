@@ -1,0 +1,48 @@
+﻿@page "/jobrole"
+@inherits LayoutComponentBase
+
+<h3>Assign Job Role</h3>
+
+@if (!IsManagerAuthorized)
+{
+    <div>
+        <h4>Manager Login</h4>
+        <div>
+            <label for="managerWorkerNumber">Worker Number:</label>
+            <input id="managerWorkerNumber" @bind="ManagerWorkerNumber" placeholder="Enter Worker Number" />
+
+            <label for="managerPassword">Password:</label>
+            <input id="managerPassword" type="password" @bind="ManagerPassword" placeholder="Enter Password" />
+        </div>
+
+        <button @onclick="CheckAuthorization">Login</button>
+
+        @if (ShowErrorMessage)
+        {
+            <p style="color:red">@ErrorMessage</p>
+        }
+    </div>
+}
+else
+{
+    <div>
+        <h4>Assign Job Role</h4>
+        <div>
+            <label for="workerJobTitle">Job Title:</label>
+            <input id="workerJobTitle" @bind="WorkerJobTitle" placeholder="Enter Job Title" />
+
+            <label for="workerSalary">Salary:</label>
+            <input id="workerSalary" type="number" @bind="WorkerSalary" placeholder="Enter Salary" />
+
+            <label for="workerDescription">Description:</label>
+            <textarea id="workerDescription" @bind="WorkerDescription" placeholder="Enter Job Description" style="width: 100%; height: 100px;"></textarea>
+        </div>
+
+        <button @onclick="AssignJob">Assign Job</button>
+
+        @if (Submitted)
+        {
+            <p style="color:green">Job Role Assigned Successfully!</p>
+        }
+    </div>
+}

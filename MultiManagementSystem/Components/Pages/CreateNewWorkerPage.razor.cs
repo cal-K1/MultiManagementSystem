@@ -18,7 +18,7 @@ public partial class CreateNewWorkerPage
 
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
-    public string NewWorkerNumber {  get; set; } = string.Empty;
+    public string NewWorkerNumber { get; set; } = string.Empty;
     public bool IsManager { get; set; } = false;
     public WorkerCountry WorkerCountry { get; set; } = WorkerCountry.Default;
 
@@ -70,5 +70,10 @@ public partial class CreateNewWorkerPage
     private void NavigateHome()
     {
         NavigationManager.NavigateTo("/");
+    }
+
+    private void NavigateAssignJobRole()
+    {
+        NavigationManager.NavigateTo($"/assign-job-role/{NewWorkerNumber}");
     }
 }
