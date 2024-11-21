@@ -9,4 +9,33 @@ public class Worker : UserBase
     public string WorkerNumber { get; set; } = string.Empty;
     public bool Manager { get; set; } = false;
     public override string Password { get; set; } = string.Empty;
+    public WorkerCountry Country { get; set; } = WorkerCountry.Default;
+}
+
+public enum WorkerCountry
+{
+    Default,
+    UnitedKingdom,
+    Germany,
+    Morocco,
+    UnitedStates,
+    Canada,
+    Brazil,
+    Argentina,
+    SouthAfrica,
+    Nigeria,
+    Egypt,
+    China,
+    Japan,
+    India,
+    Australia,
+    NewZealand,
+    France,
+    Italy,
+    Spain,
+    Russia,
+    Mexico,
+    SouthKorea,
+    SaudiArabia,
+    Turkey,
 }

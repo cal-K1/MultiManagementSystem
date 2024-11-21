@@ -9,7 +9,7 @@
     {
         <div class="alert alert-success" role="alert">
             <strong>Success!</strong> The worker has been created successfully.
-            <strong>Your worker number is @NewWorkerNumber.</strong>
+            <strong>Your worker number is @NewWorkerNumber</strong>
         </div>
 
         <!-- Success Message Button -->
@@ -54,6 +54,22 @@
                         <option value="false">Worker</option>
                         <option value="true">Manager</option>
                     </InputSelect>
+
+                    <div class="form-group worker-country-group">
+                        <label for="workerCountry">Country:</label>
+                        <InputSelect id="workerCountry" @bind-Value="WorkerCountry" class="form-control">
+                            @foreach (WorkerCountry country in Enum.GetValues(typeof(WorkerCountry)))
+                            {
+                                var countryName = country.ToString() ?? string.Empty;
+
+                                // Format the name by adding spaces between words
+                                var formattedCountry = string.Concat(countryName.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())).Trim();
+
+                                <option value="@countryName">@formattedCountry</option>
+                            }
+                        </InputSelect>
+                    </div>
+
                 </div>
 
 

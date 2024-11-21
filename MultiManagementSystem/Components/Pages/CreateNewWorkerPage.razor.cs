@@ -20,6 +20,7 @@ public partial class CreateNewWorkerPage
     public string Password { get; set; } = string.Empty;
     public string NewWorkerNumber {  get; set; } = string.Empty;
     public bool IsManager { get; set; } = false;
+    public WorkerCountry WorkerCountry { get; set; } = WorkerCountry.Default;
 
     public bool isEmployed = false;
     public bool showForm = false;

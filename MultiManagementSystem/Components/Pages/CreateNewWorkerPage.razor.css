@@ -1,55 +1,38 @@
-﻿/* Container and form centering with increased height */
+﻿/* Adjust the form container for more space */
 .form-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     width: 90%;
-    height: 80%;
-    max-width: 90rem; /* 90rem = 1440px */
+    height: 100%; /* Increased height */
     margin: 2rem auto;
     padding: 3rem;
     box-shadow: 0 0 1rem rgba(0, 0, 0, 0.15);
     background-color: #fff;
     border-radius: 1rem;
-    min-height: 25rem;
+    min-height: 40rem; /* Increased minimum height */
 }
 
-/* Page title styling */
-.page-title {
-    font-size: 2.8rem;
-    font-weight: bold;
-    margin-bottom: 2rem;
-    text-align: center;
+/* Adjust the worker country field */
+.worker-country-group {
+    margin-top: 2rem; /* Adds spacing between previous fields */
+    width: 100%; /* Matches the width of other inputs */
 }
 
-/* Form Group spacing and layout */
+/* Ensure the form maintains a consistent layout */
 .form-group {
-    width: 100%;
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; /* Standard spacing between all form groups */
 }
 
-/* Input field styling */
 .form-control {
-    width: 100%; /* Ensures inputs take full width of their container */
-    max-width: 37.5rem; /* Max width for input fields in rem */
+    max-width: 50rem; /* Increased from 37.5rem */
     padding: 1.5rem;
     font-size: 1.2rem;
     border: 0.1rem solid #ccc;
     border-radius: 0.5rem;
 }
 
-/* Success message */
-.alert-success {
-    padding: 2rem;
-    margin-top: 2rem;
-    border-radius: 0.8rem;
-    width: 100%;
-    text-align: center;
-    font-size: 1.25rem;
-}
-
-/* Button styling */
 .btn {
     padding: 1rem 2.5rem;
     font-size: 1.5rem;
@@ -62,14 +45,22 @@
     text-align: center;
     display: block;
     width: 100%;
-    max-width: 31.25rem;
+    max-width: 50rem; 
 }
 
-    .btn:hover {
-        background-color: #0056b3;
-    }
-
-/* Ensure form takes full width */
-.form {
-    width: 100%; /* Ensures form div stretches across full container width */
+.alert-success {
+    padding: 2rem;
+    margin-top: 2rem;
+    border-radius: 0.8rem;
+    width: 100%;
+    text-align: center;
+    font-size: 1.25rem;
 }
+
+.page-title {
+    font-size: 2.8rem;
+    font-weight: bold;
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
