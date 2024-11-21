@@ -101,4 +101,10 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
 
         return false;
     }
+
+    /// <summary>
+    /// Gets all workers from a given country.
+    /// </summary>
+    /// <returns>A list of Workers that have a Country property that matches the inputted country.</returns>
+    public List<Worker> GetWorkersByCountry(WorkerCountry country) => dbContext.Workers.Where(worker => worker.Country == country).ToList();
 }
