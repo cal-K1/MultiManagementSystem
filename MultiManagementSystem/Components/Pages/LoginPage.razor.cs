@@ -29,6 +29,7 @@ namespace MultiManagementSystem.Components.Pages
             else
             {
                 // Simulate a login process
+                ResetForm();
                 Message = "Login attempt failed \n Please try again";
             }
         }
@@ -36,6 +37,13 @@ namespace MultiManagementSystem.Components.Pages
         private void NavigateCreate()
         {
             NavigationManager.NavigateTo("/create");
+        }
+
+        private void ResetForm()
+        {
+            WorkerNumber = string.Empty;
+            Password = string.Empty;
+            Message = string.Empty;
         }
     }
 }
