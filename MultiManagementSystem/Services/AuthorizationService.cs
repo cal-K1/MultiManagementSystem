@@ -8,7 +8,7 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
 {
     public Worker CurrentWorker { get; private set; }
     public Company Company { get; private set; }
-
+    public Admin? CurrentAdmin { get; private set; }
 
     /// <summary>
     /// Checks if the username is of the correct length (between 2 and 60 characters.
@@ -96,4 +96,17 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
             return null!;
         }
     }
+
+    public bool IsAdminLoginSuccessful(string enteredPassword, string adminUsername)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+
+        return dbContext.Administrator.Any(admin => admin.Password == enteredPassword && admin.Username == adminUsername);
+    }
+
+    //public void SetAdmin()
+    //{
+    //    CurrentAdmin = 
+    //}
 }

@@ -39,6 +39,11 @@ namespace MultiManagementSystem.Components.Pages
             NavigationManager.NavigateTo("/create");
         }
 
+        private void NavigateAdminLogin()
+        {
+            NavigationManager.NavigateTo("/login/admin");
+        }
+
         private void ResetForm()
         {
             WorkerNumber = string.Empty;

@@ -10,8 +10,6 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
     [Inject]
     private IWorkerService workerService { get; set; } = default!;
 
-    private string x = string.Empty;
-
     /// <summary>
     /// Subtracts the correct number of leave days from the worker.
     /// </summary>

@@ -1,0 +1,20 @@
+﻿@page "/login/admin"
+
+<div class="login-container">
+    <h3 class="login-header">Login</h3>
+    <p>Please enter your worker number and password to login.</p>
+
+    <div class="form-field">
+        <label for="adminUsername">Worker Number:</label>
+        <input type="text" id="adminUsername" @bind="AdminUsername" placeholder="Enter Admin Username" />
+    </div>
+
+    <div class="form-field">
+        <label for="adminPassword">Password:</label>
+        <input type="adminPassword" id="password" @bind="AdminPassword" placeholder="Enter password" />
+    </div>
+
+    <button class="submit-button" @onclick="Submit">Login</button>
+
+    <p>@Message</p>
+</div>

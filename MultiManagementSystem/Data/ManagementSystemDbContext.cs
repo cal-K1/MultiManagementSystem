@@ -58,7 +58,11 @@ namespace MultiManagementSystem.Data
 
             modelBuilder.Entity<Company>()
                 .ToTable("Company")
-                .HasKey(l => l.Id);
+                .HasKey(c => c.Id);
+
+            modelBuilder.Entity<Admin>()
+                .ToTable("Administrator")
+                .HasKey(a => a.Id);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -79,5 +83,6 @@ namespace MultiManagementSystem.Data
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
         public DbSet<UserId> UserId { get; set; }
         public DbSet<Company> Company { get; set; }
+        public DbSet<Admin> Administrator { get; set; }
     }
 }
