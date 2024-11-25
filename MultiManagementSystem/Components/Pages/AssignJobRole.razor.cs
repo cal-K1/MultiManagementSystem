@@ -36,7 +36,7 @@ namespace MultiManagementSystem.Components.Pages
         {
             try
             {
-                JobRole jobRole = new JobRole()
+                JobRole jobRole = new()
                 {
                     JobTitle = WorkerJobTitle,
                     Salary = WorkerSalary,

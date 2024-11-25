@@ -18,12 +18,16 @@ public class CompanyService(ManagementSystemDbContext dbContext) : ICompanyServi
     {
         string? companyId = dbContext.Workers.FirstOrDefault(w => w.Id == workerId)?.CompanyId;
 
-
+        CurrentCompany = GetCurrentCompany(companyId);
     }
 
     public Company GetCurrentCompany(string companyId)
     {
-        if (companyId != null)
+        if (companyId == null)
+        {
+            throw new InvalidOperationException("Worker not found.");
+        }
+        else
         {
             CurrentCompany = dbContext.Company.FirstOrDefault(c => c.Id == companyId);
 
@@ -31,11 +35,8 @@ public class CompanyService(ManagementSystemDbContext dbContext) : ICompanyServi
             {
                 throw new InvalidOperationException("Company not found.");
             }
-            return CurrentCompany;
         }
-        else
-        {
-            throw new InvalidOperationException("Worker not found.");
-        }
+
+        return CurrentCompany;
     }
 }

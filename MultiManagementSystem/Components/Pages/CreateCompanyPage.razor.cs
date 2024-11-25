@@ -7,9 +7,9 @@ namespace MultiManagementSystem.Components.Pages;
 public partial class CreateCompanyPage
 {
     [Inject]
-    private IAuthorizationService authorizationService { get; set; } = default!;
+    private IAuthorizationService AuthorizationService { get; set; } = default!;
     [Inject]
-    private ICompanyService companyService { get; set; } = default!;
+    private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
@@ -21,7 +21,7 @@ public partial class CreateCompanyPage
 
     public void HandleValidSubmit()
     {
-        if (authorizationService.IsPasswordValid(AdminPassword) && authorizationService.IsUserNameValid(AdminName) && authorizationService.IsUserNameValid(CompanyName))
+        if (AuthorizationService.IsPasswordValid(AdminPassword) && AuthorizationService.IsUserNameValid(AdminName) && AuthorizationService.IsUserNameValid(CompanyName))
         {
             Company = new Company
             {
@@ -34,7 +34,7 @@ public partial class CreateCompanyPage
                 }
             };
 
-            companyService.CreateCompany(Company);
+            CompanyService.CreateCompany(Company);
             NavigationManager.NavigateTo("/create");
         }
         else
