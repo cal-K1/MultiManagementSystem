@@ -20,6 +20,7 @@ builder.Services.AddScoped<IWorkerService, WorkerService>();
 builder.Services.AddScoped<ILeaveService, LeaveService>();
 
 builder.Services.AddSingleton<IAuthorizationService, AuthorizationService>();
+builder.Services.AddSingleton<ICompanyService, CompanyService>();
 
 var app = builder.Build();
 
@@ -27,7 +28,6 @@ var app = builder.Build();
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

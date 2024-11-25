@@ -4,9 +4,11 @@ using MultiManagementSystem.People;
 
 namespace MultiManagementSystem.Services.Abstraction;
 
-public class AuthorizationService(IServiceProvider serviceProvider) : IAuthorizationService
+public class AuthorizationService(IServiceProvider serviceProvider, ICompanyService companyService) : IAuthorizationService
 {
     public Worker CurrentWorker { get; private set; }
+    public Company Company { get; private set; }
+
 
     /// <summary>
     /// Checks if the username is of the correct length (between 2 and 60 characters.
@@ -58,6 +60,8 @@ public class AuthorizationService(IServiceProvider serviceProvider) : IAuthoriza
             if (isWorkerLoginSuccessfull)
             {
                 CurrentWorker = await workerService.GetWorkerByWorkerNumber(workerNumber);
+                companyService.SetCurrentCompany(CurrentWorker.Id);
+                Company = companyService.GetCurrentCompany(CurrentWorker.CompanyId);
             }
 
             return isWorkerLoginSuccessfull;

@@ -3,4 +3,6 @@
 public interface ICompanyService
 {
     Task CreateCompany(Company newCompany);
+    void SetCurrentCompany(string workerId);
+    Company GetCurrentCompany(string companyId);
 }

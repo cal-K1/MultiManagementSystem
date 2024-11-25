@@ -8,6 +8,10 @@ public partial class CreateCompanyPage
 {
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
+    [Inject]
+    private ICompanyService companyService { get; set; } = default!;
+    [Inject]
+    private NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
     public string AdminName { get; set; } = string.Empty;
     public string AdminPassword { get; set; } = string.Empty;
@@ -30,7 +34,8 @@ public partial class CreateCompanyPage
                 }
             };
 
-
+            companyService.CreateCompany(Company);
+            NavigationManager.NavigateTo("/create");
         }
         else
         {
