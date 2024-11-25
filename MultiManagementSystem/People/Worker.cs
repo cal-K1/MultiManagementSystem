@@ -11,6 +11,7 @@ public class Worker : UserBase
     public override string Password { get; set; } = string.Empty;
     public WorkerCountry Country { get; set; } = WorkerCountry.Default;
     public JobRole? JobRole { get; set; }
+    public string CompanyId { get; set; } = string.Empty;
 }
 
 public enum WorkerCountry
