@@ -1,0 +1,25 @@
+﻿@page "/company"
+
+<h3>Create Company</h3>
+
+<Microsoft.AspNetCore.Components.Forms.EditForm Model="@Company" OnValidSubmit="HandleValidSubmit">
+    <Microsoft.AspNetCore.Components.Forms.DataAnnotationsValidator />
+    <Microsoft.AspNetCore.Components.Forms.ValidationSummary />
+
+    <div class="form-group">
+        <label for="companyName">Company Name</label>
+        <Microsoft.AspNetCore.Components.Forms.InputText id="companyName" class="form-control" @bind-Value="CompanyName" />
+    </div>
+
+    <div class="form-group">
+        <label for="adminName">Admin Name</label>
+        <Microsoft.AspNetCore.Components.Forms.InputText id="adminName" class="form-control" @bind-Value="AdminName" />
+    </div>
+
+    <div class="form-group">
+        <label for="adminPassword">Admin Password</label>
+        <Microsoft.AspNetCore.Components.Forms.InputText id="adminPassword" class="form-control" type="password" @bind-Value="AdminPassword" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+</Microsoft.AspNetCore.Components.Forms.EditForm>
