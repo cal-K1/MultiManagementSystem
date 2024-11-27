@@ -7,7 +7,6 @@ namespace MultiManagementSystem.Services.Abstraction;
 public class AuthorizationService(IServiceProvider serviceProvider, ICompanyService companyService) : IAuthorizationService
 {
     public Worker CurrentWorker { get; private set; }
-    public Company Company { get; private set; }
     public Admin? CurrentAdmin { get; private set; }
 
     /// <summary>
@@ -60,8 +59,11 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
             if (isWorkerLoginSuccessfull)
             {
                 CurrentWorker = await workerService.GetWorkerByWorkerNumber(workerNumber);
-                companyService.SetCurrentCompany(CurrentWorker.Id);
-                Company = companyService.GetCurrentCompany(CurrentWorker.CompanyId);
+                if (CurrentWorker != null)
+                {
+                    companyService.SetCurrentCompany(CurrentWorker.Id);
+                    companyService.GetCurrentCompany(CurrentWorker.CompanyId);
+                }
             }
 
             return isWorkerLoginSuccessfull;
@@ -102,11 +104,18 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
         using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
-        return dbContext.Administrator.Any(admin => admin.Password == enteredPassword && admin.Username == adminUsername);
-    }
+        if (dbContext.Administrator.Any(admin => admin.Password == enteredPassword && admin.Username == adminUsername))
+        {
+            CurrentAdmin = dbContext.Administrator.FirstOrDefault(admin => admin.Username == adminUsername);
+            if (CurrentAdmin == null)
+            {
+                return false;
+            }
 
-    //public void SetAdmin()
-    //{
-    //    CurrentAdmin = 
-    //}
+            companyService.SetCurrentCompany(CurrentAdmin.Id);
+            return true;
+        }
+
+        return false;
+    }
 }

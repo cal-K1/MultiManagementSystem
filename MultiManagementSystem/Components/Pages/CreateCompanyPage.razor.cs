@@ -26,6 +26,7 @@ public partial class CreateCompanyPage
             Company = new Company
             {
                 CompanyName = CompanyName,
+                Id = Guid.NewGuid().ToString(),
                 Admin = new Admin()
                 {
                     Username = AdminName,

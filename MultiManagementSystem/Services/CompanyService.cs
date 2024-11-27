@@ -1,34 +1,41 @@
 ﻿using MultiManagementSystem.Data;
-using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
-using static System.Formats.Asn1.AsnWriter;
 
 namespace MultiManagementSystem.Services;
 
-public class CompanyService(IServiceProvider _serviceProvider) : ICompanyService
-{
-    private readonly IServiceProvider _serviceProvider;
-    public Company? CurrentCompany { get; private set; }
+public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
+{    public Company? CurrentCompany { get; private set; }
 
     public async Task CreateCompany(Company newCompany)
     {
-        var scope = _serviceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
         dbContext.Company.Add(newCompany);
-        await dbContext.SaveChangesAsync();
+
+        try
+        {
+            await dbContext.SaveChangesAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new InvalidOperationException("Error saving new company.", ex);
+        }
+
+        SetCurrentCompany(newCompany.Id);
     }
+
 
     public void SetCurrentCompany(string workerId)
     {
-        var scope = _serviceProvider.CreateScope();
+        using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
         string? companyId = dbContext.Workers.FirstOrDefault(w => w.Id == workerId)?.CompanyId;
 
         if (companyId == null)
         {
-            throw new InvalidOperationException("Worker not found.");
+            throw new InvalidOperationException("Worker not found or not assigned to a company.");
         }
 
         CurrentCompany = GetCurrentCompany(companyId);
@@ -36,23 +43,10 @@ public class CompanyService(IServiceProvider _serviceProvider) : ICompanyService
 
     public Company GetCurrentCompany(string companyId)
     {
-        if (companyId == null)
-        {
-            throw new InvalidOperationException("Worker not found.");
-        }
-        else
-        {
-            var scope = _serviceProvider.CreateScope();
-            var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
-            CurrentCompany = dbContext.Company.FirstOrDefault(c => c.Id == companyId);
-
-            if (CurrentCompany == null)
-            {
-                throw new InvalidOperationException("Company not found.");
-            }
-        }
-
-        return CurrentCompany;
+        return dbContext.Company.FirstOrDefault(c => c.Id == companyId)
+               ?? throw new InvalidOperationException("Company not found for the given ID.");
     }
 }

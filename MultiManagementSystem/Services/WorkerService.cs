@@ -5,7 +5,7 @@ using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services;
 
-public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
+public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService companyService) : IWorkerService
 {
     /// <summary>
     /// Gets the worker from the db with the given workerNumber.
@@ -74,6 +74,12 @@ public class WorkerService(ManagementSystemDbContext dbContext) : IWorkerService
     /// </summary>
     public async Task CreateNewWorkerInDb(Worker worker)
     {
+        if (companyService?.CurrentCompany?.Id == null)
+        {
+            throw new Exception(message: $"Current company is null.");
+        }
+
+        worker.CompanyId = companyService.CurrentCompany.Id;
         await dbContext.Workers.AddAsync(worker);
         await dbContext.SaveChangesAsync();
     }
