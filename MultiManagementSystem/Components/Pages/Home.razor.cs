@@ -34,6 +34,11 @@ public partial class Home
         NavigationManager.NavigateTo("/request");
     }
 
+    private void NavigateWorkerDetails()
+    {
+        NavigationManager.NavigateTo("/worker");
+    }
+
     private void NavigateLogin()
     {
         NavigationManager.NavigateTo("/login");

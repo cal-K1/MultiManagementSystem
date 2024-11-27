@@ -18,10 +18,17 @@ public partial class CompanyInfoPage
         return $"{CompanyName} has {NumberOfEmployees} employees.";
     }
 
-    //public void SetCompanyInfo()
-    //{
-    //    CurrentAdmin = 
+    public void SetCompanyInfo()
+    {
+        if (CompanyService.CurrentCompany != null)
+        {
+            CurrentAdmin = CompanyService.CurrentCompany.Admin;
 
-    //    CompanyName = CompanyService.GetCurrentCompany(CurrentAdmin.Id).CompanyName;
-    //}
+            CompanyName = CompanyService.GetCurrentCompany(CurrentAdmin.Id).CompanyName;
+        }
+        else
+        {
+            throw new Exception("Current Company is not set.");
+        }
+    }
 }

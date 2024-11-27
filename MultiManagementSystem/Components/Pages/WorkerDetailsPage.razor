@@ -1,0 +1,18 @@
+﻿@page "/worker"
+
+<h3>Worker Details</h3>
+
+@if (CurrentWorker != null)
+{
+    <div class="worker-details">
+        <p><strong>Worker Number:</strong> @CurrentWorker.WorkerNumber</p>
+        <p><strong>Manager:</strong> @(CurrentWorker.Manager ? "Yes" : "No")</p>
+        <p><strong>Country:</strong> @CurrentWorker.Country</p>
+        <p><strong>Job Role:</strong> @(CurrentWorker.JobRole?.ToString() ?? "N/A")</p>
+        <p><strong>Company ID:</strong> @CurrentWorker.CompanyId</p>
+    </div>
+}
+else
+{
+    <p>@Message</p>
+}

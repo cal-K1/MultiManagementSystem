@@ -90,7 +90,6 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
 
         if (worker != null)
         {
-            // Return if found in Workers.
             return worker;
         }
         else

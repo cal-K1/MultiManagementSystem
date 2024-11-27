@@ -16,7 +16,9 @@
     @if (IsWorkerManager())
     {
         <button class="btn btn-secondary" @onclick="NavigateView">View Pending Applications</button>
+        <button class="btn btn-success" @onclick="NavigateCreate">Create New Worker</button>
+
     }
-    <button class="btn btn-success" @onclick="NavigateCreate">Create New Worker</button>
     <button class="btn btn-info" @onclick="NavigateRequest">Request Leave</button>
+    <button class="btn btn-info" @onclick="NavigateRequest">View Worker Details</button>
 </div>
