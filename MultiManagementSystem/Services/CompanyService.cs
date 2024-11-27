@@ -22,7 +22,7 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
             throw new InvalidOperationException("Error saving new company.", ex);
         }
 
-        SetCurrentCompany(newCompany.Id);
+        CurrentCompany = newCompany;
     }
 
 

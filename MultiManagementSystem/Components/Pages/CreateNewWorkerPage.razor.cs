@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -12,6 +11,9 @@ public partial class CreateNewWorkerPage
 
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
+
+    [Inject]
+    private ICompanyService companyService { get; set; } = default!;
 
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
