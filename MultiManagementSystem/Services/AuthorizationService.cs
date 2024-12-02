@@ -61,11 +61,11 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
                 CurrentWorker = await workerService.GetWorkerByWorkerNumber(workerNumber);
                 if (CurrentWorker != null)
                 {
-                    companyService.SetCurrentCompany(CurrentWorker.Id);
                     companyService.GetCurrentCompany(CurrentWorker.CompanyId);
                 }
             }
 
+            CurrentAdmin = null;
             return isWorkerLoginSuccessfull;
         }
         catch (Exception ex)
@@ -111,7 +111,7 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
                 return false;
             }
 
-            companyService.SetCurrentCompany(CurrentAdmin.Id);
+            companyService.SetCurrentCompanyAsAdmin(CurrentAdmin);
             return true;
         }
 

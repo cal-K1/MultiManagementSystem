@@ -39,6 +39,11 @@ public partial class Home
         NavigationManager.NavigateTo("/worker");
     }
 
+    private void NavigateCompanyDetails()
+    {
+        NavigationManager.NavigateTo("/company");
+    }
+
     private void NavigateLogin()
     {
         NavigationManager.NavigateTo("/login");
@@ -46,6 +51,16 @@ public partial class Home
 
     private bool IsWorkerManager()
     {
+        if (authorizationService.CurrentWorker == null && authorizationService.CurrentAdmin == null)
+        {
+            return false;
+        }
+
+        if (authorizationService.CurrentWorker == null && authorizationService.CurrentAdmin != null)
+        {
+            return true;
+        }
+
         if (authorizationService.CurrentWorker.Manager == true)
         {
             return true;

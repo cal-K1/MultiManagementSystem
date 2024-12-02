@@ -16,7 +16,7 @@ public partial class AdminLoginPage
     private void Submit()
     {
         // Basic validation for demonstration
-        if (AuthorizationService.IsAdminLoginSuccessful(AdminUsername, AdminPassword))
+        if (AuthorizationService.IsAdminLoginSuccessful(AdminPassword, AdminUsername))
         {
             NavigationManager.NavigateTo("/home");
         }

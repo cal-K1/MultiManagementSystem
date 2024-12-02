@@ -5,6 +5,7 @@ namespace MultiManagementSystem.Services.Abstraction;
 public interface IAuthorizationService
 {
     public Worker CurrentWorker { get; }
+    public Admin CurrentAdmin { get; }
 
     bool IsUserNameValid(string userName);
     bool IsPasswordValid(string password);

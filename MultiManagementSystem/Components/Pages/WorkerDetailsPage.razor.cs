@@ -20,4 +20,9 @@ public partial class WorkerDetailsPage
             Message = "Current worker not found, please try again.";
         }
     }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await Task.Run(() => SetWorkerDetails());
+    }
 }

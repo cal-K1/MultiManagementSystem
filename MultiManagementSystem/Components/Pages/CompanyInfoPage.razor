@@ -1,5 +1,25 @@
-﻿<h3>CompanyInfoPage</h3>
+﻿@page "/company-info"
 
-@code {
+@if (CurrentAdmin == null)
+{
+    <h1>Error</h1>
+    <p>Current admin is not set. Please check your configuration.</p>
+    <button class="btn btn-primary" @onclick="NavigateHome">Go to Home</button>
+}
+else
+{
+    <h1>Company Information</h1>
+    <dl>
+        <dt>Company Name:</dt>
+        <dd>@CompanyName</dd>
 
+        <dt>Admin Username:</dt>
+        <dd>@AdminUsername</dd>
+
+        <dt>Number of Employees:</dt>
+        <dd>@NumberOfEmployees</dd>
+
+        <dt>Summary:</dt>
+        <dd>@NumberOfEmployeesString()</dd>
+    </dl>
 }

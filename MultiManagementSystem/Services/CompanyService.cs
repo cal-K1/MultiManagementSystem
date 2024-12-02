@@ -1,4 +1,5 @@
 ﻿using MultiManagementSystem.Data;
+using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services;
@@ -32,6 +33,21 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
         string? companyId = dbContext.Workers.FirstOrDefault(w => w.Id == workerId)?.CompanyId;
+
+        if (companyId == null)
+        {
+            throw new InvalidOperationException("Worker not found or not assigned to a company.");
+        }
+
+        CurrentCompany = GetCurrentCompany(companyId);
+    }
+
+    public void SetCurrentCompanyAsAdmin(Admin admin)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+
+        string? companyId = dbContext.Company.FirstOrDefault(w => w.Admin.Id == admin.Id)?.Id;
 
         if (companyId == null)
         {

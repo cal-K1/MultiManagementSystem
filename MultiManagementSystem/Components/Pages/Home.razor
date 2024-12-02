@@ -12,13 +12,21 @@
 }
 
 <div class="button-container">
-    <button class="btn btn-primary" @onclick="NavigateApply">Apply for a job</button>
-    @if (IsWorkerManager())
+    @if (IsWorkerManager() || authorizationService.CurrentAdmin != null)
     {
         <button class="btn btn-secondary" @onclick="NavigateView">View Pending Applications</button>
         <button class="btn btn-success" @onclick="NavigateCreate">Create New Worker</button>
-
     }
+
     <button class="btn btn-info" @onclick="NavigateRequest">Request Leave</button>
-    <button class="btn btn-info" @onclick="NavigateRequest">View Worker Details</button>
+
+    @if (authorizationService.CurrentAdmin != null)
+    {
+        <button class="btn btn-info" @onclick="NavigateCompanyDetails">View Company Details</button>
+    }
+    else
+    {
+        <button class="btn btn-info" @onclick="NavigateWorkerDetails">View Worker Details</button>
+        <button class="btn btn-primary" @onclick="NavigateApply">Apply for a job</button>
+    }
 </div>
