@@ -8,6 +8,10 @@ public partial class WorkerDetailsPage
 {
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
+
+    [Inject] // Ensure that NavigationManager is correctly injected
+    private NavigationManager NavigationManager { get; set; } = default!;
+
     public Worker CurrentWorker { get; set; } = default!;
     public string Message { get; set; } = string.Empty;
 
@@ -24,5 +28,10 @@ public partial class WorkerDetailsPage
     protected override async Task OnInitializedAsync()
     {
         await Task.Run(() => SetWorkerDetails());
+    }
+
+    public void NavigateHome()
+    {
+        NavigationManager.NavigateTo("/home");
     }
 }

@@ -10,12 +10,14 @@
     <None Remove="Components\Pages\CreateNewWorkerPage.razor.css" />
     <None Remove="Components\Pages\Home.razor.css" />
     <None Remove="Components\Pages\LoginPage.razor.css" />
+    <None Remove="Components\Pages\WorkerDetailsPage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
     <Content Include="Components\Pages\CreateNewWorkerPage.razor.css" />
     <Content Include="Components\Pages\Home.razor.css" />
     <Content Include="Components\Pages\LoginPage.razor.css" />
+    <Content Include="Components\Pages\WorkerDetailsPage.razor.css" />
   </ItemGroup>
 
   <ItemGroup>
