@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.FactorIES;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -14,40 +15,7 @@ public partial class Home
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
 
-    private void NavigateApply()
-    {
-        NavigationManager.NavigateTo("/apply");
-    }
-
-    private void NavigateView()
-    {
-        NavigationManager.NavigateTo("/view");
-    }
-
-    private void NavigateCreate()
-    {
-        NavigationManager.NavigateTo("/create");
-    }
-
-    private void NavigateRequest()
-    {
-        NavigationManager.NavigateTo("/request");
-    }
-
-    private void NavigateWorkerDetails()
-    {
-        NavigationManager.NavigateTo("/worker");
-    }
-
-    private void NavigateCompanyDetails()
-    {
-        NavigationManager.NavigateTo("/company");
-    }
-
-    private void NavigateLogin()
-    {
-        NavigationManager.NavigateTo("/login");
-    }
+    public required NavigationHelper NavigationHelper { get; set; }
 
     private bool IsWorkerManager()
     {

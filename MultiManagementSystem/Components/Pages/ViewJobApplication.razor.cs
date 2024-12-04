@@ -53,9 +53,4 @@ public partial class ViewJobApplication
         await applicationService.DeclineApplication(SelectedApplication);
         _applicationDealtWith = true;
     }
-
-    private void ReturnToHome()
-    {
-        NavigationManager.NavigateTo("/home");
-    }
 }

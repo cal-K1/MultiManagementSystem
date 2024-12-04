@@ -20,6 +20,6 @@
     }
 
     <div class="button-container">
-        <button class="btn btn-primary" @onclick="NavigateHome">Go to Home</button>
+        <button class="btn btn-primary" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Go to Home</button>
     </div>
 </div>

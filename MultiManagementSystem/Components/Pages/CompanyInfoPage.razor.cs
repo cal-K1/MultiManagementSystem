@@ -9,7 +9,7 @@ public partial class CompanyInfoPage
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
-    private NavigationManager NavigationManager { get; set; } = default!;
+    NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
     public string AdminUsername { get; set; } = string.Empty;
     public int NumberOfEmployees { get; set; } = 0;

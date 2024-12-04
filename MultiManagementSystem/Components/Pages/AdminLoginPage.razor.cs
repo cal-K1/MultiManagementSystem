@@ -28,11 +28,6 @@ public partial class AdminLoginPage
         }
     }
 
-    private void NavigateAdminLogin()
-    {
-        NavigationManager.NavigateTo("/companyinfo");
-    }
-
     private void ResetForm()
     {
         AdminUsername = string.Empty;

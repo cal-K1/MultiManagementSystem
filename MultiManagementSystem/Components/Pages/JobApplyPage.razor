@@ -23,7 +23,7 @@ else
     <p style="text-align: center; font-size: 20px;">Thank you for submitting your job application!</p>
 
     <div style="text-align: center; margin-top: 30px;">
-        <button @onclick="ReturnToHome" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+        <button @onclick="@(_ => NavigationManager.NavigateTo("/home"))" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
             Return to Home
         </button>
     </div>

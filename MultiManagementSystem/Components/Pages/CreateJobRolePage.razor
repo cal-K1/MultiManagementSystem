@@ -1,5 +1,24 @@
-﻿<h3>CreateJobRolePage</h3>
+﻿@page "/create-job-role"
+ 
+<h3>Create Job Role</h3>
 
-@code {
+@if (ShowMessage)
+{
+    <p class="error">@Message</p>
+}
+else
+{
+    <div class="form-container">
+        <label>Job Title:</label>
+        <input @bind="JobTitle" type="text" />
 
+        <label>Description:</label>
+        <input @bind="Description" type="text" />
+
+        <label>Salary:</label>
+        <input @bind="Salary" type="number" />
+
+        <button @onclick="SetValues">Submit</button>
+        <button @onclick="NavigateHome">Home</button>
+    </div>
 }

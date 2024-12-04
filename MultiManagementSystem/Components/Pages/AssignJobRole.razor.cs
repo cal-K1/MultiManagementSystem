@@ -21,7 +21,8 @@ namespace MultiManagementSystem.Components.Pages
 
         private async void CheckAuthorization()
         {
-            if (await authorizationService.IsLoginSuccessful(ManagerWorkerNumber, ManagerPassword) && (await workerService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
+            if (await authorizationService.IsLoginSuccessful(ManagerWorkerNumber, ManagerPassword) 
+               && (await workerService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
             {
                 IsManagerAuthorized = true;
             }

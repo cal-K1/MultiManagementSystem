@@ -14,19 +14,20 @@
 <div class="button-container">
     @if (IsWorkerManager() || authorizationService.CurrentAdmin != null)
     {
-        <button class="btn btn-secondary" @onclick="NavigateView">View Pending Applications</button>
-        <button class="btn btn-success" @onclick="NavigateCreate">Create New Worker</button>
+        <button class="btn btn-secondary" @onclick="@(_ => NavigationManager.NavigateTo("/view"))">View Pending Applications</button>
+        <button class="btn btn-success" @onclick="@(_ => NavigationManager.NavigateTo("/create"))">Create New Worker</button>
+        <button class="btn btn-secondary" @onclick="@(_ => NavigationManager.NavigateTo("/create-job-role"))">Create New Job Role</button>
     }
 
-    <button class="btn btn-info" @onclick="NavigateRequest">Request Leave</button>
+    <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/request"))">Request Leave</button>
 
     @if (authorizationService.CurrentAdmin != null)
     {
-        <button class="btn btn-info" @onclick="NavigateCompanyDetails">View Company Details</button>
+        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/company"))">View Company Details</button>
     }
     else
     {
-        <button class="btn btn-info" @onclick="NavigateWorkerDetails">View Worker Details</button>
-        <button class="btn btn-primary" @onclick="NavigateApply">Apply for a job</button>
+        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/worker"))">View Worker Details</button>
+        <button class="btn btn-primary" @onclick="@(_ => NavigationManager.NavigateTo("/apply"))">Apply for a job</button>
     }
 </div>

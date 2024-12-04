@@ -40,5 +40,5 @@ else
 {
     <div class="alert alert-success mt-3">Leave request submitted successfully.</div>
 
-    <button class="navigate-home-button" @onclick="NavigateHome">Return</button>
+    <button class="navigate-home-button" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Return</button>
 }

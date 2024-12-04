@@ -35,7 +35,7 @@ else
     }
 
     <div style="text-align: center; margin-top: 30px;">
-        <button @onclick="ReturnToHome" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
+        <button @onclick="@(_ => NavigationManager.NavigateTo("/home"))" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">
             Go to Home
         </button>
     </div>

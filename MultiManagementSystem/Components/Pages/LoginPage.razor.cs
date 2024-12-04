@@ -34,19 +34,9 @@ namespace MultiManagementSystem.Components.Pages
             }
         }
 
-        private void NavigateCreate()
-        {
-            NavigationManager.NavigateTo("/create");
-        }
-
         private void NavigateAdminLogin()
         {
             NavigationManager.NavigateTo("/login/admin");
-        }
-
-        private void NavigateCreateCompany()
-        {
-            NavigationManager.NavigateTo("/company");
         }
 
         private void ResetForm()

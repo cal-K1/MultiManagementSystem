@@ -9,7 +9,7 @@ public partial class WorkerDetailsPage
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
 
-    [Inject] // Ensure that NavigationManager is correctly injected
+    [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
     public Worker CurrentWorker { get; set; } = default!;
