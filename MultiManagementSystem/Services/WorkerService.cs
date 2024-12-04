@@ -107,16 +107,22 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
     /// <summary>
     /// Sets the workers JobRole property to the given jobRole and saves the changes to the database.
     /// </summary>
-    public async Task SaveJobRole(Worker worker, JobRole jobRole)
+    public async Task SaveJobRoleToWorker(Worker worker, string jobRole)
     {
         if (worker == null || jobRole == null)
         {
             throw new Exception(message: $"Worker or JobRole is null.");
         }
 
-        worker.JobRole = jobRole;
+        worker.JobRoleId = jobRole;
 
         dbContext.Workers.Update(worker);
+        await dbContext.SaveChangesAsync();
+    }
+
+    public async Task AddNewJobRole(JobRole jobRole)
+    {
+        await dbContext.JobRole.AddAsync(jobRole);
         await dbContext.SaveChangesAsync();
     }
 }

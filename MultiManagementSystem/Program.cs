@@ -18,6 +18,7 @@ builder.Services.AddDbContext<ManagementSystemDbContext>(options =>
 builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
 builder.Services.AddScoped<ILeaveService, LeaveService>();
+builder.Services.AddScoped<IJobRoleService, JobRoleService>();
 
 builder.Services.AddSingleton<IAuthorizationService, AuthorizationService>();
 builder.Services.AddSingleton<ICompanyService, CompanyService>();

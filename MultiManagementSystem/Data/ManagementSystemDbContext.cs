@@ -34,14 +34,6 @@ namespace MultiManagementSystem.Data
                 entity.Property(w => w.Password).IsRequired();
                 entity.Property(w => w.Manager).IsRequired();
                 entity.Property(w => w.Country).IsRequired();
-
-                // Configure the JobRole as an owned entity within Worker
-                entity.OwnsOne(w => w.JobRole, jobRole =>
-                {
-                    jobRole.Property(j => j.JobTitle).IsRequired();
-                    jobRole.Property(j => j.Salary).IsRequired();
-                    jobRole.Property(j => j.Description).IsRequired();
-                });
             });
 
             modelBuilder.Entity<UserId>()
@@ -64,6 +56,10 @@ namespace MultiManagementSystem.Data
                 .ToTable("Administrator")
                 .HasKey(a => a.Id);
 
+            modelBuilder.Entity<JobRole>()
+                .ToTable("JobRole")
+                .HasKey(a => a.Id);
+
             base.OnModelCreating(modelBuilder);
         }
 
@@ -84,5 +80,6 @@ namespace MultiManagementSystem.Data
         public DbSet<UserId> UserId { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<Admin> Administrator { get; set; }
+        public DbSet<JobRole> JobRole { get; set; }
     }
 }

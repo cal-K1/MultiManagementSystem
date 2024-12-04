@@ -9,6 +9,14 @@ public partial class CreateJobRolePage
 
     public void SetValues()
     {
+        NewJobRole.Id = Guid.NewGuid().ToString();
+        NewJobRole.Salary = Salary;
+        NewJobRole.JobTitle = JobTitle;
+        NewJobRole.Description = Description;
+    }
 
+    public void CreateJobRole()
+    {
+        
     }
 }

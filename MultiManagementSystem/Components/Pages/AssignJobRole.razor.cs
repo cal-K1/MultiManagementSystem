@@ -38,12 +38,14 @@ namespace MultiManagementSystem.Components.Pages
             {
                 JobRole jobRole = new()
                 {
+                    Id = Guid.NewGuid().ToString(),
                     JobTitle = WorkerJobTitle,
                     Salary = WorkerSalary,
                     Description = WorkerDescription
                 };
 
-                workerService.SaveJobRole(authorizationService.CurrentWorker, jobRole);
+                workerService.AddNewJobRole(jobRole);
+                workerService.SaveJobRoleToWorker(authorizationService.CurrentWorker, jobRole.Id);
 
             }
             catch (Exception ex)
