@@ -34,9 +34,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-app.UseAntiforgery();
+app.UseRouting();
+app.UseAuthorization(); // Add this if you are using any authorization middleware.
+app.UseAntiforgery(); // Ensure Antiforgery token validation.
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
+    .AddInteractiveServerRenderMode()
+
+app.MapFallbackToFile("index.html");
 
 app.Run();
