@@ -33,9 +33,4 @@ public partial class CompanyInfoPage
             throw new Exception("Current Company is not set.");
         }
     }
-
-    public void NavigateHome()
-    {
-        NavigationManager.NavigateTo("/");
-    }
 }

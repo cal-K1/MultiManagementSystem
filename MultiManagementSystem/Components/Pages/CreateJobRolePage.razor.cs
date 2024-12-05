@@ -15,21 +15,13 @@ public partial class CreateJobRolePage
     public string Message { get; set; } = string.Empty;
     public bool ShowMessage { get; set; } = false;
 
-    public void SetValues()
-    {
-        NewJobRole.Id = Guid.NewGuid().ToString();
-        NewJobRole.Salary = Salary;
-        NewJobRole.JobTitle = JobTitle;
-        NewJobRole.Description = Description;
-    }
+    private JobRole _jobRole = new ();
 
     public void CreateJobRole()
     {
-        WorkerService.AddNewJobRole(NewJobRole);
-    }
+        // validate fields on jobrole
 
-    public void NavigateHome()
-    {
-        NavigationManager.NavigateTo("/");
+
+        WorkerService.AddNewJobRole(_jobRole);
     }
 }

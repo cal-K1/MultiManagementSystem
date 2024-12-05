@@ -16,9 +16,9 @@
         <button class="btn btn-primary mt-3" @onclick="ResetForm">Create Another Worker</button>
 
         <!-- Navigate Home Button -->
-        <button class="btn btn-primary mt-3" @onclick="NavigateHome">Navigate Home</button>
+        <button class="btn btn-primary mt-3" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Navigate Home</button>
 
-        <button class="job-role-button>" @onclick="NavigateAssignJobRole">Assign Job Role</button>
+        <button class="job-role-button>" @onclick="@(_ => NavigationManager.NavigateTo("/assign"))">Assign Job Role</button>
     }
     else if (showInvalidPassword)
     {
@@ -29,7 +29,7 @@
                 <li>At least one uppercase letter (A-Z)</li>
                 <li>At least one digit (0-9)</li>
 
-                <button class="btn btn-primary mt-3" @onclick="NavigateHome">Navigate Home</button>
+                <button class="btn btn-primary mt-3" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Navigate Home</button>
             </ul>
         </div>
     }

@@ -1,5 +1,5 @@
 ﻿@page "/create-job-role"
- 
+
 <h3>Create Job Role</h3>
 
 @if (ShowMessage)
@@ -9,16 +9,21 @@
 else
 {
     <div class="form-container">
-        <label>Job Title:</label>
-        <input @bind="JobTitle" type="text" />
-
-        <label>Description:</label>
-        <input @bind="Description" type="text" />
-
-        <label>Salary:</label>
-        <input @bind="Salary" type="number" />
-
-        <button @onclick="SetValues">Submit</button>
-        <button @onclick="NavigateHome">Home</button>
+        <div class="form-group">
+            <label for="jobTitle">Job Title:</label>
+            <input id="jobTitle" type="text" @bind="_jobRole.JobTitle" />
+        </div>
+        <div class="form-group">
+            <label for="description">Description:</label>
+            <textarea id="description" @bind="Description"></textarea>
+        </div>
+        <div class="form-group">
+            <label for="salary">Salary:</label>
+            <input id="salary" type="number" @bind="Salary" />
+        </div>
+        <div class="button-group">
+            <button class="btn btn-primary" @onclick="CreateJobRole">Submit</button>
+            <button class="btn btn-primary" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Go to Home</button>
+        </div>
     </div>
 }

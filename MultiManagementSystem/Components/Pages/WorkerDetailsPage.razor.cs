@@ -29,9 +29,4 @@ public partial class WorkerDetailsPage
     {
         await Task.Run(() => SetWorkerDetails());
     }
-
-    public void NavigateHome()
-    {
-        NavigationManager.NavigateTo("/home");
-    }
 }
