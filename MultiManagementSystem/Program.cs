@@ -39,7 +39,7 @@ app.UseAuthorization(); // Add this if you are using any authorization middlewar
 app.UseAntiforgery(); // Ensure Antiforgery token validation.
 
 app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode()
+    .AddInteractiveServerRenderMode();
 
 app.MapFallbackToFile("index.html");
 
