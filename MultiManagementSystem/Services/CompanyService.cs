@@ -57,7 +57,30 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
         CurrentCompany = GetCurrentCompany(companyId);
     }
 
-    public Company GetCurrentCompany(string companyId)
+    public async Task CreateAdmin(string adminUsername, string adminPassword)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+
+        if (CurrentCompany == null)
+        {
+            throw new InvalidOperationException("No company selected.");
+        }
+
+        Admin newAdmin = new Admin
+        {
+            Username = adminUsername,
+            Password = adminPassword,
+            Id = Guid.NewGuid().ToString()
+        };
+
+        CurrentCompany.Admin = newAdmin;
+
+        dbContext.Administrator.Add(newAdmin);
+        await dbContext.SaveChangesAsync();
+    }
+
+        public Company GetCurrentCompany(string companyId)
     {
         using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();

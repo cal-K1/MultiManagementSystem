@@ -11,4 +11,5 @@ public interface IWorkerService
     List<Worker> GetWorkersByCountry(WorkerCountry country);
     Task SaveJobRoleToWorker(Worker worker, string jobRoleId);
     Task AddNewJobRole(JobRole jobRole);
+    Task<List<Worker>> GetWorkersByCompanyId(string companyId);
 }

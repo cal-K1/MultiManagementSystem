@@ -36,7 +36,9 @@ public partial class CreateCompanyPage
             };
 
             CompanyService.CreateCompany(Company);
-            NavigationManager.NavigateTo("/create");
+            AuthorizationService.SetCurrentAdmin(Company.Admin);
+
+            NavigationManager.NavigateTo("/home");
         }
         else
         {

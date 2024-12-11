@@ -20,8 +20,6 @@ public partial class CreateJobRolePage
     public void CreateJobRole()
     {
         // validate fields on jobrole
-
-
         WorkerService.AddNewJobRole(_jobRole);
     }
 }

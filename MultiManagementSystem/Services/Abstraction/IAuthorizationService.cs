@@ -12,4 +12,5 @@ public interface IAuthorizationService
     Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
     Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
     bool IsAdminLoginSuccessful(string username, string password);
+    void SetCurrentAdmin(Admin admin);
 }

@@ -1,0 +1,20 @@
+﻿@page "/create-admin"
+
+<div class="admin-form-container">
+    <h2>Create Admin Account</h2>
+    <form>
+        <div class="form-group">
+            <label for="username">Username:</label>
+            <input id="username" @bind="AdminUsername" type="text" class="form-control" />
+        </div>
+        <div class="form-group">
+            <label for="password">Password:</label>
+            <input id="password" @bind="AdminPassword" type="password" class="form-control" />
+        </div>
+        <button type="button" class="btn-submit" @onclick="Submit">Submit</button>
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="error-message">@Message</div>
+        }
+    </form>
+</div>

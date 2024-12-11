@@ -5,9 +5,9 @@
 
 @if (!IsManagerAuthorized)
 {
-    <div>
+    <div class="login-container">
         <h4>Manager Login</h4>
-        <div>
+        <div class="form-group">
             <label for="managerWorkerNumber">Worker Number:</label>
             <input id="managerWorkerNumber" @bind="ManagerWorkerNumber" placeholder="Enter Worker Number" />
 
@@ -15,19 +15,29 @@
             <input id="managerPassword" type="password" @bind="ManagerPassword" placeholder="Enter Password" />
         </div>
 
-        <button @onclick="CheckAuthorization">Login</button>
+        <button class="btn" @onclick="CheckAuthorization">Login</button>
 
         @if (ShowErrorMessage)
         {
-            <p style="color:red">@ErrorMessage</p>
+            <p class="error">@ErrorMessage</p>
         }
     </div>
 }
 else
 {
-    <div>
+    <div class="assign-container">
         <h4>Assign Job Role</h4>
-        <div>
+        <div class="form-group">
+            <label for="workerDropdown">Select Worker:</label>
+
+            <select id="workerDropdown" @bind="SelectedWorkerId">
+                <option value="">Select a Worker</option>
+                @foreach (var worker in Workers)
+                {
+                    <option value="@worker.Id">@worker.Name</option>
+                }
+            </select>
+
             <label for="workerJobTitle">Job Title:</label>
             <input id="workerJobTitle" @bind="WorkerJobTitle" placeholder="Enter Job Title" />
 
@@ -35,14 +45,14 @@ else
             <input id="workerSalary" type="number" @bind="WorkerSalary" placeholder="Enter Salary" />
 
             <label for="workerDescription">Description:</label>
-            <textarea id="workerDescription" @bind="WorkerDescription" placeholder="Enter Job Description" style="width: 100%; height: 100px;"></textarea>
+            <textarea id="workerDescription" @bind="WorkerDescription" placeholder="Enter Job Description"></textarea>
         </div>
 
-        <button @onclick="AssignJob">Assign Job</button>
+        <button class="btn" @onclick="AssignJob">Assign Job</button>
 
         @if (Submitted)
         {
-            <p style="color:green">Job Role Assigned Successfully!</p>
+            <p class="success">Job Role Assigned Successfully!</p>
         }
     </div>
 }

@@ -117,4 +117,9 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
 
         return false;
     }
+
+    public void SetCurrentAdmin(Admin admin)
+    {
+        CurrentAdmin = admin ?? null;
+    }
 }

@@ -15,13 +15,13 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
     public async Task<Worker> GetWorkerByWorkerNumber(string workerNumber)
     {
         // First, try to find an Worker with the given ID
-        var worker = await dbContext.Workers.FirstOrDefaultAsync(e => e.WorkerNumber == workerNumber);
-        if (worker != null)
-        {
-            return worker;
-        }
+        return await dbContext.Workers.FirstOrDefaultAsync(e => e.WorkerNumber == workerNumber);
+    }
 
-        return null!;
+    public async Task<List<Worker>> GetWorkersByCompanyId(string companyId)
+    {
+        // Return all workers with the given company ID.
+        return await dbContext.Workers.Where(e => e.CompanyId == companyId).ToListAsync();
     }
 
     /// <summary>
