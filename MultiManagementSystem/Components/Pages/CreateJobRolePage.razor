@@ -6,12 +6,22 @@
 {
     <p class="error">@Message</p>
 }
+else if (ShowSuccessScreen)
+{
+    <div class="success-screen">
+        <p>Job role created successfully!</p>
+        <div class="button-group">
+            <button class="btn btn-primary" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Go to Home</button>
+            <button class="btn btn-secondary" @onclick="ResetForm">Add Another Job Role</button>
+        </div>
+    </div>
+}
 else
 {
     <div class="form-container">
         <div class="form-group">
             <label for="jobTitle">Job Title:</label>
-            <input id="jobTitle" type="text" @bind="_jobRole.JobTitle" />
+            <input id="jobTitle" type="text" @bind="JobTitle" />
         </div>
         <div class="form-group">
             <label for="description">Description:</label>

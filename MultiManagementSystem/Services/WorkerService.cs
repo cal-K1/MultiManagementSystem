@@ -122,6 +122,8 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
 
     public async Task AddNewJobRole(JobRole jobRole)
     {
+        jobRole.Id = Guid.NewGuid().ToString();
+
         await dbContext.JobRole.AddAsync(jobRole);
         await dbContext.SaveChangesAsync();
     }

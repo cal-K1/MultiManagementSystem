@@ -19,14 +19,13 @@
         <button class="btn btn-secondary" @onclick="@(_ => NavigationManager.NavigateTo("/create-job-role"))">Create New Job Role</button>
     }
 
-    <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/request"))">Request Leave</button>
-
     @if (authorizationService.CurrentAdmin != null)
     {
         <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/company"))">View Company Details</button>
     }
     else
     {
+        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/request"))">Request Leave</button>
         <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/worker"))">View Worker Details</button>
         <button class="btn btn-primary" @onclick="@(_ => NavigationManager.NavigateTo("/apply"))">Apply for a job</button>
     }
