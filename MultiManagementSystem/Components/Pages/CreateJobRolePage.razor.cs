@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -7,6 +8,10 @@ public partial class CreateJobRolePage
 {
     [Inject]
     private IWorkerService WorkerService { get; set; } = default!;
+    [Inject]
+    private IAuthorizationService AuthorizationService { get; set; } = default!;
+    [Inject]
+    private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string JobTitle { get; set; } = string.Empty;
@@ -31,6 +36,7 @@ public partial class CreateJobRolePage
         _jobRole.JobTitle = JobTitle;
         _jobRole.Description = Description;
         _jobRole.Salary = Salary ?? 0;
+        _jobRole.CompanyId = CompanyService.CurrentCompany.Id ?? AuthorizationService.CurrentWorker.CompanyId;
 
         // Assuming WorkerService handles adding the new job role correctly.
         WorkerService.AddNewJobRole(_jobRole);
