@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.People;
+using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -23,18 +24,21 @@ public partial class AssignJobRolePage
     public int WorkerSalary { get; set; } = 0;
     public string WorkerDescription { get; set; } = string.Empty;
     public string SelectedWorkerId { get; set; } = string.Empty;
-    public Worker SelectedWorker { get; set; } = default!; // New propety for selected worker
-    public List<Worker> Workers { get; set; } = new(); // List to store workers
+    public Worker SelectedWorker { get; set; } = default!;
+    public List<Worker> Workers { get; set; } = new();
+    public List<JobRole> JobRoles { get; set; } = new();
+    public bool CreateNewRole { get; set; } = false;
+    public string SelectedJobRoleId { get; set; } = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        // Load workers when the page initializes
-        Workers = await GetListOfReleventWorkers();
+        Workers = await GetListOfRelevantWorkers();
+        JobRoles = await companyService.GetAllJobRolesByCompanyId(authorizationService.CurrentWorker.CompanyId);
     }
 
     private async void CheckAuthorization()
     {
-        Workers = await GetListOfReleventWorkers();
+        Workers = await GetListOfRelevantWorkers();
 
         if (await authorizationService.IsLoginSuccessful(ManagerPassword, ManagerWorkerNumber)
             && (await workerService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
@@ -48,46 +52,71 @@ public partial class AssignJobRolePage
         }
     }
 
+    private async Task<List<Worker>> GetListOfRelevantWorkers()
+    {
+        if (authorizationService.CurrentWorker == null)
+        {
+            IsManagerAuthorized = false;
+            return new();
+        }
+        else
+        {
+            return await workerService.GetWorkersByCompanyId(authorizationService.CurrentWorker.CompanyId) ?? new();
+        }
+    }
+
     private void AssignJob()
     {
         try
         {
-            // Find the selected worker using the SelectedWorkerId
+            // Find the selected worker
             SelectedWorker = Workers.FirstOrDefault(w => w.Id == SelectedWorkerId);
             if (SelectedWorker == null)
             {
                 throw new Exception("No worker selected.");
             }
 
-            JobRole jobRole = new()
+            if (!CreateNewRole)
             {
-                Id = Guid.NewGuid().ToString(),
-                JobTitle = WorkerJobTitle,
-                Salary = WorkerSalary,
-                Description = WorkerDescription
-            };
+                // Assign an existing job role
+                if (string.IsNullOrEmpty(SelectedJobRoleId))
+                {
+                    throw new Exception("No job role selected.");
+                }
 
-            workerService.AddNewJobRole(jobRole);
-            workerService.SaveJobRoleToWorker(SelectedWorker, jobRole.Id);
+                workerService.SaveJobRoleToWorker(SelectedWorker, SelectedJobRoleId);
+            }
+            else
+            {
+                // Create and assign a new job role
+                JobRole jobRole = new()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    JobTitle = WorkerJobTitle,
+                    Salary = WorkerSalary,
+                    Description = WorkerDescription
+                };
+
+                workerService.AddNewJobRole(jobRole);
+                workerService.SaveJobRoleToWorker(SelectedWorker, jobRole.Id);
+            }
         }
         catch (Exception ex)
         {
-            throw new Exception($"Error Saving JobRole - {ex.Message}");
+            ErrorMessage = $"Error Saving Job Role - {ex.Message}";
+            ShowErrorMessage = true;
         }
 
         Submitted = true;
     }
 
-    private async Task<List<Worker>> GetListOfReleventWorkers()
+    private void SwitchToCreateNewRole()
     {
-        if (authorizationService.CurrentWorker == null)
-        {
-            IsManagerAuthorized = false;
-            return null!;
-        }
-        else
-        {
-            return await workerService.GetWorkersByCompanyId(authorizationService.CurrentWorker.CompanyId) ?? new();
-        }
+        CreateNewRole = true;
+    }
+
+    private void SwitchToExistingRole()
+    {
+        CreateNewRole = false;
     }
 }

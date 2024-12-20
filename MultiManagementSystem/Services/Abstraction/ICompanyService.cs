@@ -10,4 +10,5 @@ public interface ICompanyService
     void SetCurrentCompanyAsAdmin(Admin admin);
     Task CreateAdmin(string username, string password);
     Company GetCurrentCompany(string companyId);
+    Task<List<JobRole>> GetAllJobRolesByCompanyId(string companyId);
 }

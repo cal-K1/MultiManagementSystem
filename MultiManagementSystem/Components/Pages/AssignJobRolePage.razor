@@ -27,26 +27,55 @@ else
 {
     <div class="assign-container">
         <h4>Assign Job Role</h4>
-        <div class="form-group">
-            <label for="workerDropdown">Select Worker:</label>
 
-            <select id="workerDropdown" @bind="SelectedWorkerId">
-                <option value="">Select a Worker</option>
-                @foreach (var worker in Workers)
-                {
-                    <option value="@worker.Id">@worker.Name</option>
-                }
-            </select>
+        @if (!CreateNewRole)
+        {
+            <div class="form-group">
+                <label for="predefinedJobRoles">Select Existing Job Role:</label>
+                <select id="predefinedJobRoles" @bind="SelectedJobRoleId">
+                    <option value="">Select a Job Role</option>
+                    @foreach (var role in JobRoles)
+                    {
+                        <option value="@role.Id">@role.JobTitle</option>
+                    }
+                </select>
 
-            <label for="workerJobTitle">Job Title:</label>
-            <input id="workerJobTitle" @bind="WorkerJobTitle" placeholder="Enter Job Title" />
+                <label for="workerDropdown">Select Worker:</label>
+                <select id="workerDropdown" @bind="SelectedWorkerId">
+                    <option value="">Select a Worker</option>
+                    @foreach (var worker in Workers)
+                    {
+                        <option value="@worker.Id">@worker.Name @worker.WorkerNumber</option>
+                    }
+                </select>
+            </div>
 
-            <label for="workerSalary">Salary:</label>
-            <input id="workerSalary" type="number" @bind="WorkerSalary" placeholder="Enter Salary" />
+            <button class="btn" @onclick="SwitchToCreateNewRole">Or Create a New Job Role</button>
+        }
+        else
+        {
+            <div class="form-group">
+                <label for="workerDropdown">Select Worker:</label>
+                <select id="workerDropdown" @bind="SelectedWorkerId">
+                    <option value="">Select a Worker</option>
+                    @foreach (var worker in Workers)
+                    {
+                        <option value="@worker.Id">@worker.Name</option>
+                    }
+                </select>
 
-            <label for="workerDescription">Description:</label>
-            <textarea id="workerDescription" @bind="WorkerDescription" placeholder="Enter Job Description"></textarea>
-        </div>
+                <label for="workerJobTitle">Job Title:</label>
+                <input id="workerJobTitle" @bind="WorkerJobTitle" placeholder="Enter Job Title" />
+
+                <label for="workerSalary">Salary:</label>
+                <input id="workerSalary" type="number" @bind="WorkerSalary" placeholder="Enter Salary" />
+
+                <label for="workerDescription">Description:</label>
+                <textarea id="workerDescription" @bind="WorkerDescription" placeholder="Enter Job Description"></textarea>
+            </div>
+
+            <button class="btn" @onclick="SwitchToExistingRole">Back to Existing Job Roles</button>
+        }
 
         <button class="btn" @onclick="AssignJob">Assign Job</button>
 

@@ -1,4 +1,5 @@
-﻿using MultiManagementSystem.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using MultiManagementSystem.Data;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -80,12 +81,22 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
         await dbContext.SaveChangesAsync();
     }
 
-        public Company GetCurrentCompany(string companyId)
+     public Company GetCurrentCompany(string companyId)
+     {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
+
+         return dbContext.Company.FirstOrDefault(c => c.Id == companyId)
+            ?? throw new InvalidOperationException("Company not found for the given ID.");
+     }
+
+    public async Task<List<JobRole>> GetAllJobRolesByCompanyId(string companyId)
     {
         using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
-        return dbContext.Company.FirstOrDefault(c => c.Id == companyId)
-               ?? throw new InvalidOperationException("Company not found for the given ID.");
+        return await dbContext.JobRole
+            .Where(j => j.CompanyId == companyId)
+            .ToListAsync();
     }
 }
