@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 
-namespace MultiManagementSystem.FactorIES
+namespace MultiManagementSystem.Factories
 {
     public class NavigationHelper
     {

@@ -2,7 +2,12 @@
 
 <PageTitle>Home</PageTitle>
 
-<h1 class="hr-title">HR Management System</h1>
+<div class="header">
+    <h1 class="hr-title">HR Management System</h1>
+    <button class="notification-bell" @onclick="ToggleSidebar">
+        <i class="bi bi-bell"></i>
+    </button>
+</div>
 
 <h2 class="hr-paragraph">Select an action below</h2>
 
@@ -30,3 +35,24 @@
         <button class="btn btn-primary" @onclick="@(_ => NavigationManager.NavigateTo("/apply"))">Apply for a job</button>
     }
 </div>
+
+@if (isSidebarOpen)
+{
+    <div class="sidebar">
+        <button class="close-btn" @onclick="ToggleSidebar">&times;</button>
+        <h3>Notifications</h3>
+        <ul>
+            @if (notifications != null && notifications.Any())
+            {
+                @foreach (var notification in notifications)
+                {
+                    <li>@notification</li>
+                }
+            }
+            else
+            {
+                <li>No new notifications</li>
+            }
+        </ul>
+    </div>
+}

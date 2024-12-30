@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MultiManagementSystem.FactorIES;
+using MultiManagementSystem.Factories;
 using MultiManagementSystem.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -16,6 +16,13 @@ public partial class Home
     private IAuthorizationService authorizationService { get; set; } = default!;
 
     public required NavigationHelper NavigationHelper { get; set; }
+    private bool isSidebarOpen = false;
+    private List<string> notifications = new() { "Notification 1", "Notification 2", "Notification 3" }; // Example notifications
+
+    private void ToggleSidebar()
+    {
+        isSidebarOpen = !isSidebarOpen;
+    }
 
     private bool IsWorkerManager()
     {
