@@ -9,17 +9,9 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
     public Worker CurrentWorker { get; private set; }
     public Admin? CurrentAdmin { get; private set; }
 
-    /// <summary>
-    /// Checks if the username is of the correct length (between 2 and 60 characters.
-    /// </summary>
-    /// <returns>true if the username is valid.</returns>
     public bool IsUserNameValid(string userName) => !string.IsNullOrEmpty(userName) && userName.Length > 1 && userName.Length < 61;
 
-    /// <summary>
-    /// Checks if the password meets the requirements.
-    /// </summary>
-    /// <returns>true if the password passes the password requirements.</returns>
-    public bool IsPasswordValid(string password)
+        public bool IsPasswordValid(string password)
     {
         string pattern = @"^(?=.*[A-Z])(?=.*\d).{6,}$";
 
@@ -31,10 +23,7 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
         return false;
     }
 
-    /// <summary>
-    /// Checks if the workerNumber and password match a worker in the db.
-    /// </summary>
-    /// <returns>true if login is successful.</returns>
+
     public async Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber)
     {
         using var scope = serviceProvider.CreateScope();
@@ -75,10 +64,6 @@ public class AuthorizationService(IServiceProvider serviceProvider, ICompanyServ
         }
     }
 
-    /// <summary>
-    /// Gets the worker with the specified Id in the database.
-    /// </summary>
-    /// <returns>The worker with the specified Id in the database.</returns>
     public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
     {
         using var scope = serviceProvider.CreateScope();
