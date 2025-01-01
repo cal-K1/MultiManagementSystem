@@ -15,3 +15,8 @@
     .button-container button {
         margin: 5px;
     }
+
+.error {
+    color: red;
+    text-align: center;
+}

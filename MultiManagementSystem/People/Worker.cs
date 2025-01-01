@@ -12,6 +12,7 @@ public class Worker : UserBase
     public WorkerCountry Country { get; set; } = WorkerCountry.Default;
     public string JobRoleId { get; set; } = string.Empty;
     public string CompanyId { get; set; } = string.Empty;
+    public List<string> Notifications = new List<string>();
 }
 
 public enum WorkerCountry

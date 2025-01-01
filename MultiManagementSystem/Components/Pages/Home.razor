@@ -44,7 +44,7 @@
         <ul>
             @if (notifications != null && notifications.Any())
             {
-                @foreach (var notification in notifications)
+                @foreach (string notification in notifications)
                 {
                     <li>@notification</li>
                 }
@@ -55,4 +55,9 @@
             }
         </ul>
     </div>
+}
+
+@if (showErrorMessage)
+{
+    <p class="error">@errorMessage</p>
 }

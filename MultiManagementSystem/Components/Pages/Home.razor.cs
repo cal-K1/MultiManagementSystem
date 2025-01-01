@@ -17,11 +17,26 @@ public partial class Home
 
     public required NavigationHelper NavigationHelper { get; set; }
     private bool isSidebarOpen = false;
-    private List<string> notifications = new() { "Notification 1", "Notification 2", "Notification 3" }; // Example notifications
+    private List<string> notifications = null!;
+    private string errorMessage = string.Empty;
+    private bool showErrorMessage = false;
 
     private void ToggleSidebar()
     {
         isSidebarOpen = !isSidebarOpen;
+    }
+
+    private void GetNotifications()
+    {
+        if (authorizationService.CurrentWorker == null && authorizationService.CurrentAdmin == null)
+        {
+            errorMessage = "No User logged in";
+            showErrorMessage = true;
+        }
+        else if (authorizationService.CurrentWorker != null)
+        {
+            notifications = authorizationService.CurrentWorker.Notifications;
+        }
     }
 
     private bool IsWorkerManager()
