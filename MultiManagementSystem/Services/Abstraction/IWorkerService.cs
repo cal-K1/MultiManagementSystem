@@ -29,13 +29,11 @@ public interface IWorkerService
     /// </summary>
     Task CreateNewWorkerInDb(Worker worker);
 
-
     /// <summary>
     /// Gets all workers from a given country.
     /// </summary>
     /// <returns>A list of Workers that have a Country property that matches the inputted country.</returns>
     List<Worker> GetWorkersByCountry(WorkerCountry country);
-
 
     /// <summary>
     /// Sets the workers JobRole property to the given jobRole and saves the changes to the database.
@@ -43,7 +41,12 @@ public interface IWorkerService
     Task SaveJobRoleToWorker(Worker worker, string jobRoleId);
 
     /// <summary>
-    /// Adds a new JobRole in the database and saves it.
+    /// Gets a list of all workers in the database with the given company id.
     /// </summary>
     Task<List<Worker>> GetWorkersByCompanyId(string companyId);
+
+    /// <summary>
+    /// Adds a new JobRole in the database and saves it.
+    /// </summary>
+    Task AddNewJobRole(JobRole jobRole);
 }
