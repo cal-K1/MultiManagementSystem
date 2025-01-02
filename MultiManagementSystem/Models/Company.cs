@@ -1,6 +1,6 @@
-﻿using MultiManagementSystem.People;
+﻿using MultiManagementSystem.Models.People;
 
-namespace MultiManagementSystem
+namespace MultiManagementSystem.Models
 {
     public class Company
     {

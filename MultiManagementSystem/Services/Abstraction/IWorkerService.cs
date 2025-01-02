@@ -1,4 +1,5 @@
-﻿using MultiManagementSystem.People;
+﻿using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 
 namespace MultiManagementSystem.Services.Abstraction;
 
@@ -7,7 +8,6 @@ public interface IWorkerService
     /// <summary>
     /// Gets the worker from the db with the given workerNumber.
     /// </summary>
-    /// <param name="workerId"></param>
     /// <returns>The worker with given worker number.</returns>
     Task<Worker> GetWorkerByWorkerNumber(string workerNumber);
 
@@ -15,7 +15,6 @@ public interface IWorkerService
     /// Gets the number of leave days remaining for the worker with the given worker number.
     /// </summary>
     /// <returns>The number of leave days remaining for a given worker.</returns>
-    /// <exception cref="InvalidOperationException"></exception
     int GetWorkerLeaveDaysRemaining(string WorkerId);
 
     /// <summary>

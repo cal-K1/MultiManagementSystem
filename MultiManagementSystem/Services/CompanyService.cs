@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
-using MultiManagementSystem.People;
+using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services;

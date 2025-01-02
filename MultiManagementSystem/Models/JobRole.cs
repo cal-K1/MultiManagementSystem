@@ -1,4 +1,4 @@
-﻿namespace MultiManagementSystem;
+﻿namespace MultiManagementSystem.Models;
 
 public class JobRole
 {

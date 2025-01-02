@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MultiManagementSystem.People;
+namespace MultiManagementSystem.Models.People;
 
 public class ContractWorker : Worker
 {

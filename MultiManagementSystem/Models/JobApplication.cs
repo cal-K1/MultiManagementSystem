@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MultiManagementSystem;
+namespace MultiManagementSystem.Models;
 
 public class JobApplication
 {

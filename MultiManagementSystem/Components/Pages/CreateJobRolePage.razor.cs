@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Models;
 using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
 

@@ -1,12 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
-using MultiManagementSystem.People;
+using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services;
 
 public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService companyService) : IWorkerService
 {
+    /// <summary>
+    /// Gets the worker from the db with the given workerNumber.
+    /// </summary>
+    /// <param name="workerId"></param>
+    /// <returns>The worker with given worker number.</returns>
     public async Task<Worker> GetWorkerByWorkerNumber(string workerNumber)
     {
         // First, try to find an Worker with the given ID
@@ -19,6 +25,11 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
         return await dbContext.Workers.Where(e => e.CompanyId == companyId).ToListAsync();
     }
 
+    /// <summary>
+    /// Gets the number of leave days remaining for the worker with the given worker number.
+    /// </summary>
+    /// <returns>The number of leave days remaining for a given worker.</returns>
+    /// <exception cref="InvalidOperationException"></exception
     public int GetWorkerLeaveDaysRemaining(string workerId)
     {
         var worker = dbContext.Workers.FirstOrDefault(w => w.Id == workerId);
@@ -32,6 +43,10 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
         return user.LeaveDaysRemaining;
     }
 
+    /// <summary>
+    /// Creates a unique worker number.
+    /// </summary>
+    /// <returns>A new worker number as a string.</returns>
     public string CreateNewWorkerNumber()
     {
         string workerNumber = string.Empty;
@@ -55,7 +70,9 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
         return workerNumber;
     }
 
-
+    /// <summary>
+    /// Creates a worker with the specified properties passed in as parameters and saves it in the database.
+    /// </summary>
     public async Task CreateNewWorkerInDb(Worker worker)
     {
         if (companyService?.CurrentCompany?.Id == null)
@@ -68,6 +85,10 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
         await dbContext.SaveChangesAsync();
     }
 
+    /// <summary>
+    /// Checks if the worker number is already present in the database.
+    /// </summary>
+    /// <returns>true if the worker number is already present in the database.</returns>
     private bool IsWorkerNumberAlreadyInUse(string workerNumber)
     {
         if (dbContext.Workers.Any(w => w.WorkerNumber == workerNumber))
@@ -78,9 +99,15 @@ public class WorkerService(ManagementSystemDbContext dbContext, ICompanyService 
         return false;
     }
 
+    /// <summary>
+    /// Gets all workers from a given country.
+    /// </summary>
+    /// <returns>A list of Workers that have a Country property that matches the inputted country.</returns>
     public List<Worker> GetWorkersByCountry(WorkerCountry country) => dbContext.Workers.Where(worker => worker.Country == country).ToList();
 
-
+    /// <summary>
+    /// Sets the workers JobRole property to the given jobRole and saves the changes to the database.
+    /// </summary>
     public async Task SaveJobRoleToWorker(Worker worker, string jobRole)
     {
         if (worker == null || jobRole == null)

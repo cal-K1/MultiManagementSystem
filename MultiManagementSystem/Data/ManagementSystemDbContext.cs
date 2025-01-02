@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using MultiManagementSystem.People;
+using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using System.Reflection;
 
 namespace MultiManagementSystem.Data

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MultiManagementSystem.People;
+using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
 

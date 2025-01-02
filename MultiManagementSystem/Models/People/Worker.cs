@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 
-namespace MultiManagementSystem.People;
+namespace MultiManagementSystem.Models.People;
 
 public class Worker : UserBase
 {

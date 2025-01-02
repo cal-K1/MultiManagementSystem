@@ -1,4 +1,4 @@
-﻿namespace MultiManagementSystem.People;
+﻿namespace MultiManagementSystem.Models.People;
 
 public class Admin
 {

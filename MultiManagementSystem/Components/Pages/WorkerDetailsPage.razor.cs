@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MultiManagementSystem.People;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
