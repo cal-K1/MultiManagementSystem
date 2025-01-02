@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Logger;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -8,6 +9,7 @@ public partial class ViewPendingApplications
 {
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
+    ILog Logger { get; set; } = default!;
 
     private readonly NavigationManager _navigationManager = default!;
 
@@ -22,5 +24,6 @@ public partial class ViewPendingApplications
     private void NavigateToApplication(string Id)
     {
         _navigationManager.NavigateTo("/apply");
+        Logger.Info("Navigated to /apply");
     }
 }

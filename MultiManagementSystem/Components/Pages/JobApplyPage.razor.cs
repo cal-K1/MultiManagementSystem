@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Logger;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -7,6 +8,7 @@ public partial class JobApplyPage
 {
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
+    ILog Logger { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
 
@@ -24,5 +26,6 @@ public partial class JobApplyPage
     private void ReturnToHome()
     {
         NavigationManager.NavigateTo("/");
+        Logger.Info("Navigated to /");
     }
 }

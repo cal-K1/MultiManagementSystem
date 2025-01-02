@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Logger;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -9,7 +10,8 @@ public partial class ViewJobApplication
 {
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
-    
+    ILog Logger { get; set; } = default!;
+
     [Inject]
     private Services.Abstraction.IAuthorizationService authorizationService { get; set; } = default!;
 
@@ -47,6 +49,8 @@ public partial class ViewJobApplication
     {
         await applicationService.AcceptApplication(SelectedApplication);
         _applicationDealtWith = true;
+
+        Logger.Info($"Application accepted. Id: {SelectedApplication.Id}");
     }
 
     private async Task DeclineApplication()

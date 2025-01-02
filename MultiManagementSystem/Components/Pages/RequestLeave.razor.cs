@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Logger;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
@@ -9,9 +10,9 @@ public partial class RequestLeave
 {
     [Inject]
     private ILeaveService leaveService { get; set; } = default!;
-
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
+    ILog Logger { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     LeaveRequest LeaveRequest { get; set; } = default!;
@@ -40,7 +41,7 @@ public partial class RequestLeave
         }
         catch (Exception ex)
         {
-            Console.WriteLine($"Error: {ex}");
+            Logger.Error($"Error: {ex}");
         }
     }
 

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Logger;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -9,6 +10,7 @@ public partial class CreateAdminPage
     private IAuthorizationService AuthorizationService { get; set; } = default!;
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
+    ILog Logger { get; set; } = default!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string AdminUsername { get; set; } = string.Empty;
@@ -23,6 +25,7 @@ public partial class CreateAdminPage
             await CompanyService.CreateAdmin(AdminUsername, AdminPassword);
 
             NavigationManager.NavigateTo("/home");
+            Logger.Info("Navigated to /home");
         }
         else
         {

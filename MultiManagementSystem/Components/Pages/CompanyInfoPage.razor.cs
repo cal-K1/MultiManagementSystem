@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Logger;
 using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -8,6 +9,7 @@ public partial class CompanyInfoPage
 {
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
+    ILog Logger { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
@@ -30,6 +32,7 @@ public partial class CompanyInfoPage
         }
         else
         {
+            Logger.Error("Current Company is not set.");
             throw new Exception("Current Company is not set.");
         }
     }
