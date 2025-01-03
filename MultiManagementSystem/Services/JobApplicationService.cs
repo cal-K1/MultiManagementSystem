@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
 using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services
@@ -55,11 +56,12 @@ namespace MultiManagementSystem.Services
         /// <summary>
         /// Creates a job application and saves it in the database.
         /// </summary>
-        public async Task ApplyJob(string name, string phoneNumber, string applicationText)
+        public async Task ApplyJob(string applicantId,string name, string phoneNumber, string applicationText)
         {
             JobApplication newApplication = new JobApplication
             {
                 Id = Guid.NewGuid().ToString(),
+                ApplicantId = applicantId,
                 ApplicantName = name,
                 ApplicantPhoneNumber = phoneNumber,
                 ApplicationText = applicationText,

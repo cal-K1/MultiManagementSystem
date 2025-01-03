@@ -142,7 +142,6 @@ namespace MultiManagementSystem.Services
         {
             if (Worker == null || NotificationMessage == null)
             {
-                //Logger.Error($"Worker - {Worker} or NotificationMessage - {NotificationMessage} is null.");
                 throw new Exception(message: $"Worker or NotificationMessage is null.");
             }
 

@@ -8,6 +8,8 @@ public class JobApplication
     [Required]
     public string Id { get; set; } = string.Empty;
 
+    public string ApplicantId { get; set; } = string.Empty;
+
     public string ApplicantName { get; set; } = string.Empty;
 
     public string ApplicantPhoneNumber { get; set; } = string.Empty;

@@ -1,7 +1,6 @@
-﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Components;
-using MultiManagementSystem.Logger;
+﻿using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -12,7 +11,10 @@ public partial class ViewJobApplication
     private IApplicationService applicationService { get; set; } = default!;
 
     [Inject]
-    private Services.Abstraction.IAuthorizationService authorizationService { get; set; } = default!;
+    private IWorkerService workerService { get; set; } = default!;
+
+    [Inject]
+    private IAuthorizationService authorizationService { get; set; } = default!;
 
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
@@ -23,6 +25,8 @@ public partial class ViewJobApplication
 
     public JobApplication SelectedApplication { get; set; } = new JobApplication();
 
+    public Worker Applicant { get; set; } = default!;
+
     public string DisplayApplicantName { get; set; } = string.Empty;
     public string DisplayApplicantPhoneNumber { get; set; } = string.Empty;
     public string DisplayApplicantText { get; set; } = string.Empty;
@@ -31,6 +35,14 @@ public partial class ViewJobApplication
 
     protected override void OnInitialized()
     {
+        Applicant = authorizationService.CurrentWorker;
+
+        
+        if (string.IsNullOrEmpty(Applicant.Id))
+        { 
+            throw new ArgumentNullException(nameof(Applicant.Id));
+        }
+
         // Fetch the application data based on the passed Id synchronously.
         if (!string.IsNullOrEmpty(Id))
         {
@@ -46,13 +58,25 @@ public partial class ViewJobApplication
 
     private async Task AcceptApplication()
     {
+        if (workerService == null)
+        {
+            throw new ArgumentNullException(nameof(workerService));
+        }
+
         await applicationService.AcceptApplication(SelectedApplication);
+        workerService?.SaveNewNotification(Applicant, "Your application has been accepted.");
         _applicationDealtWith = true;
     }
 
     private async Task DeclineApplication()
     {
+        if (workerService == null)
+        {
+            throw new ArgumentNullException(nameof(workerService));
+        }
+
         await applicationService.DeclineApplication(SelectedApplication);
+        workerService?.SaveNewNotification(Applicant, "Your application has been declined.");
         _applicationDealtWith = true;
     }
 }

@@ -1,4 +1,5 @@
 ﻿using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using static System.Net.Mime.MediaTypeNames;
 
 namespace MultiManagementSystem.Services.Abstraction;
@@ -13,5 +14,5 @@ public interface IApplicationService
 
     Task AcceptApplication(JobApplication application);
 
-    Task ApplyJob(string name, string phoneNumber, string applicationText);
+    Task ApplyJob(string applicantId,string name, string phoneNumber, string applicationText);
 }

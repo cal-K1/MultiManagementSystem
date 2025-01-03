@@ -48,4 +48,14 @@ public interface IWorkerService
     /// Adds a new JobRole in the database and saves it.
     /// </summary>
     Task AddNewJobRole(JobRole jobRole);
+
+    /// <summary>
+    /// Saves the notification to the Notifications list of the worker.
+    /// </summary>
+    Task SaveNewNotification(Worker Worker, string NotificationMessage);
+
+    /// <summary>
+    /// Clears all notifications from the worker's Notifications list.
+    /// </summary>
+    Task ClearWorkerNotifications(Worker Worker);
 }
