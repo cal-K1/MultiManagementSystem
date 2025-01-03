@@ -15,7 +15,6 @@ public partial class AssignJobRolePage
     private IWorkerService workerService { get; set; } = default!;
     [Inject]
     private ICompanyService companyService { get; set; } = default!;
-    ILog Logger;
 
     public string ManagerWorkerNumber { get; set; } = string.Empty;
     public string ManagerPassword { get; set; } = string.Empty;
@@ -47,7 +46,6 @@ public partial class AssignJobRolePage
             && (await workerService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
         {
             IsManagerAuthorized = true;
-            Logger.Info("Manager logged in");
         }
         else
         {
@@ -77,7 +75,6 @@ public partial class AssignJobRolePage
             SelectedWorker = Workers.FirstOrDefault(w => w.Id == SelectedWorkerId);
             if (SelectedWorker == null)
             {
-                Logger.Error("Worker not selected");
                 throw new Exception("No worker selected.");
             }
 
@@ -86,7 +83,6 @@ public partial class AssignJobRolePage
                 // Assign an existing job role.
                 if (string.IsNullOrEmpty(SelectedJobRoleId))
                 {
-                    Logger.Error("JobRole not selected");
                     throw new Exception("No job role selected.");
                 }
 
@@ -110,7 +106,6 @@ public partial class AssignJobRolePage
         catch (Exception ex)
         {
             ErrorMessage = $"Error Saving Job Role - {ex.Message}";
-            Logger.Error($"Error Saving Job Role - {ex.Message}");
             ShowErrorMessage = true;
         }
 

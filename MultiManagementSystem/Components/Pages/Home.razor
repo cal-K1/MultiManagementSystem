@@ -46,7 +46,10 @@
             {
                 @foreach (string notification in notifications)
                 {
-                    <li>@notification</li>
+                    <li>
+                        <button class="notification-btn">@notification</button>
+                        <button class="clear-btn" @onclick="() => ClearNotification(notification)">X</button>
+                    </li>
                 }
             }
             else

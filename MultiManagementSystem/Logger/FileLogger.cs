@@ -6,29 +6,33 @@ namespace MultiManagementSystem.Logger
 {
     public class FileLogger : LogBase
     {
-        private readonly string _logPath;
         private readonly IConfiguration _configuration;
 
         public FileLogger(string serviceName, IConfiguration configuration)
             : base(serviceName)
         {
             _configuration = configuration;
-            _logPath = _configuration["AppSettings:LogPath"]
-                       ?? throw new ArgumentNullException("LogPath configuration is missing.");
         }
 
         public override void LogInternal(string message)
         {
-            if (!Directory.Exists(_logPath))
+            string logPath = _configuration["AppSettings:logPath"];
+
+            if (string.IsNullOrEmpty(logPath))
             {
-                Directory.CreateDirectory(_logPath);
+                throw new InvalidOperationException("Log path is not configured.");
             }
 
-            string logFile = Path.Combine(_logPath, "log.txt");
-
-            using (StreamWriter writer = new StreamWriter(logFile, true))
+            if (!Directory.Exists(logPath))
             {
-                writer.WriteLine(message);
+                Directory.CreateDirectory(logPath);
+            }
+
+            logPath = Path.Combine(logPath, "log.txt");
+
+            using (StreamWriter writer = new StreamWriter(logPath, true))
+            {
+                writer.WriteLine($"{DateTime.UtcNow}: {message}");
             }
         }
     }

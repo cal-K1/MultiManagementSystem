@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.Extensions.Configuration;
 using MultiManagementSystem.Logger;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -8,7 +9,6 @@ namespace MultiManagementSystem.Components.Pages
     {
         [Inject]
         private IAuthorizationService authorizationService { get; set; } = default!;
-        private ILog Logger;
         [Inject]
         NavigationManager NavigationManager { get; set; } = default!;
         private string WorkerNumber { get; set; } = string.Empty;
@@ -27,7 +27,6 @@ namespace MultiManagementSystem.Components.Pages
                 }
 
                 NavigationManager.NavigateTo("/home");
-                Logger.Info($"Worker {WorkerNumber} logged in - Navigated to /home");
             }
             else
             {
@@ -40,7 +39,6 @@ namespace MultiManagementSystem.Components.Pages
         private void NavigateAdminLogin()
         {
             NavigationManager.NavigateTo("/login/admin");
-            Logger.Info("Navigated to /login/admin");
         }
 
         private void ResetForm()

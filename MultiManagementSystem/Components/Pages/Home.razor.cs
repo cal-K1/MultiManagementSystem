@@ -12,7 +12,6 @@ public partial class Home
 
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
-    ILog Logger { get; set; } = default!;
 
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
@@ -33,14 +32,11 @@ public partial class Home
         if (authorizationService.CurrentWorker == null && authorizationService.CurrentAdmin == null)
         {
             errorMessage = "No User logged in";
-            Logger.Warning("No User logged in");
             showErrorMessage = true;
         }
         else if (authorizationService.CurrentWorker != null)
         {
             notifications = authorizationService.CurrentWorker.Notifications;
-
-            Logger.Info($"User {authorizationService.CurrentWorker.WorkerNumber} logged in.");
         }
     }
 
@@ -62,5 +58,18 @@ public partial class Home
         }
 
         return false;
+    }
+
+    private void ClearNotification(string notification)
+    {
+        if (authorizationService.CurrentWorker == null)
+        {
+            errorMessage = "No User logged in";
+            showErrorMessage = true;
+        }
+        else
+        {
+            authorizationService.CurrentWorker.Notifications.Clear();
+        }
     }
 }

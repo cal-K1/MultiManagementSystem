@@ -12,7 +12,6 @@ public partial class CreateCompanyPage
     private IAuthorizationService AuthorizationService { get; set; } = default!;
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
-    ILog Logger { get; set; } = default!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
@@ -42,7 +41,6 @@ public partial class CreateCompanyPage
             AuthorizationService.SetCurrentAdmin(Company.Admin);
 
             NavigationManager.NavigateTo("/home");
-            Logger.Info("Navigated to /home");
         }
         else
         {

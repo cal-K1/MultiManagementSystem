@@ -12,7 +12,6 @@ public partial class RequestLeave
     private ILeaveService leaveService { get; set; } = default!;
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
-    ILog Logger { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     LeaveRequest LeaveRequest { get; set; } = default!;
@@ -40,9 +39,7 @@ public partial class RequestLeave
             IsRequestSubmitted = true;
         }
         catch (Exception ex)
-        {
-            Logger.Error($"Error: {ex}");
-        }
+        { }
     }
 
     public void NavigateHome()

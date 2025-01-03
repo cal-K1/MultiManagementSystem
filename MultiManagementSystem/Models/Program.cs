@@ -3,13 +3,15 @@ using MultiManagementSystem.Services.Abstraction;
 using MultiManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
+using MultiManagementSystem.Logger;
+using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-builder.Services.AddRazorComponents()
-    .AddInteractiveServerComponents();
+// Add services to the container
+builder.Services.AddRazorComponents().AddInteractiveServerComponents();
 
+// Configure DbContext
 var connectionString = builder.Configuration.GetConnectionString("MultiManagementSystem");
 builder.Services.AddDbContext<ManagementSystemDbContext>(options =>
     options.UseSqlServer(connectionString));
@@ -25,7 +27,7 @@ builder.Services.AddSingleton<ICompanyService, CompanyService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure the HTTP request pipeline
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error");
@@ -35,12 +37,11 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
-app.UseAuthorization(); // Add this if you are using any authorization middleware.
-app.UseAntiforgery(); // Ensure Antiforgery token validation.
+app.UseAuthorization();
+app.UseAntiforgery();
 
-app.MapRazorComponents<App>()
-    .AddInteractiveServerRenderMode();
-
+app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 app.MapFallbackToFile("index.html");
 
 app.Run();
+
