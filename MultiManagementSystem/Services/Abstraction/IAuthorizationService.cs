@@ -9,8 +9,9 @@ public interface IAuthorizationService
 
     bool IsUserNameValid(string userName);
     bool IsPasswordValid(string password);
-    Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
-    Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
+    void SetCurrentWorker(Worker worker);
+    //Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
+    //Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
     bool IsAdminLoginSuccessful(string username, string password);
     void SetCurrentAdmin(Admin admin);
 }

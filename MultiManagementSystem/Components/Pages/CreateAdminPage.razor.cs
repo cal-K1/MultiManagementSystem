@@ -11,6 +11,8 @@ public partial class CreateAdminPage
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
+    private IDatabaseService DatabaseService { get; set; } = default!;
+    [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string AdminUsername { get; set; } = string.Empty;
     public string AdminPassword { get; set; } = string.Empty;
@@ -21,7 +23,7 @@ public partial class CreateAdminPage
         // Basic validation for demonstration
         if (AuthorizationService.IsUserNameValid(AdminUsername) && AuthorizationService.IsPasswordValid(AdminPassword))
         {
-            await CompanyService.CreateAdmin(AdminUsername, AdminPassword);
+            await DatabaseService.CreateAdmin(AdminUsername, AdminPassword);
 
             NavigationManager.NavigateTo("/home");
         }

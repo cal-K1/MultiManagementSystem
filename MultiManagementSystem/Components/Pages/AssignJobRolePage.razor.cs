@@ -15,6 +15,8 @@ public partial class AssignJobRolePage
     private IWorkerService workerService { get; set; } = default!;
     [Inject]
     private ICompanyService companyService { get; set; } = default!;
+    [Inject]
+    private IDatabaseService databaseService { get; set; } = default!;
 
     public string ManagerWorkerNumber { get; set; } = string.Empty;
     public string ManagerPassword { get; set; } = string.Empty;
@@ -35,15 +37,15 @@ public partial class AssignJobRolePage
     protected override async Task OnInitializedAsync()
     {
         Workers = await GetListOfRelevantWorkers();
-        JobRoles = await companyService.GetAllJobRolesByCompanyId(authorizationService.CurrentWorker.CompanyId);
+        JobRoles = await databaseService.GetAllJobRolesByCompanyId(authorizationService.CurrentWorker.CompanyId);
     }
 
     private async void CheckAuthorization()
     {
         Workers = await GetListOfRelevantWorkers();
 
-        if (await authorizationService.IsLoginSuccessful(ManagerPassword, ManagerWorkerNumber)
-            && (await workerService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
+        if (await databaseService.IsLoginSuccessful(ManagerPassword, ManagerWorkerNumber)
+            && (await databaseService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
         {
             IsManagerAuthorized = true;
         }
@@ -63,7 +65,7 @@ public partial class AssignJobRolePage
         }
         else
         {
-            return await workerService.GetWorkersByCompanyId(authorizationService.CurrentWorker.CompanyId) ?? new();
+            return await databaseService.GetWorkersByCompanyId(authorizationService.CurrentWorker.CompanyId) ?? new();
         }
     }
 
@@ -86,7 +88,7 @@ public partial class AssignJobRolePage
                     throw new Exception("No job role selected.");
                 }
 
-                workerService.SaveJobRoleToWorker(SelectedWorker, SelectedJobRoleId);
+                databaseService.SaveJobRoleToWorker(SelectedWorker, SelectedJobRoleId);
             }
             else
             {
@@ -99,8 +101,8 @@ public partial class AssignJobRolePage
                     Description = WorkerDescription
                 };
 
-                workerService.AddNewJobRole(jobRole);
-                workerService.SaveJobRoleToWorker(SelectedWorker, jobRole.Id);
+                databaseService.AddNewJobRole(jobRole);
+                databaseService.SaveJobRoleToWorker(SelectedWorker, jobRole.Id);
             }
         }
         catch (Exception ex)

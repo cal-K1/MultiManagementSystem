@@ -17,6 +17,9 @@ public partial class ViewJobApplication
     private IAuthorizationService authorizationService { get; set; } = default!;
 
     [Inject]
+    private IDatabaseService databaseService { get; set; } = default!;
+
+    [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
 
     // Accept the ID of the application as a parameter
@@ -63,8 +66,8 @@ public partial class ViewJobApplication
             throw new ArgumentNullException(nameof(workerService));
         }
 
-        await applicationService.AcceptApplication(SelectedApplication);
-        workerService?.SaveNewNotification(Applicant, "Your application has been accepted.");
+        await databaseService.AcceptApplication(SelectedApplication);
+        databaseService?.SaveNewNotification(Applicant, "Your application has been accepted.");
         _applicationDealtWith = true;
     }
 
@@ -75,8 +78,8 @@ public partial class ViewJobApplication
             throw new ArgumentNullException(nameof(workerService));
         }
 
-        await applicationService.DeclineApplication(SelectedApplication);
-        workerService?.SaveNewNotification(Applicant, "Your application has been declined.");
+        await databaseService.DeclineApplication(SelectedApplication);
+        databaseService?.SaveNewNotification(Applicant, "Your application has been declined.");
         _applicationDealtWith = true;
     }
 }

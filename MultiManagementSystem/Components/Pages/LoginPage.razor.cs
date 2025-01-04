@@ -10,6 +10,8 @@ namespace MultiManagementSystem.Components.Pages
         [Inject]
         private IAuthorizationService authorizationService { get; set; } = default!;
         [Inject]
+        private IDatabaseService databaseService { get; set; } = default!;
+        [Inject]
         NavigationManager NavigationManager { get; set; } = default!;
         private string WorkerNumber { get; set; } = string.Empty;
         private string Password { get; set; } = string.Empty;
@@ -18,7 +20,7 @@ namespace MultiManagementSystem.Components.Pages
         private async Task Submit()
         {
             // Basic validation for demonstration
-            if (await authorizationService.IsLoginSuccessful(Password, WorkerNumber))
+            if (await databaseService.IsLoginSuccessful(Password, WorkerNumber))
             {
                 if (authorizationService.CurrentWorker == null)
                 {

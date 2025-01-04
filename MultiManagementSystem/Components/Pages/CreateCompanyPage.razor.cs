@@ -13,6 +13,8 @@ public partial class CreateCompanyPage
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
+    private IDatabaseService DatabaseService { get; set; } = default!;
+    [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
     public string AdminName { get; set; } = string.Empty;
@@ -37,7 +39,7 @@ public partial class CreateCompanyPage
                 }
             };
 
-            CompanyService.CreateCompany(Company);
+            DatabaseService.CreateCompany(Company);
             AuthorizationService.SetCurrentAdmin(Company.Admin);
 
             NavigationManager.NavigateTo("/home");

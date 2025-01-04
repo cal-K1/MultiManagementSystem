@@ -41,9 +41,9 @@ public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
     /// <summary>
     /// Creates a new leave request and saves it in the database.
     /// </summary>
-    public async Task AddNewLeaveRequest(Worker worker, LeaveRequest leaveRequest)
-    {
-        await dbContext.LeaveRequests.AddAsync(leaveRequest);
-        await dbContext.SaveChangesAsync();
-    }
+    //public async Task AddNewLeaveRequest(Worker worker, LeaveRequest leaveRequest)
+    //{
+    //    await dbContext.LeaveRequests.AddAsync(leaveRequest);
+    //    await dbContext.SaveChangesAsync();
+    //}
 }

@@ -13,6 +13,8 @@ public partial class RequestLeave
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
     [Inject]
+    private IDatabaseService databaseService { get; set; } = default!;
+    [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     LeaveRequest LeaveRequest { get; set; } = default!;
     public DateTime RequestLeaveStart { get; set; } = DateTime.Now.Date;
@@ -35,7 +37,7 @@ public partial class RequestLeave
                 State = LeaveRequestState.Pending,
             };
 
-            await leaveService.AddNewLeaveRequest(authorizationService.CurrentWorker, leaveRequest);
+            await databaseService.AddNewLeaveRequest(authorizationService.CurrentWorker, leaveRequest);
             IsRequestSubmitted = true;
         }
         catch (Exception ex)

@@ -26,50 +26,50 @@ namespace MultiManagementSystem.Services
         /// 
         /// </summary>
         /// <returns>A list of all job applications in the database that have ApplicationState as 'Pending'.</returns>
-        public async Task<List<JobApplication>> GetAllPendingJobApplications()
-        {
-            List<JobApplication> allJobApplications = await dbContext.JobApplications
-                .Where(application => application.ApplicationState == ApplicationState.Pending)
-                .ToListAsync();
+        //public async Task<List<JobApplication>> GetAllPendingJobApplications()
+        //{
+        //    List<JobApplication> allJobApplications = await dbContext.JobApplications
+        //        .Where(application => application.ApplicationState == ApplicationState.Pending)
+        //        .ToListAsync();
 
-            return allJobApplications;
-        }
+        //    return allJobApplications;
+        //}
 
         /// <summary>
         /// Accepts a job application and saves the changes in the database.
         /// </summary>
-        public async Task AcceptApplication(JobApplication application)
-        {
-            application.ApplicationState = ApplicationState.Accepted;
-            await dbContext.SaveChangesAsync();
-        }
+        //public async Task AcceptApplication(JobApplication application)
+        //{
+        //    application.ApplicationState = ApplicationState.Accepted;
+        //    await dbContext.SaveChangesAsync();
+        //}
 
         /// <summary>
         /// Declines a job application and saves the changes in the database.
         /// </summary>
-        public async Task DeclineApplication(JobApplication application)
-        {
-            application.ApplicationState = ApplicationState.Declined;
-            await dbContext.SaveChangesAsync();
-        }
+        //public async Task DeclineApplication(JobApplication application)
+        //{
+        //    application.ApplicationState = ApplicationState.Declined;
+        //    await dbContext.SaveChangesAsync();
+        //}
 
         /// <summary>
         /// Creates a job application and saves it in the database.
         /// </summary>
-        public async Task ApplyJob(string applicantId,string name, string phoneNumber, string applicationText)
-        {
-            JobApplication newApplication = new JobApplication
-            {
-                Id = Guid.NewGuid().ToString(),
-                ApplicantId = applicantId,
-                ApplicantName = name,
-                ApplicantPhoneNumber = phoneNumber,
-                ApplicationText = applicationText,
-                ApplicationState = ApplicationState.Pending
-            };
+        //public async Task ApplyJob(string applicantId,string name, string phoneNumber, string applicationText)
+        //{
+        //    JobApplication newApplication = new JobApplication
+        //    {
+        //        Id = Guid.NewGuid().ToString(),
+        //        ApplicantId = applicantId,
+        //        ApplicantName = name,
+        //        ApplicantPhoneNumber = phoneNumber,
+        //        ApplicationText = applicationText,
+        //        ApplicationState = ApplicationState.Pending
+        //    };
 
-            await dbContext.JobApplications.AddAsync(newApplication);
-            await dbContext.SaveChangesAsync();
-        }
+        //    await dbContext.JobApplications.AddAsync(newApplication);
+        //    await dbContext.SaveChangesAsync();
+        //}
     }
 }

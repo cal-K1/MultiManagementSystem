@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using MultiManagementSystem.Logger;
 using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -11,6 +10,8 @@ public partial class JobApplyPage
     private IApplicationService applicationService { get; set; } = default!;
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
+    [Inject]
+    private IDatabaseService databaseService { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
 
@@ -43,7 +44,7 @@ public partial class JobApplyPage
             _errorMessage = "No user logged in, please log in to continue";
         }
 
-        await applicationService.ApplyJob(Applicant.Id ,_name, _phoneNumber, _description);
+        await databaseService.ApplyJob(Applicant.Id ,_name, _phoneNumber, _description);
         _submitted = true;
     }
 

@@ -22,17 +22,17 @@ namespace MultiManagementSystem.Services
             _log = new FileLogger("WorkerService", configuration);
         }
 
-        public async Task<Worker> GetWorkerByWorkerNumber(string workerNumber)
-        {
-            _log.Info($"Fetching worker with worker number: {workerNumber}");
-            return await dbContext.Workers.FirstOrDefaultAsync(e => e.WorkerNumber == workerNumber);
-        }
+        //public async Task<Worker> GetWorkerByWorkerNumber(string workerNumber)
+        //{
+        //    _log.Info($"Fetching worker with worker number: {workerNumber}");
+        //    return await dbContext.Workers.FirstOrDefaultAsync(e => e.WorkerNumber == workerNumber);
+        //}
 
-        public async Task<List<Worker>> GetWorkersByCompanyId(string companyId)
-        {
-            // Return all workers with the given company ID.
-            return await dbContext.Workers.Where(e => e.CompanyId == companyId).ToListAsync();
-        }
+        //public async Task<List<Worker>> GetWorkersByCompanyId(string companyId)
+        //{
+        //    // Return all workers with the given company ID.
+        //    return await dbContext.Workers.Where(e => e.CompanyId == companyId).ToListAsync();
+        //}
 
         /// <summary>
         /// Gets the number of leave days remaining for the worker with the given worker number.
@@ -117,48 +117,48 @@ namespace MultiManagementSystem.Services
         /// <summary>
         /// Sets the workers JobRole property to the given jobRole and saves the changes to the database.
         /// </summary>
-        public async Task SaveJobRoleToWorker(Worker worker, string jobRole)
-        {
-            if (worker == null || jobRole == null)
-            {
-                throw new Exception(message: $"Worker or JobRole is null.");
-            }
+        //public async Task SaveJobRoleToWorker(Worker worker, string jobRole)
+        //{
+        //    if (worker == null || jobRole == null)
+        //    {
+        //        throw new Exception(message: $"Worker or JobRole is null.");
+        //    }
 
-            worker.JobRoleId = jobRole;
+        //    worker.JobRoleId = jobRole;
 
-            dbContext.Workers.Update(worker);
-            await dbContext.SaveChangesAsync();
-        }
+        //    dbContext.Workers.Update(worker);
+        //    await dbContext.SaveChangesAsync();
+        //}
 
-        public async Task AddNewJobRole(JobRole jobRole)
-        {
-            jobRole.Id = Guid.NewGuid().ToString();
+        //public async Task AddNewJobRole(JobRole jobRole)
+        //{
+        //    jobRole.Id = Guid.NewGuid().ToString();
 
-            await dbContext.JobRole.AddAsync(jobRole);
-            await dbContext.SaveChangesAsync();
-        }
+        //    await dbContext.JobRole.AddAsync(jobRole);
+        //    await dbContext.SaveChangesAsync();
+        //}
 
-        public async Task SaveNewNotification(Worker Worker, string NotificationMessage)
-        {
-            if (Worker == null || NotificationMessage == null)
-            {
-                throw new Exception(message: $"Worker or NotificationMessage is null.");
-            }
+        //public async Task SaveNewNotification(Worker Worker, string NotificationMessage)
+        //{
+        //    if (Worker == null || NotificationMessage == null)
+        //    {
+        //        throw new Exception(message: $"Worker or NotificationMessage is null.");
+        //    }
 
-            dbContext.Workers.FirstOrDefault(w => w.Id == Worker.Id).Notifications.Add(NotificationMessage);
-            await dbContext.SaveChangesAsync();
-        }
+        //    dbContext.Workers.FirstOrDefault(w => w.Id == Worker.Id).Notifications.Add(NotificationMessage);
+        //    await dbContext.SaveChangesAsync();
+        //}
 
-        public async Task ClearWorkerNotifications(Worker Worker)
-        {
-            if (Worker == null)
-            {
-                //Logger.Error($"Worker is null.");
-                throw new Exception(message: $"Worker is null.");
-            }
+        //public async Task ClearWorkerNotifications(Worker Worker)
+        //{
+        //    if (Worker == null)
+        //    {
+        //        //Logger.Error($"Worker is null.");
+        //        throw new Exception(message: $"Worker is null.");
+        //    }
 
-            dbContext.Workers.FirstOrDefault(w => w.Id == Worker.Id).Notifications.Clear();
-            await dbContext.SaveChangesAsync();
-        }
+        //    dbContext.Workers.FirstOrDefault(w => w.Id == Worker.Id).Notifications.Clear();
+        //    await dbContext.SaveChangesAsync();
+        //}
     }
 }

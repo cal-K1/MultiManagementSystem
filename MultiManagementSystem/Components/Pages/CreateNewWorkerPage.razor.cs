@@ -16,6 +16,9 @@ public partial class CreateNewWorkerPage
     private ICompanyService companyService { get; set; } = default!;
 
     [Inject]
+    private IDatabaseService databaseService { get; set; } = default!;
+
+    [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
     public string Name { get; set; } = string.Empty;
@@ -52,7 +55,7 @@ public partial class CreateNewWorkerPage
         }
 
         NewWorkerNumber = worker.WorkerNumber;
-        workerService.CreateNewWorkerInDb(worker);
+        databaseService.CreateNewWorkerInDb(worker);
 
         // Show the confirmation screen after successful creation
         showForm = false;

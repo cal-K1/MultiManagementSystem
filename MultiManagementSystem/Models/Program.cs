@@ -3,8 +3,6 @@ using MultiManagementSystem.Services.Abstraction;
 using MultiManagementSystem.Services;
 using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
-using MultiManagementSystem.Logger;
-using Microsoft.Extensions.Logging;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -21,7 +19,7 @@ builder.Services.AddScoped<IApplicationService, ApplicationService>();
 builder.Services.AddScoped<IWorkerService, WorkerService>();
 builder.Services.AddScoped<ILeaveService, LeaveService>();
 builder.Services.AddScoped<IJobRoleService, JobRoleService>();
-
+builder.Services.AddScoped<IDatabaseService, DatabaseService>();
 builder.Services.AddSingleton<IAuthorizationService, AuthorizationService>();
 builder.Services.AddSingleton<ICompanyService, CompanyService>();
 
@@ -44,4 +42,3 @@ app.MapRazorComponents<App>().AddInteractiveServerRenderMode();
 app.MapFallbackToFile("index.html");
 
 app.Run();
-

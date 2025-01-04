@@ -14,6 +14,8 @@ public partial class CreateJobRolePage
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
+    private IDatabaseService DatabaseService { get; set; } = default!;
+    [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
     public string JobTitle { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
@@ -40,7 +42,7 @@ public partial class CreateJobRolePage
         _jobRole.CompanyId = CompanyService.CurrentCompany.Id ?? AuthorizationService.CurrentWorker.CompanyId;
 
         // Assuming WorkerService handles adding the new job role correctly.
-        WorkerService.AddNewJobRole(_jobRole);
+        DatabaseService.AddNewJobRole(_jobRole);
 
         // Reset form values and show success screen
         ResetFormFields();

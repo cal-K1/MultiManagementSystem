@@ -10,6 +10,9 @@ public partial class ViewPendingApplications
     [Inject]
     private IApplicationService applicationService { get; set; } = default!;
 
+    [Inject]
+    private IDatabaseService databaseService { get; set; } = default!;
+
     private readonly NavigationManager _navigationManager = default!;
 
     public List<JobApplication> JobApplications { get; set; } = new();
@@ -17,7 +20,7 @@ public partial class ViewPendingApplications
     protected override async Task OnInitializedAsync()
     {
         // Load pending job applications from the service.
-        JobApplications = await applicationService.GetAllPendingJobApplications();
+        JobApplications = await databaseService.GetAllPendingJobApplications();
     }
 
     private void NavigateToApplication(string Id)

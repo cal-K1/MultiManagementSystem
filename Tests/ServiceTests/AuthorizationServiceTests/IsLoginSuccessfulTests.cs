@@ -1,7 +1,8 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
-using MultiManagementSystem.People;
+using MultiManagementSystem.Models.People;
+using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
 using NSubstitute;
 
@@ -39,7 +40,7 @@ namespace Tests.ServiceTests.AuthorizationServiceTests
         {
             // Arrange
             using var dbContext = CreateDbContext();
-            var service = new AuthorizationService(Substitute.For<IServiceProvider>());
+            var service = new DatabaseService(Substitute.For<IServiceProvider>(), Substitute.For<ICompanyService>());
 
             // Act
             var result = service.IsLoginSuccessful(enteredPassword, workerNumber);
