@@ -7,8 +7,6 @@ namespace MultiManagementSystem.Components.Pages;
 public partial class JobApplyPage
 {
     [Inject]
-    private IApplicationService applicationService { get; set; } = default!;
-    [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
     [Inject]
     private IDatabaseService databaseService { get; set; } = default!;

@@ -6,11 +6,25 @@ namespace MultiManagementSystem.Services.Abstraction;
 public interface ICompanyService
 {
     public Company? CurrentCompany { get; }
-    //Task CreateCompany(Company newCompany);
+
+    /// <summary>
+    /// Sets the current company from the worker ID.
+    /// </summary>
     void SetCurrentCompany(string workerId);
+
+    /// <summary>
+    /// Sets the current company as an admin based on the admin.
+    /// </summary>
     void SetCurrentCompanyAsAdmin(Admin admin);
+
+    /// <summary>
+    /// Sets the current company based on the company.
+    /// </summary>
     void SetCurrentCompany(Company company);
-    //Task CreateAdmin(string username, string password);
+
+    /// <summary>
+    /// Gets the current company based on the company ID.
+    /// </summary>
+    /// <returns>The company associated with the given company ID.</returns>
     Company GetCurrentCompany(string companyId);
-    //Task<List<JobRole>> GetAllJobRolesByCompanyId(string companyId);
 }

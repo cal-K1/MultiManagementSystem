@@ -5,54 +5,100 @@ namespace MultiManagementSystem.Services.Abstraction;
 
 public interface IDatabaseService
 {
-    Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
-    Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
-    Task CreateAdmin(string username, string password);
-    Task<List<JobRole>> GetAllJobRolesByCompanyId(string companyId);
-    Task CreateCompany(Company newCompany);
-    Task<List<JobApplication>> GetAllPendingJobApplications();
-    Task DeclineApplication(JobApplication application);
-    Task AcceptApplication(JobApplication application);
-    Task ApplyJob(string applicantId, string name, string phoneNumber, string applicationText);
-    Task AddNewLeaveRequest(Worker worker, LeaveRequest leaveRequest);
     /// <summary>
-    /// Gets the worker from the db with the given workerNumber.
+    /// Checks if the provided login credentials are correct.
     /// </summary>
-    /// <returns>The worker with given worker number.</returns>
-    Task<Worker> GetWorkerByWorkerNumber(string workerNumber);
+    /// <returns>True if the login is successful, otherwise false.</returns>
+    Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
+
     /// <summary>
-    /// Creates a worker with the specified properties passed in as parameters and saves it in the database.
+    /// Retrieves a worker object based on the worker number.
+    /// </summary>
+    /// <returns>The worker associated with the given worker number.</returns>
+    Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
+
+    /// <summary>
+    /// Creates a new admin with the specified username and password and saves it to the database.
+    /// </summary>
+    Task CreateAdmin(string username, string password);
+
+    /// <summary>
+    /// Retrieves all job roles associated with the provided company ID.
+    /// </summary>
+    /// <returns>A list of job roles for the given company.</returns>
+    Task<List<JobRole>> GetAllJobRolesByCompanyId(string companyId);
+
+    /// <summary>
+    /// Creates a new company and saves it to the database.
+    /// </summary>
+    Task CreateCompany(Company newCompany);
+
+    /// <summary>
+    /// Retrieves all pending job applications.
+    /// </summary>
+    /// <returns>A list of all pending job applications.</returns>
+    Task<List<JobApplication>> GetAllPendingJobApplications();
+
+    /// <summary>
+    /// Declines the job application.
+    /// </summary>
+    Task DeclineApplication(JobApplication application);
+
+    /// <summary>
+    /// Accepts the job application.
+    /// </summary>
+    Task AcceptApplication(JobApplication application);
+
+    /// <summary>
+    /// Applies for a job using the applicant details and application text.
+    /// </summary>
+    Task ApplyJob(string applicantId, string name, string phoneNumber, string applicationText);
+
+    /// <summary>
+    /// Adds a new leave request for the given worker and saves it in the database.
+    /// </summary>
+    Task AddNewLeaveRequest(Worker worker, LeaveRequest leaveRequest);
+
+    /// <summary>
+    /// Gets a worker object based on the provided worker number.
+    /// </summary>
+    /// <returns>The worker associated with the given worker number.</returns>
+    Task<Worker> GetWorkerByWorkerNumber(string workerNumber);
+
+    /// <summary>
+    /// Creates a new worker and saves it in the database.
     /// </summary>
     Task CreateNewWorkerInDb(Worker worker);
 
     /// <summary>
     /// Gets all workers from a given country.
     /// </summary>
-    /// <returns>A list of Workers that have a Country property that matches the inputted country.</returns>
+    /// <returns>A list of workers that have a country property matching the inputted country.</returns>
     List<Worker> GetWorkersByCountry(WorkerCountry country);
 
     /// <summary>
-    /// Sets the workers JobRole property to the given jobRole and saves the changes to the database.
+    /// Sets the worker's job role to the given job role and saves the changes to the database.
     /// </summary>
     Task SaveJobRoleToWorker(Worker worker, string jobRoleId);
 
     /// <summary>
-    /// Gets a list of all workers in the database with the given company id.
+    /// Gets a list of all workers in the database with the given company ID.
     /// </summary>
+    /// <returns>A list of workers for the given company ID.</returns>
     Task<List<Worker>> GetWorkersByCompanyId(string companyId);
 
     /// <summary>
-    /// Adds a new JobRole in the database and saves it.
+    /// Adds a new job role to the database and saves it.
     /// </summary>
     Task AddNewJobRole(JobRole jobRole);
 
     /// <summary>
-    /// Saves the notification to the Notifications list of the worker.
+    /// Saves a new notification message to the worker's notification list.
     /// </summary>
-    Task SaveNewNotification(Worker Worker, string NotificationMessage);
+    Task SaveNewNotification(Worker worker, string notificationMessage);
 
     /// <summary>
-    /// Clears all notifications from the worker's Notifications list.
+    /// Clears all notifications from the worker's notification list.
     /// </summary>
-    Task ClearWorkerNotifications(Worker Worker);
+    Task ClearWorkerNotifications(Worker worker);
 }
