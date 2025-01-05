@@ -212,6 +212,22 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         await dbContext.SaveChangesAsync();
     }
 
+    public async Task<List<string>> GetWorkerNotifications(Worker worker)
+    {
+        if (string.IsNullOrWhiteSpace(worker.Id))
+        {
+            throw new Exception("Worker Id is null");
+        }
+
+        var dbWorker = await dbContext.Workers.FirstOrDefaultAsync(w => w.Id == worker.Id);
+        if (dbWorker == null)
+        {
+            throw new Exception("Worker not found");
+        }
+
+        return dbWorker.Notifications ?? new List<string>();
+    }
+
     public async Task ClearWorkerNotifications(Worker Worker)
     {
         if (Worker == null)

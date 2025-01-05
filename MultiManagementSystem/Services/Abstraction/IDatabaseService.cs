@@ -98,6 +98,11 @@ public interface IDatabaseService
     Task SaveNewNotification(Worker worker, string notificationMessage);
 
     /// <summary>
+    /// Saves a new notification message to the worker's notification list.
+    /// </summary>
+    Task<List<string>> GetWorkerNotifications(Worker worker);
+
+    /// <summary>
     /// Clears all notifications from the worker's notification list.
     /// </summary>
     Task ClearWorkerNotifications(Worker worker);
