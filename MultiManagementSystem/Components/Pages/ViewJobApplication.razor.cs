@@ -36,17 +36,9 @@ public partial class ViewJobApplication
 
     private bool _applicationDealtWith { get; set; } = false;
 
-    protected override void OnInitialized()
+    protected async override void OnInitialized()
     {
-        Applicant = authorizationService.CurrentWorker;
-
-        
-        if (string.IsNullOrEmpty(Applicant.Id))
-        { 
-            throw new ArgumentNullException(nameof(Applicant.Id));
-        }
-
-        // Fetch the application data based on the passed Id synchronously.
+        // Fetch the application data based on the passed Id.
         if (!string.IsNullOrEmpty(Id))
         {
             SelectedApplication = applicationService.GetApplication(Id);

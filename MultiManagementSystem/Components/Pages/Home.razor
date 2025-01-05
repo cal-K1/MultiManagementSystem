@@ -26,7 +26,7 @@
 
     @if (authorizationService.CurrentAdmin != null)
     {
-        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/company"))">View Company Details</button>
+        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/company-info"))">View Company Details</button>
     }
     else
     {

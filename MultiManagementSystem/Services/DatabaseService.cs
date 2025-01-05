@@ -54,14 +54,14 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         }
     }
 
-    public async Task<Worker> GetWorkerFromWorkerNumber(string workerNumber)
+    public async Task<Worker> GetWorkerById(string id)
     {
         using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
         // Check if the worker exists in Workers.
         var worker = await dbContext.Workers
-            .FirstOrDefaultAsync(worker => worker.WorkerNumber == workerNumber);
+            .FirstOrDefaultAsync(worker => worker.Id == id);
 
         if (worker != null)
         {
@@ -170,7 +170,7 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
 
     public async Task<Worker> GetWorkerByWorkerNumber(string workerNumber)
     {
-        _log.Info($"Fetching worker with worker number: {workerNumber}");
+        //_log.Info($"Fetching worker with worker number: {workerNumber}");
         return await dbContext.Workers.FirstOrDefaultAsync(e => e.WorkerNumber == workerNumber);
     }
 

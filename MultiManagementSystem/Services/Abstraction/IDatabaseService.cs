@@ -15,7 +15,7 @@ public interface IDatabaseService
     /// Retrieves a worker object based on the worker number.
     /// </summary>
     /// <returns>The worker associated with the given worker number.</returns>
-    Task<Worker> GetWorkerFromWorkerNumber(string workerNumber);
+    Task<Worker> GetWorkerById(string id);
 
     /// <summary>
     /// Creates a new admin with the specified username and password and saves it to the database.
