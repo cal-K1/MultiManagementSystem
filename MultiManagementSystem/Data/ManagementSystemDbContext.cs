@@ -59,7 +59,11 @@ namespace MultiManagementSystem.Data
 
             modelBuilder.Entity<JobRole>()
                 .ToTable("JobRole")
-                .HasKey(a => a.Id);
+                .HasKey(r => r.Id);
+
+            modelBuilder.Entity<Notification>()
+                .ToTable("Notifications")
+    .           HasKey(n => n.Id);
 
             base.OnModelCreating(modelBuilder);
         }
@@ -81,5 +85,6 @@ namespace MultiManagementSystem.Data
         public DbSet<Company> Company { get; set; }
         public DbSet<Admin> Administrator { get; set; }
         public DbSet<JobRole> JobRole { get; set; }
+        public DbSet<Notification> Notifications { get; set; }
     }
 }

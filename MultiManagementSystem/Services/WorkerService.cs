@@ -81,5 +81,10 @@ namespace MultiManagementSystem.Services
         }
 
         public List<Worker> GetWorkersByCountry(WorkerCountry country) => dbContext.Workers.Where(worker => worker.Country == country).ToList();
+
+        public void NavigateNotification(string notification)
+        {
+            return;
+        }
     }
 }
