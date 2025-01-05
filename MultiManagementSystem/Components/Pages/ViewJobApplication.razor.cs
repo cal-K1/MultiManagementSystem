@@ -58,6 +58,8 @@ public partial class ViewJobApplication
             throw new ArgumentNullException(nameof(workerService));
         }
 
+        Applicant = await databaseService.GetWorkerById(SelectedApplication.ApplicantId);
+
         await databaseService.AcceptApplication(SelectedApplication);
         databaseService?.SaveNewNotification(Applicant, "Your application has been accepted.");
         _applicationDealtWith = true;

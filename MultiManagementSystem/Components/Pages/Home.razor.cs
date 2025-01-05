@@ -25,6 +25,8 @@ public partial class Home
     private void ToggleSidebar()
     {
         isSidebarOpen = !isSidebarOpen;
+
+        GetNotifications();
     }
 
     private void GetNotifications()
