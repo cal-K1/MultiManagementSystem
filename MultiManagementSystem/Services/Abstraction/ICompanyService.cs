@@ -13,6 +13,11 @@ public interface ICompanyService
     void SetCurrentCompany(string workerId);
 
     /// <summary>
+    /// Sets the current company from the company ID.
+    /// </summary>
+    void SetCurrentCompanyByCompanyId(string companyId);
+
+    /// <summary>
     /// Sets the current company as an admin based on the admin.
     /// </summary>
     void SetCurrentCompanyAsAdmin(Admin admin);
@@ -20,7 +25,7 @@ public interface ICompanyService
     /// <summary>
     /// Sets the current company based on the company.
     /// </summary>
-    void SetCurrentCompany(Company company);
+    void SetCurrentCompanyByCompanyId(Company company);
 
     /// <summary>
     /// Gets the current company based on the company ID.

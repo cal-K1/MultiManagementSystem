@@ -12,7 +12,7 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
 
     NavigationHelper navigationHelper;
 
-    public void SetCurrentCompany(Company company)
+    public void SetCurrentCompanyByCompanyId(Company company)
     {
         CurrentCompany = company;
     }
@@ -28,6 +28,14 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
         {
             throw new InvalidOperationException("Worker not found or not assigned to a company.");
         }
+
+        CurrentCompany = GetCurrentCompany(companyId);
+    }
+
+    public void SetCurrentCompanyByCompanyId(string companyId)
+    {
+        using var scope = serviceProvider.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
         CurrentCompany = GetCurrentCompany(companyId);
     }

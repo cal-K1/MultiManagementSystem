@@ -122,7 +122,7 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
             throw new InvalidOperationException("Error saving new company.", ex);
         }
 
-        companyService.SetCurrentCompany(newCompany);
+        companyService.SetCurrentCompanyByCompanyId(newCompany);
     }
 
     public async Task<List<JobApplication>> GetAllPendingJobApplications()
@@ -328,12 +328,10 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         }
         else
         {
-            // If the worker is not tracked, attach it and then remove
             dbContext.Workers.Attach(worker);
             dbContext.Workers.Remove(worker);
         }
 
         dbContext.SaveChanges();
     }
-
 }
