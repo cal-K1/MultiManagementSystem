@@ -1,0 +1,45 @@
+﻿h3 {
+    text-align: center;
+    color: #333;
+}
+
+.filters {
+    margin: 20px auto;
+    text-align: center;
+}
+
+.filters label {
+    font-size: 1.1em;
+    margin-right: 10px;
+}
+
+#countrySelect {
+    padding: 5px;
+    font-size: 1em;
+}
+
+.workers-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+.workers-table th, .workers-table td {
+    padding: 10px;
+    text-align: left;
+    border: 1px solid #ddd;
+}
+
+.workers-table th {
+    background-color: #f4f4f4;
+    font-weight: bold;
+}
+
+.workers-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.workers-table tr:hover {
+    background-color: #f1f1f1;
+}

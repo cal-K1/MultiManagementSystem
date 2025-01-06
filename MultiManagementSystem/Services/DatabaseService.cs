@@ -134,6 +134,17 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         return allJobApplications;
     }
 
+    public async Task<List<LeaveRequest>> GetAllPendingLeaveRequestsByCompanyId(string companyId)
+    {
+        List<LeaveRequest> allPendingLeaveRequests = await dbContext.LeaveRequests
+            .Include(request => request.Worker)
+            .Where(request => request.Worker != null && request.Worker.CompanyId == companyId)
+            .ToListAsync();
+
+        return allPendingLeaveRequests;
+    }
+
+
     public async Task AcceptApplication(JobApplication application)
     {
         application.ApplicationState = ApplicationState.Accepted;
@@ -201,18 +212,18 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task SaveNewNotification(Worker Worker, string NotificationMessage)
+    public async Task SaveNewNotification(Worker Worker, Notification Notification)
     {
-        if (Worker == null || NotificationMessage == null)
+        if (Worker == null || Notification == null)
         {
-            throw new Exception(message: $"Worker or NotificationMessage is null.");
+            throw new Exception(message: $"Worker or Notification is null.");
         }
 
-        dbContext.Workers.FirstOrDefault(w => w.Id == Worker.Id).Notifications.Add(NotificationMessage);
+        dbContext.Notifications.Add(Notification);
         await dbContext.SaveChangesAsync();
     }
 
-    public async Task<List<string>> GetWorkerNotifications(Worker worker)
+    public async Task<List<Notification>> GetWorkerNotifications(Worker worker)
     {
         if (string.IsNullOrWhiteSpace(worker.Id))
         {
@@ -225,7 +236,9 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
             throw new Exception("Worker not found");
         }
 
-        return dbWorker.Notifications ?? new List<string>();
+        return await dbContext.Notifications
+            .Where(n => n.NotificationWorker.Id == worker.Id)
+            .ToListAsync();
     }
 
     public async Task ClearWorkerNotifications(Worker Worker)
@@ -237,6 +250,18 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         }
 
         dbContext.Workers.FirstOrDefault(w => w.Id == Worker.Id).Notifications.Clear();
+        await dbContext.SaveChangesAsync();
+    }
+
+
+    public async Task RemoveWorkerNotification(Worker worker, Notification notification)
+    {
+        if (worker == null || notification == null)
+        {
+            throw new Exception(message: $"Worker or Notification is null.");
+        }
+
+        dbContext.Notifications.Remove(notification);
         await dbContext.SaveChangesAsync();
     }
 
@@ -252,5 +277,63 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
         await dbContext.SaveChangesAsync();
     }
 
-    public List<Worker> GetWorkersByCountry(WorkerCountry country) => dbContext.Workers.Where(worker => worker.Country == country).ToList();
+    public async Task<List<Worker>> GetWorkersByCountry(string companyId ,WorkerCountry country) => await dbContext.Workers.Where(worker => worker.Country == country && worker.CompanyId == companyId).ToListAsync();
+
+    public async Task HandleLeaveRequestInDatabase(LeaveRequest leaveRequest, bool accepted)
+    {
+        if (dbContext.LeaveRequests == null)
+        {
+            throw new ArgumentNullException(nameof(dbContext.LeaveRequests));
+        }
+        if (leaveRequest == null)
+        {
+            throw new ArgumentNullException(nameof(leaveRequest));
+        }
+
+        if (accepted)
+        {
+            dbContext.LeaveRequests.FirstOrDefault(l => l == leaveRequest).State = LeaveRequestState.Accepted;
+        }
+        else
+        {
+            dbContext.LeaveRequests.FirstOrDefault(l => l == leaveRequest).State = LeaveRequestState.Declined;
+        }
+        await dbContext.SaveChangesAsync();
+
+        Notification leaveRequestNotification = new()
+        {
+            Id = Guid.NewGuid().ToString(),
+            NotificationWorker = leaveRequest.Worker,
+            NotificationType = NotificationType.LeaveRequest,
+            Message = "Your leave request's state has been updated.",
+        };
+
+        await SaveNewNotification(leaveRequest.Worker, leaveRequestNotification);
+    }
+
+    public void RemoveWorker(Worker worker)
+    {
+        if (worker == null)
+        {
+            throw new ArgumentNullException(nameof(worker));
+        }
+
+        // Check if the worker is already tracked
+        var trackedWorker = dbContext.Workers.Local.FirstOrDefault(w => w.Id == worker.Id);
+
+        if (trackedWorker != null)
+        {
+            // If the worker is already tracked, use the tracked instance
+            dbContext.Workers.Remove(trackedWorker);
+        }
+        else
+        {
+            // If the worker is not tracked, attach it and then remove
+            dbContext.Workers.Attach(worker);
+            dbContext.Workers.Remove(worker);
+        }
+
+        dbContext.SaveChanges();
+    }
+
 }

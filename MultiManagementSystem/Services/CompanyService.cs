@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MultiManagementSystem.Data;
+using MultiManagementSystem.Factories;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
@@ -9,11 +10,12 @@ namespace MultiManagementSystem.Services;
 public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
 {    public Company? CurrentCompany { get; private set; }
 
+    NavigationHelper navigationHelper;
+
     public void SetCurrentCompany(Company company)
     {
         CurrentCompany = company;
     }
-
 
     public void SetCurrentCompany(string workerId)
     {
@@ -53,4 +55,21 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
          return dbContext.Company.FirstOrDefault(c => c.Id == companyId)
             ?? throw new InvalidOperationException("Company not found for the given ID.");
      }
+
+    public void NavigateNotificationClick(Notification notification)
+    {
+        if (notification == null)
+        {
+            throw new ArgumentNullException(nameof(notification));
+        }
+
+        if (notification.NotificationType == NotificationType.JobApplication)
+        {
+            navigationHelper.Navigate("/company-info");
+        }
+        else if (notification.NotificationType == NotificationType.None)
+        {
+            navigationHelper.Navigate("/login");
+        }
+    }
 }

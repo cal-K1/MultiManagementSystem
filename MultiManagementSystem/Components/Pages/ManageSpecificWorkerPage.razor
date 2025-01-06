@@ -1,0 +1,24 @@
+﻿@page "/manage-worker/{workerId}"
+
+@if (SpecificWorker != null && !SpecificWorkerDeleted)
+{
+    <div class="worker-details">
+        <p><strong>Worker Name:</strong> @SpecificWorker.Name</p>
+        <p><strong>Worker Number:</strong> @SpecificWorker.WorkerNumber</p>
+        <p><strong>Manager:</strong> @(SpecificWorker.Manager ? "Yes" : "No")</p>
+        <p><strong>Country:</strong> @SpecificWorker.Country</p>
+        <p><strong>Job Role:</strong> @(SpecificWorker.JobRoleId ?? "N/A")</p>
+        <p><strong>Company ID:</strong> @SpecificWorker.CompanyId</p>
+    </div>
+
+    <button class="remove-worker-btn" @onclick="RemoveWorker">Remove Worker</button>
+}
+else if (SpecificWorkerDeleted)
+{
+    <p class="success-message">The worker has been removed successfully.</p>
+    <button class="btn btn-info" @onclick="@(_ => navigationManager.NavigateTo("/home"))">Home</button>
+}
+else
+{
+    <p>No worker data available.</p>
+}

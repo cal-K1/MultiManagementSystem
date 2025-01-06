@@ -1,0 +1,45 @@
+﻿@page "/manage-staff"
+
+<h3>Manage Staff</h3>
+
+<div class="filters">
+    <label for="countrySelect">Filter by Country:</label>
+    <select id="countrySelect" @onchange="HandleCountryChange">
+        <option value="">-- All Countries --</option>
+        @foreach (var country in Enum.GetValues(typeof(MultiManagementSystem.Models.People.WorkerCountry)))
+        {
+            <option value="@country">@country</option>
+        }
+    </select>
+</div>
+
+@if (workersList == null || !workersList.Any())
+{
+    <p>No workers found.</p>
+}
+else
+{
+    <table class="workers-table">
+        <thead>
+            <tr>
+                <th>Worker Number</th>
+                <th>Name</th>
+                <th>Country</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var worker in workersList)
+            {
+                <tr>
+                    <td>@worker.WorkerNumber</td>
+                    <td>@worker.Name</td>
+                    <td>@worker.Country</td>
+                    <td>
+                        <button class="navigate-worker-btn" @onclick="() => NavigateToSpecificWorker(worker.Id)">View Details</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

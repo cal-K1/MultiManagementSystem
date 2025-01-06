@@ -60,8 +60,16 @@ public partial class ViewJobApplication
 
         Applicant = await databaseService.GetWorkerById(SelectedApplication.ApplicantId);
 
+        Notification newNotification = new Notification()
+        {
+            Id = Guid.NewGuid().ToString(),
+            NotificationType = NotificationType.JobApplication,
+            NotificationWorker = Applicant,
+            Message = "Your Job Application has been accepted."
+        };
+
         await databaseService.AcceptApplication(SelectedApplication);
-        databaseService?.SaveNewNotification(Applicant, "Your application has been accepted.");
+        databaseService?.SaveNewNotification(Applicant, newNotification);
         _applicationDealtWith = true;
     }
 
@@ -72,8 +80,16 @@ public partial class ViewJobApplication
             throw new ArgumentNullException(nameof(workerService));
         }
 
+        Notification newNotification = new Notification()
+        {
+            Id = Guid.NewGuid().ToString(),
+            NotificationType = NotificationType.JobApplication,
+            NotificationWorker = Applicant,
+            Message = "Your Job Application has been declined."
+        };
+
         await databaseService.DeclineApplication(SelectedApplication);
-        databaseService?.SaveNewNotification(Applicant, "Your application has been declined.");
+        databaseService?.SaveNewNotification(Applicant, newNotification);
         _applicationDealtWith = true;
     }
 }

@@ -1,0 +1,63 @@
+﻿h3 {
+    text-align: center;
+    color: #333;
+}
+
+p {
+    text-align: center;
+    font-size: 1.2em;
+    color: #666;
+}
+
+.leave-requests-table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    border: 1px solid #ddd;
+}
+
+    .leave-requests-table th, .leave-requests-table td {
+        padding: 12px;
+        text-align: left;
+        border: 1px solid #ddd;
+    }
+
+    .leave-requests-table th {
+        background-color: #f4f4f4;
+        font-weight: bold;
+    }
+
+    .leave-requests-table tr:nth-child(even) {
+        background-color: #f9f9f9;
+    }
+
+    .leave-requests-table tr:hover {
+        background-color: #f1f1f1;
+    }
+
+button {
+    padding: 8px 12px;
+    font-size: 1em;
+    cursor: pointer;
+    border: none;
+    border-radius: 4px;
+    margin-right: 8px;
+}
+
+.accept-btn {
+    background-color: #4CAF50;
+    color: white;
+}
+
+    .accept-btn:hover {
+        background-color: #45a049;
+    }
+
+.decline-btn {
+    background-color: #f44336;
+    color: white;
+}
+
+    .decline-btn:hover {
+        background-color: #da190b;
+    }

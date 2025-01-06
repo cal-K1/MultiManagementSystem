@@ -13,11 +13,11 @@ public class Worker : UserBase
     public string JobRoleId { get; set; } = string.Empty;
     public string CompanyId { get; set; } = string.Empty;
 
-    private List<string> _notifications = new();
-    public List<string> Notifications
+    private List<Notification> _notifications = new();
+    public List<Notification> Notifications
     {
         get => _notifications;
-        set => _notifications = value ?? new List<string>();
+        set => _notifications = value ?? new List<Notification>();
     }
 }
 

@@ -34,10 +34,16 @@ public interface IDatabaseService
     Task CreateCompany(Company newCompany);
 
     /// <summary>
-    /// Retrieves all pending job applications.
+    /// Gets all pending job applications.
     /// </summary>
     /// <returns>A list of all pending job applications.</returns>
     Task<List<JobApplication>> GetAllPendingJobApplications();
+
+    /// <summary>
+    /// Gets all leave requests from the given company.
+    /// </summary>
+    /// <returns>A list of all pending job applications.</returns>
+    Task<List<LeaveRequest>> GetAllPendingLeaveRequestsByCompanyId(string companyId);
 
     /// <summary>
     /// Declines the job application.
@@ -71,10 +77,15 @@ public interface IDatabaseService
     Task CreateNewWorkerInDb(Worker worker);
 
     /// <summary>
-    /// Gets all workers from a given country.
+    /// Gets all workers from a given country and companyId.
     /// </summary>
     /// <returns>A list of workers that have a country property matching the inputted country.</returns>
-    List<Worker> GetWorkersByCountry(WorkerCountry country);
+    Task<List<Worker>> GetWorkersByCountry(string companyid, WorkerCountry country);
+
+    /// <summary>
+    /// Removes the given worker from the database.
+    /// </summary>
+    void RemoveWorker(Worker worker);
 
     /// <summary>
     /// Sets the worker's job role to the given job role and saves the changes to the database.
@@ -95,15 +106,25 @@ public interface IDatabaseService
     /// <summary>
     /// Saves a new notification message to the worker's notification list.
     /// </summary>
-    Task SaveNewNotification(Worker worker, string notificationMessage);
+    Task SaveNewNotification(Worker worker, Notification notification);
 
     /// <summary>
     /// Saves a new notification message to the worker's notification list.
     /// </summary>
-    Task<List<string>> GetWorkerNotifications(Worker worker);
+    Task<List<Notification>> GetWorkerNotifications(Worker worker);
 
     /// <summary>
     /// Clears all notifications from the worker's notification list.
     /// </summary>
     Task ClearWorkerNotifications(Worker worker);
+
+    /// <summary>
+    /// Clears given notification from the worker's notification list.
+    /// </summary>
+    Task RemoveWorkerNotification(Worker worker, Notification notification);
+
+    /// <summary>
+    /// Accepts the passed in leave request in the db.
+    /// </summary>
+    Task HandleLeaveRequestInDatabase(LeaveRequest leaveRequest, bool accepted);
 }

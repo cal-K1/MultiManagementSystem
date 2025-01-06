@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.Factories;
 using MultiManagementSystem.Logger;
+using MultiManagementSystem.Models;
 using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services;
 using MultiManagementSystem.Services.Abstraction;
@@ -22,7 +23,7 @@ public partial class Home
 
     public required NavigationHelper NavigationHelper { get; set; }
     private bool isSidebarOpen = false;
-    private List<string> notifications = null!;
+    private List<Notification> notifications = null!;
     private string errorMessage = string.Empty;
     private bool showErrorMessage = false;
 
@@ -66,7 +67,7 @@ public partial class Home
         return false;
     }
 
-    private void ClearNotification(string notification)
+    private void ClearNotification(Notification notification)
     {
         if (authorizationService.CurrentWorker == null)
         {
@@ -75,7 +76,8 @@ public partial class Home
         }
         else
         {
-            authorizationService.CurrentWorker.Notifications.Clear();
+            databaseService.RemoveWorkerNotification(authorizationService.CurrentWorker, notification);
+            notifications.Remove(notification);
         }
     }
 }

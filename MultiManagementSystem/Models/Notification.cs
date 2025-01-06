@@ -13,5 +13,6 @@ public class Notification
 public enum NotificationType
 {
     None,
-    JobRole,
+    JobApplication,
+    LeaveRequest,
 }

@@ -1,0 +1,43 @@
+﻿@page "/pending-leave-requests"
+
+<h3>Pending Leave Requests</h3>
+
+@if (isLoading)
+{
+    <p>Loading leave requests...</p>
+}
+else if (pendingLeaveRequests == null || !pendingLeaveRequests.Any())
+{
+    <p>No pending leave requests at the moment.</p>
+}
+else
+{
+    <table class="leave-requests-table">
+        <thead>
+            <tr>
+                <th>Worker Number</th>
+                <th>Worker Name</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Leave Description</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var request in pendingLeaveRequests)
+            {
+                <tr>
+                    <td>@request.Worker.WorkerNumber</td>
+                    <td>@request.Worker</td>
+                    <td>@request.StartDate.ToShortDateString()</td>
+                    <td>@request.EndDate.ToShortDateString()</td>
+                    <td>@request.LeaveDescription</td>
+                    <td>
+                        <button class="accept-btn" @onclick="() => HandleRequestAsync(request, true)">Accept</button>
+                        <button class="decline-btn" @onclick="() => HandleRequestAsync(request, false)">Decline</button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

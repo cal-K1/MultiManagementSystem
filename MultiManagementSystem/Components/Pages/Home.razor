@@ -27,6 +27,10 @@
     @if (authorizationService.CurrentAdmin != null)
     {
         <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/company-info"))">View Company Details</button>
+        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/pending-leave-requests"))">Manage Leave Requests</button>
+        <button class="btn btn-info" @onclick="@(_ => NavigationManager.NavigateTo("/manage-staff"))">Manage Staff</button>
+
+
     }
     else
     {
@@ -44,10 +48,10 @@
         <ul>
             @if (notifications != null && notifications.Any())
             {
-                @foreach (string notification in notifications)
+                @foreach (Models.Notification notification in notifications)
                 {
                     <li>
-                        <button class="notification-btn">@notification</button>
+                        <button class="notification-btn">@notification.Message</button>
                         <button class="clear-btn" @onclick="() => ClearNotification(notification)">X</button>
                     </li>
                 }

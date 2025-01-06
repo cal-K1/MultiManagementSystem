@@ -29,8 +29,7 @@ public partial class RequestLeave
             LeaveRequest leaveRequest = new()
             {
                 Id = Guid.NewGuid().ToString(),
-                WorkerName = authorizationService.CurrentWorker.Name,
-                WorkerId = authorizationService.CurrentWorker.Id!,
+                Worker = authorizationService.CurrentWorker,
                 StartDate = RequestLeaveStart,
                 EndDate = RequestLeaveEnd,
                 LeaveDescription = RequestDescription,
