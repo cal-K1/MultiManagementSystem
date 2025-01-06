@@ -403,64 +403,44 @@ public class DatabaseServiceTests
         Assert.Equal("worker001", createdWorker.WorkerNumber);
     }
 
-    //[Fact]
-    //public async Task IsLoginSuccessful_ReturnsTrueForValidCredentials()
-    //{
-    //    // Arrange
-    //    var serviceCollection = new ServiceCollection();
+    [Theory]
+    [InlineData("password123", "worker001", true)]  // Valid login
+    [InlineData("wrongpassword", "worker001", false)] // Invalid password
+    [InlineData("", "worker001", false)]           // Empty password
+    [InlineData("password123", "", false)]         // Empty workerNumber
+    [InlineData("password123", "nonexistent", false)] // Worker does not exist
+    public async void IsLoginSuccessful_ShouldValidateLoginCorrectly(string enteredPassword, string workerNumber, bool expected)
+    {
+        // Arrange
+        using var dbContext = CreateDbContext();  // Create a new in-memory DB context for each test run
+        var worker = new Worker
+        {
+            Id = "worker001",
+            WorkerNumber = "worker001",
+            Password = "password123"  // Default password for successful login test
+        };
+        dbContext.Workers.Add(worker);
+        dbContext.SaveChanges();  // Save the worker to the in-memory DB
 
-    //    // Add in-memory database
-    //    serviceCollection.AddDbContext<ManagementSystemDbContext>(options =>
-    //        options.UseInMemoryDatabase("TestDb"));
+        var service = new DatabaseService(
+            _serviceProvider,  // Use existing _serviceProvider from your test class constructor
+            dbContext,         // Pass the DbContext
+            _companyService     // Pass the company service
+        );
 
-    //    // Register IConfiguration (mock or empty configuration)
-    //    var configuration = new ConfigurationBuilder().Build();
-    //    serviceCollection.AddSingleton<IConfiguration>(configuration);
+        // Act
+        var result = await service.IsLoginSuccessful(enteredPassword, workerNumber);
 
-    //    // Register services
-    //    serviceCollection.AddScoped<IWorkerService, WorkerService>();
-    //    serviceCollection.AddScoped<IAuthorizationService, AuthorizationService>();
-    //    serviceCollection.AddScoped<ICompanyService, CompanyService>();
+        // Assert
+        Assert.Equal(expected, result);  // Correctly comparing bool values
+    }
 
-    //    var serviceProvider = serviceCollection.BuildServiceProvider();
-
-    //    // Seed test data
-    //    using (var scope = serviceProvider.CreateScope())
-    //    {
-    //        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
-    //        dbContext.Workers.Add(new Worker
-    //        {
-    //            Id = Guid.NewGuid().ToString(),
-    //            WorkerNumber = "worker001",
-    //            Password = "password123", // Make sure this matches the entered password
-    //            CompanyId = "company001"
-    //        });
-    //        dbContext.SaveChanges();
-    //    }
-
-    //    // Debug: Ensure worker data exists in the database
-    //    using (var scope = serviceProvider.CreateScope())
-    //    {
-    //        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
-    //        var workers = dbContext.Workers.ToList();
-    //        Assert.NotEmpty(workers);  // Ensure that the worker is in the database
-    //        Assert.Equal("worker001", workers.First().WorkerNumber);  // Check that the worker data is correct
-    //        Assert.Equal("password123", workers.First().Password);  // Check that the password is correct
-    //    }
-
-    //    // Resolve required dependencies
-    //    var dbContextForService = serviceProvider.GetRequiredService<ManagementSystemDbContext>();
-    //    var companyService = serviceProvider.GetRequiredService<ICompanyService>();
-
-    //    // Pass all required parameters to the DatabaseService constructor
-    //    var databaseService = new DatabaseService(serviceProvider, dbContextForService, companyService);
-
-    //    // Act
-    //    var result = await databaseService.IsLoginSuccessful("password123", "worker001");
-
-    //    // Assert
-    //    Assert.True(result); // Expect True if the login is successful
-    //}
-
+    private ManagementSystemDbContext CreateDbContext()
+    {
+        var options = new DbContextOptionsBuilder<ManagementSystemDbContext>()
+            .UseInMemoryDatabase("TestDatabase")  // Use the in-memory database
+            .Options;
+        return new ManagementSystemDbContext(options);
+    }
 }
 
