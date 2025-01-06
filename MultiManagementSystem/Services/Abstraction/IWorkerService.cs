@@ -23,5 +23,5 @@ public interface IWorkerService
     /// <returns>A list of Workers that have a Country property that matches the inputted country.</returns>
     List<Worker> GetWorkersByCountry(WorkerCountry country);
 
-    public void NavigateNotification(string notificationMessage);
+    public void NavigateNotification(Notification notificatione);
 }

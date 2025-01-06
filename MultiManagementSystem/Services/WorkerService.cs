@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Components;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using MultiManagementSystem.Data;
 using MultiManagementSystem.Logger;
@@ -12,13 +13,19 @@ namespace MultiManagementSystem.Services
     public class WorkerService : IWorkerService
     {
         private readonly ManagementSystemDbContext dbContext;
+        private readonly NavigationManager navigationManager;
         private readonly ICompanyService companyService;
         private readonly ILog _log;
 
-        public WorkerService(ManagementSystemDbContext dbContext, ICompanyService companyService, IConfiguration configuration)
+        public WorkerService(
+            ManagementSystemDbContext dbContext,
+            ICompanyService companyService,
+            IConfiguration configuration,
+            NavigationManager navigationManager)
         {
             this.dbContext = dbContext;
             this.companyService = companyService;
+            this.navigationManager = navigationManager; // This was missing before
             _log = new FileLogger("WorkerService", configuration);
         }
 
@@ -81,9 +88,16 @@ namespace MultiManagementSystem.Services
 
         public List<Worker> GetWorkersByCountry(WorkerCountry country) => dbContext.Workers.Where(worker => worker.Country == country).ToList();
 
-        public void NavigateNotification(string notification)
+        public void NavigateNotification(Notification notification)
         {
-            return;
+            if (notification.NotificationType == NotificationType.JobApplication || notification.NotificationType == NotificationType.LeaveRequest)
+            {
+                navigationManager.NavigateTo("/worker-details", true);
+            }
+            else
+            {
+                navigationManager.NavigateTo("/", true);
+            }
         }
     }
 }
