@@ -32,14 +32,6 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
         CurrentCompany = GetCurrentCompany(companyId);
     }
 
-    public void SetCurrentCompanyByCompanyId(string companyId)
-    {
-        using var scope = serviceProvider.CreateScope();
-        var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
-
-        CurrentCompany = GetCurrentCompany(companyId);
-    }
-
     public void SetCurrentCompanyAsAdmin(Admin admin)
     {
         using var scope = serviceProvider.CreateScope();
