@@ -8,6 +8,7 @@ using MultiManagementSystem.Services;
 using MultiManagementSystem.Models.People;
 using Microsoft.Extensions.Configuration;
 using Xunit;
+using Microsoft.AspNetCore.Components;
 
 public class DatabaseServiceTests
 {
@@ -24,10 +25,18 @@ public class DatabaseServiceTests
         services.AddDbContext<ManagementSystemDbContext>(options =>
             options.UseInMemoryDatabase("TestDatabase"));
 
+        // Register mock NavigationManager
+        var mockNavigationManager = new Mock<NavigationManager>();
+        services.AddSingleton(mockNavigationManager.Object);
+
         // Register other services
         services.AddScoped<ICompanyService, CompanyService>();
         services.AddScoped<IDatabaseService, DatabaseService>();
-        services.AddScoped<IWorkerService, WorkerService>();
+
+        // Mock or stub WorkerService
+        var mockWorkerService = new Mock<IWorkerService>();
+        services.AddSingleton(mockWorkerService.Object);
+
         services.AddScoped<IAuthorizationService, AuthorizationService>();
 
         var mockConfig = new Mock<IConfiguration>();
