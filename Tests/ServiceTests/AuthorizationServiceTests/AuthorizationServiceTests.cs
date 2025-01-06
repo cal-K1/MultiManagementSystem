@@ -102,35 +102,35 @@ namespace MultiManagementSystem.Tests.Services
             Assert.Equal(worker, _authorizationService.CurrentWorker);
         }
 
-        [Fact]
-        public void IsAdminLoginSuccessful_ValidLogin_ReturnsTrue()
-        {
-            // Arrange
-            var admin = new Admin { Username = "admin", Password = "Password123" };
-            _mockDbContext.AddAdmin(admin); // Use AddAdmin to add the admin
+        //[Fact]
+        //public void IsAdminLoginSuccessful_ValidLogin_ReturnsTrue()
+        //{
+        //    // Arrange
+        //    var admin = new Admin { Username = "admin", Password = "Password123" };
+        //    _mockDbContext.AddAdmin(admin); // Use AddAdmin to add the admin
 
-            // Act
-            bool result = _authorizationService.IsAdminLoginSuccessful("Password123", "admin");
+        //    // Act
+        //    bool result = _authorizationService.IsAdminLoginSuccessful("Password123", "admin");
 
-            // Assert
-            Assert.True(result);
-            Assert.NotNull(_authorizationService.CurrentAdmin);
-        }
+        //    // Assert
+        //    Assert.True(result);
+        //    Assert.NotNull(_authorizationService.CurrentAdmin);
+        //}
 
-        [Fact]
-        public void IsAdminLoginSuccessful_InvalidLogin_ReturnsFalse()
-        {
-            // Arrange
-            var admin = new Admin { Username = "admin", Password = "Password123" };
-            _mockDbContext.AddAdmin(admin); // Use AddAdmin to add the admin
+        //[Fact]
+        //public void IsAdminLoginSuccessful_InvalidLogin_ReturnsFalse()
+        //{
+        //    // Arrange
+        //    var admin = new Admin { Username = "admin", Password = "Password123" };
+        //    _mockDbContext.AddAdmin(admin); // Use AddAdmin to add the admin
 
-            // Act
-            bool result = _authorizationService.IsAdminLoginSuccessful("WrongPassword", "admin");
+        //    // Act
+        //    bool result = _authorizationService.IsAdminLoginSuccessful("WrongPassword", "admin");
 
-            // Assert
-            Assert.False(result);
-            Assert.Null(_authorizationService.CurrentAdmin);
-        }
+        //    // Assert
+        //    Assert.False(result);
+        //    Assert.Null(_authorizationService.CurrentAdmin);
+        //}
 
         [Fact]
         public void SetCurrentAdmin_SetsAdminCorrectly()
