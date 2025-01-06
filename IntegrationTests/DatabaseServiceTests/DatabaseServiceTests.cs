@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Moq;
 using MultiManagementSystem.Data;
 using MultiManagementSystem.Models;
@@ -8,10 +7,7 @@ using MultiManagementSystem.Services.Abstraction;
 using MultiManagementSystem.Services;
 using MultiManagementSystem.Models.People;
 using Microsoft.Extensions.Configuration;
-using System.Linq;
-using System.Threading.Tasks;
 using Xunit;
-using System;
 
 public class DatabaseServiceTests
 {
@@ -67,7 +63,6 @@ public class DatabaseServiceTests
         Assert.False(result);
     }
 
-    // Test for GetWorkerById
     [Fact]
     public async Task GetWorkerById_ReturnsWorkerWhenExists()
     {
@@ -101,25 +96,21 @@ public class DatabaseServiceTests
         var adminUsername = "adminUser";
         var adminPassword = "adminPass";
 
-        // Mock the company service
         var mockCompanyService = new Mock<ICompanyService>();
         var company = new Company { Id = "company001", CompanyName = "Test Company" };
         mockCompanyService.Setup(c => c.CurrentCompany).Returns(company);
 
-        // Set up in-memory database
         var options = new DbContextOptionsBuilder<ManagementSystemDbContext>()
             .UseInMemoryDatabase("TestDb")
             .Options;
 
         var dbContext = new ManagementSystemDbContext(options);
 
-        // Set up the service provider with the correct services
         var serviceProvider = new ServiceCollection()
             .AddSingleton(mockCompanyService.Object)
             .AddDbContext<ManagementSystemDbContext>(opt => opt.UseInMemoryDatabase("TestDb"))
             .BuildServiceProvider();
 
-        // Create the DatabaseService instance with the service provider and mock objects
         var databaseService = new DatabaseService(serviceProvider, dbContext, mockCompanyService.Object);
 
         // Act
@@ -129,12 +120,11 @@ public class DatabaseServiceTests
         var admin = await dbContext.Administrator
             .FirstOrDefaultAsync(a => a.Username == adminUsername);
 
-        Assert.NotNull(admin);  // Ensure the admin is created
-        Assert.Equal(adminUsername, admin.Username);  // Ensure the username is correct
+        Assert.NotNull(admin);
+        Assert.Equal(adminUsername, admin.Username);
     }
 
 
-    // Test for GetAllJobRolesByCompanyId
     [Fact]
     public async Task GetAllJobRolesByCompanyId_ReturnsJobRoles()
     {
@@ -151,7 +141,6 @@ public class DatabaseServiceTests
         Assert.Equal("Developer", jobRoles.First().JobTitle);
     }
 
-    // Test for CreateCompany
     [Fact]
     public async Task CreateCompany_CompanyCreatedSuccessfully()
     {
@@ -169,7 +158,6 @@ public class DatabaseServiceTests
         Assert.Equal("Test Company", createdCompany.CompanyName);
     }
 
-    // Test for GetAllPendingJobApplications
     [Fact]
     public async Task GetAllPendingJobApplications_ReturnsPendingApplications()
     {
@@ -189,7 +177,6 @@ public class DatabaseServiceTests
         Assert.Contains(pendingApplications, app => app.ApplicationState == ApplicationState.Pending);
     }
 
-    // Test for GetAllPendingLeaveRequestsByCompanyId
     [Fact]
     public async Task GetAllPendingLeaveRequestsByCompanyId_ReturnsPendingLeaveRequests()
     {
@@ -211,7 +198,6 @@ public class DatabaseServiceTests
         Assert.Contains(pendingLeaveRequests, lr => lr.State == LeaveRequestState.Pending);
     }
 
-    // Test for AcceptApplication
     [Fact]
     public async Task AcceptApplication_ApplicationAccepted()
     {
@@ -233,7 +219,6 @@ public class DatabaseServiceTests
         Assert.Equal(ApplicationState.Accepted, updatedApplication.ApplicationState);
     }
 
-    // Test for DeclineApplication
     [Fact]
     public async Task DeclineApplication_ApplicationDeclined()
     {
@@ -255,7 +240,6 @@ public class DatabaseServiceTests
         Assert.Equal(ApplicationState.Declined, updatedApplication.ApplicationState);
     }
 
-    // Test for ApplyJob
     [Fact]
     public async Task ApplyJob_JobApplicationCreated()
     {
@@ -277,7 +261,6 @@ public class DatabaseServiceTests
         Assert.Equal(ApplicationState.Pending, application.ApplicationState);
     }
 
-    // Test for AddNewLeaveRequest
     [Fact]
     public async Task AddNewLeaveRequest_LeaveRequestAdded()
     {
@@ -296,7 +279,6 @@ public class DatabaseServiceTests
         Assert.Equal(LeaveRequestState.Pending, addedLeaveRequest.State);
     }
 
-    // Test for GetWorkerByWorkerNumber
     [Fact]
     public async Task GetWorkerByWorkerNumber_ReturnsWorker()
     {
@@ -313,7 +295,6 @@ public class DatabaseServiceTests
         Assert.Equal(worker.WorkerNumber, result.WorkerNumber);
     }
 
-    // Test for GetWorkersByCompanyId
     [Fact]
     public async Task GetWorkersByCompanyId_ReturnsWorkers()
     {
@@ -330,7 +311,6 @@ public class DatabaseServiceTests
         Assert.Contains(workers, w => w.CompanyId == companyId);
     }
 
-    // Test for SaveJobRoleToWorker
     [Fact]
     public async Task SaveJobRoleToWorker_WorkerJobRoleSaved()
     {
@@ -350,7 +330,6 @@ public class DatabaseServiceTests
         Assert.Equal(jobRole.Id, updatedWorker.JobRoleId);
     }
 
-    // Test for RemoveWorker
     [Fact]
     public async Task RemoveWorker_WorkerRemoved()
     {
@@ -378,20 +357,17 @@ public class DatabaseServiceTests
         var company = new Company { Id = "company001", CompanyName = "Test Company" };
         mockCompanyService.Setup(c => c.CurrentCompany).Returns(company);
 
-        // Set up in-memory database
         var options = new DbContextOptionsBuilder<ManagementSystemDbContext>()
             .UseInMemoryDatabase("TestDb")
             .Options;
 
         var dbContext = new ManagementSystemDbContext(options);
 
-        // Set up the service provider with the correct services
         var serviceProvider = new ServiceCollection()
             .AddSingleton(mockCompanyService.Object)
             .AddDbContext<ManagementSystemDbContext>(opt => opt.UseInMemoryDatabase("TestDb"))
             .BuildServiceProvider();
 
-        // Create the DatabaseService instance with the service provider and mock objects
         var databaseService = new DatabaseService(serviceProvider, dbContext, mockCompanyService.Object);
 
         // Act
@@ -413,33 +389,33 @@ public class DatabaseServiceTests
     public async void IsLoginSuccessful_ShouldValidateLoginCorrectly(string enteredPassword, string workerNumber, bool expected)
     {
         // Arrange
-        using var dbContext = CreateDbContext();  // Create a new in-memory DB context for each test run
+        using var dbContext = CreateDbContext();  
         var worker = new Worker
         {
             Id = "worker001",
             WorkerNumber = "worker001",
-            Password = "password123"  // Default password for successful login test
+            Password = "password123"
         };
         dbContext.Workers.Add(worker);
-        dbContext.SaveChanges();  // Save the worker to the in-memory DB
+        dbContext.SaveChanges();  
 
         var service = new DatabaseService(
-            _serviceProvider,  // Use existing _serviceProvider from your test class constructor
-            dbContext,         // Pass the DbContext
-            _companyService     // Pass the company service
+            _serviceProvider,
+            dbContext,       
+            _companyService  
         );
 
         // Act
         var result = await service.IsLoginSuccessful(enteredPassword, workerNumber);
 
         // Assert
-        Assert.Equal(expected, result);  // Correctly comparing bool values
+        Assert.Equal(expected, result);
     }
 
     private ManagementSystemDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<ManagementSystemDbContext>()
-            .UseInMemoryDatabase("TestDatabase")  // Use the in-memory database
+            .UseInMemoryDatabase("TestDatabase")
             .Options;
         return new ManagementSystemDbContext(options);
     }
