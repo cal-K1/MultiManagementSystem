@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MultiManagementSystem.Data;
 
@@ -11,9 +12,11 @@ using MultiManagementSystem.Data;
 namespace MultiManagementSystem.Migrations
 {
     [DbContext(typeof(ManagementSystemDbContext))]
-    partial class ManagementSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250106205346_WorkerLeaveDaysRemaining")]
+    partial class WorkerLeaveDaysRemaining
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

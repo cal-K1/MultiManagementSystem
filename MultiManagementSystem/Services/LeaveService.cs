@@ -9,28 +9,26 @@ namespace MultiManagementSystem.Services;
 public class LeaveService(ManagementSystemDbContext dbContext) : ILeaveService
 {
     [Inject]
-    private IWorkerService workerService { get; set; } = default!;
+    public IWorkerService workerService { get; set; } = default!;
 
-    public void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, Worker worker)
+    public void AcceptLeave(DateTime startDate, DateTime endDate, Worker worker)
     {
-        if (worker == null)
+        if (worker == null || worker.Id == null)
         {
-            return;
+            throw new ArgumentNullException(nameof(worker));
         }
 
-        TimeSpan leaveTimeSpanRequested = endDate - startDate;
-        int daysRequested = leaveTimeSpanRequested.Days;
+        int daysRequested = GetLeaveTimeSpan(startDate, endDate);
 
-        if (workerService.GetWorkerLeaveDaysRemaining(WorkerId) >= daysRequested)
+        if (workerService.GetWorkerLeaveDaysRemaining(worker.Id) >= daysRequested)
         {
-            var user = dbContext.UserId.FirstOrDefault(u => u.Id == worker.Id);
-
-            if (user == null)
-            {
-                throw new Exception($"User with Id {worker.Id} not found.");
-            }
-
-            user.LeaveDaysRemaining -= daysRequested;
+            worker.LeaveDaysRemaining -= daysRequested;
+            dbContext.Update(worker);
         }
+    }
+
+    public int GetLeaveTimeSpan(DateTime startDate, DateTime endDate)
+    {
+        return (endDate - startDate).Days;
     }
 }

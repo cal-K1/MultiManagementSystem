@@ -8,5 +8,5 @@ public interface ILeaveService
     /// <summary>
     /// Acceps the given leave request and applies the paramaters passed in.
     /// </summary>
-    void AcceptLeave(string WorkerId, DateTime startDate, DateTime endDate, Worker worker = null!);
+    void AcceptLeave(DateTime startDate, DateTime endDate, Worker worker = null!);
 }

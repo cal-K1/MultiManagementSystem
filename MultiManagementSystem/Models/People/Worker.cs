@@ -9,6 +9,7 @@ public class Worker : UserBase
     public string WorkerNumber { get; set; } = string.Empty;
     public bool Manager { get; set; } = false;
     public override string Password { get; set; } = string.Empty;
+    public int LeaveDaysRemaining { get; set; } = 100;
     public WorkerCountry Country { get; set; } = WorkerCountry.Default;
     public string JobRoleId { get; set; } = string.Empty;
     public string CompanyId { get; set; } = string.Empty;

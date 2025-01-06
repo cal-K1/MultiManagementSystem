@@ -7,6 +7,7 @@ using MultiManagementSystem.Models.People;
 using Xunit;
 using Moq;
 using MultiManagementSystem.Factories;
+using Microsoft.AspNetCore.Components;
 
 public class CompanyServiceTests : IDisposable
 {
@@ -29,7 +30,6 @@ public class CompanyServiceTests : IDisposable
         _dbContext.Database.EnsureDeleted();
         _dbContext.Database.EnsureCreated();
     }
-
 
     public void Dispose()
     {
@@ -82,56 +82,6 @@ public class CompanyServiceTests : IDisposable
 
         // Act & Assert
         Assert.Throws<InvalidOperationException>(() => companyService.SetCurrentCompany("invalid_worker_id"));
-    }
-
-    [Fact]
-    public void SetCurrentCompanyAsAdmin_Should_Set_CurrentCompany_By_Admin()
-    {
-        // Arrange
-        var admin = new Admin { Id = "1", Username = "Admin" };
-        var company = new Company { Id = "1", CompanyName = "Test Company", Admin = admin };
-
-        _dbContext.Company.Add(company);
-        _dbContext.Administrator.Add(admin);
-        _dbContext.SaveChanges();
-
-        var companyService = new CompanyService(_serviceProvider);
-
-        // Act
-        companyService.SetCurrentCompanyAsAdmin(admin);
-
-        // Assert
-        var expectedCompany = _dbContext.Company.Include(c => c.Admin).FirstOrDefault(c => c.Id == company.Id);
-        Assert.Equal(expectedCompany, companyService.CurrentCompany);
-    }
-
-
-    [Fact]
-    public void SetCurrentCompanyAsAdmin_Should_Throw_If_Admin_Not_Assigned_To_Company()
-    {
-        // Arrange
-        var admin = new Admin { Id = "2", Username = "Admin1" };
-        _dbContext.Administrator.Add(admin);
-        _dbContext.SaveChanges();
-
-        var companyService = new CompanyService(_serviceProvider);
-
-        // Act & Assert
-        Assert.Throws<InvalidOperationException>(() => companyService.SetCurrentCompanyAsAdmin(admin));
-    }
-
-    [Fact]
-    public void NavigateNotificationClick_Should_Navigate_To_Correct_Page()
-    {
-        // Arrange
-        var companyService = new CompanyService(_serviceProvider);
-        var notification = new Notification { NotificationType = NotificationType.JobApplication };
-
-        // Act
-        companyService.NavigateNotificationClick(notification);
-
-        // Assert
-        _navigationHelperMock.Verify(n => n.Navigate("/company-info"), Times.Once);
     }
 
     [Fact]

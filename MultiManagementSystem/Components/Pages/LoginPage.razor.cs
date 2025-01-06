@@ -20,7 +20,7 @@ namespace MultiManagementSystem.Components.Pages
         private async Task Submit()
         {
             // Basic validation for demonstration
-            if (await databaseService.IsLoginSuccessful(Password, WorkerNumber))
+            if (await databaseService.SetUserLoggedIn(Password, WorkerNumber))
             {
                 if (authorizationService.CurrentWorker == null)
                 {

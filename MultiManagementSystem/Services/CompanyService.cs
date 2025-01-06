@@ -1,4 +1,5 @@
-﻿using MultiManagementSystem.Data;
+﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Data;
 using MultiManagementSystem.Factories;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Models.People;
@@ -78,18 +79,24 @@ public class CompanyService : ICompanyService
 
     public void NavigateNotificationClick(Notification notification)
     {
+        NavigationManager navigationManager = default!;
+
         if (notification == null)
         {
             throw new ArgumentNullException(nameof(notification));
         }
+        if (navigationManager == null)
+        {
+            throw new ArgumentNullException(nameof(navigationManager));
+        }
 
         if (notification.NotificationType == NotificationType.JobApplication)
         {
-            NavigationHelper.Navigate("/company-info");
+            navigationManager.NavigateTo("/company-info");
         }
         else if (notification.NotificationType == NotificationType.None)
         {
-            NavigationHelper.Navigate("/login");
+            navigationManager.NavigateTo("/login");
         }
     }
 }

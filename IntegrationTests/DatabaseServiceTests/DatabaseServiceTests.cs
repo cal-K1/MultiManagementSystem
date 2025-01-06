@@ -57,7 +57,7 @@ public class DatabaseServiceTests
         var workerNumber = "worker001";
 
         // Act
-        var result = await _databaseService.IsLoginSuccessful(enteredPassword, workerNumber);
+        var result = await _databaseService.SetUserLoggedIn(enteredPassword, workerNumber);
 
         // Assert
         Assert.False(result);
@@ -381,12 +381,12 @@ public class DatabaseServiceTests
     }
 
     [Theory]
-    //[InlineData("password123", "worker001", true)]  // Valid login
+    [InlineData("password123", "worker001", true)]    // Valid login
     [InlineData("wrongpassword", "worker001", false)] // Invalid password
-    [InlineData("", "worker001", false)]           // Empty password
-    [InlineData("password123", "", false)]         // Empty workerNumber
+    [InlineData("", "worker001", false)]              // Empty password
+    [InlineData("password123", "", false)]            // Empty workerNumber
     [InlineData("password123", "nonexistent", false)] // Worker does not exist
-    public async void IsLoginSuccessful_ShouldValidateLoginCorrectly(string enteredPassword, string workerNumber, bool expected)
+    public void WorkerValidLogin_ShouldValidateLoginCorrectly(string enteredPassword, string workerNumber, bool expected)
     {
         // Arrange
         using var dbContext = CreateDbContext();  
@@ -406,12 +406,12 @@ public class DatabaseServiceTests
         );
 
         // Act
-        var result = await service.IsLoginSuccessful(enteredPassword, workerNumber);
+        var result = service.WorkerValidLogin(enteredPassword, workerNumber);
 
         // Assert
         Assert.Equal(expected, result);
     }
-
+    
     private ManagementSystemDbContext CreateDbContext()
     {
         var options = new DbContextOptionsBuilder<ManagementSystemDbContext>()
@@ -420,4 +420,3 @@ public class DatabaseServiceTests
         return new ManagementSystemDbContext(options);
     }
 }
-

@@ -25,14 +25,13 @@ namespace MultiManagementSystem.Services
         public int GetWorkerLeaveDaysRemaining(string workerId)
         {
             var worker = dbContext.Workers.FirstOrDefault(w => w.Id == workerId);
-            var user = dbContext.UserId.FirstOrDefault(u => u.Id == worker.Id);
 
             if (worker == null)
             {
                 return -1;
             }
 
-            return user.LeaveDaysRemaining;
+            return worker.LeaveDaysRemaining;
         }
 
         public string CreateNewWorkerNumber()

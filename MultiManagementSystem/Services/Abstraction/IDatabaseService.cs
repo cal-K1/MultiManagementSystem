@@ -9,7 +9,7 @@ public interface IDatabaseService
     /// Checks if the provided login credentials are correct.
     /// </summary>
     /// <returns>True if the login is successful, otherwise false.</returns>
-    Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber);
+    Task<bool> SetUserLoggedIn(string enteredPassword, string workerNumber);
 
     /// <summary>
     /// Retrieves a worker object based on the worker number.

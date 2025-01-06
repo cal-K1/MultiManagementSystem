@@ -6,6 +6,7 @@ using MultiManagementSystem.Services;
 using System;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Logger;
+using static System.Formats.Asn1.AsnWriter;
 
 namespace MultiManagementSystem.Services;
 
@@ -13,11 +14,30 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
 {
     private readonly ILog _log;
 
-    public async Task<bool> IsLoginSuccessful(string enteredPassword, string workerNumber)
+    public async Task<bool> SetUserLoggedIn(string enteredPassword, string workerNumber)
     {
         using var scope = serviceProvider.CreateScope();
         var workerService = scope.ServiceProvider.GetRequiredService<IWorkerService>();
         var authorizationService = scope.ServiceProvider.GetRequiredService<IAuthorizationService>();
+
+        bool isWorkerLoginSuccessfull = WorkerValidLogin(enteredPassword, workerNumber);
+
+        if (isWorkerLoginSuccessfull)
+        {
+            authorizationService.SetCurrentWorker(await GetWorkerByWorkerNumber(workerNumber));
+            if (authorizationService.CurrentWorker != null)
+            {
+                companyService.GetCurrentCompany(authorizationService.CurrentWorker.CompanyId);
+            }
+        }
+
+        authorizationService.SetCurrentAdmin(null!);
+        return isWorkerLoginSuccessfull;
+    }
+    
+    public bool WorkerValidLogin(string enteredPassword, string workerNumber)
+    {
+        using var scope = serviceProvider.CreateScope();
         var dbContext = scope.ServiceProvider.GetRequiredService<ManagementSystemDbContext>();
 
         try
@@ -30,26 +50,14 @@ public class DatabaseService(IServiceProvider serviceProvider, ManagementSystemD
                 return false;
             }
 
-            var allWorkers = dbContext.Workers.ToList();
 
-            bool isWorkerLoginSuccessfull = allWorkers.Any(worker =>
+            bool isWorkerLoginSuccessfull = dbContext.Workers.Any(worker =>
                 worker.Password == enteredPassword && worker.WorkerNumber == workerNumber);
 
-            if (isWorkerLoginSuccessfull)
-            {
-                authorizationService.SetCurrentWorker(await GetWorkerByWorkerNumber(workerNumber));
-                if (authorizationService.CurrentWorker != null)
-                {
-                    companyService.GetCurrentCompany(authorizationService.CurrentWorker.CompanyId);
-                }
-            }
-
-            authorizationService.SetCurrentAdmin(null!);
             return isWorkerLoginSuccessfull;
         }
         catch (Exception ex)
         {
-            Console.WriteLine(ex.ToString());
             return false;
         }
     }

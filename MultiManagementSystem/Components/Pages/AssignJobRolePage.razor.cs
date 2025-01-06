@@ -44,7 +44,7 @@ public partial class AssignJobRolePage
     {
         Workers = await GetListOfRelevantWorkers();
 
-        if (await databaseService.IsLoginSuccessful(ManagerPassword, ManagerWorkerNumber)
+        if (await databaseService.SetUserLoggedIn(ManagerPassword, ManagerWorkerNumber)
             && (await databaseService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
         {
             IsManagerAuthorized = true;
