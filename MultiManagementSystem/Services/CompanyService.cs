@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using MultiManagementSystem.Data;
+﻿using MultiManagementSystem.Data;
 using MultiManagementSystem.Factories;
 using MultiManagementSystem.Models;
 using MultiManagementSystem.Models.People;
@@ -7,10 +6,31 @@ using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Services;
 
-public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
-{    public Company? CurrentCompany { get; private set; }
+public class CompanyService : ICompanyService
+{
+    private readonly IServiceProvider serviceProvider;
+    private NavigationHelper? _navigationHelper;
 
-    NavigationHelper navigationHelper;
+    public Company? CurrentCompany { get; private set; }
+
+    public CompanyService(IServiceProvider serviceProvider)
+    {
+        this.serviceProvider = serviceProvider ?? throw new ArgumentNullException(nameof(serviceProvider));
+    }
+
+    private NavigationHelper NavigationHelper
+    {
+        get
+        {
+            // Initialize navigationHelper lazily
+            if (_navigationHelper == null)
+            {
+                _navigationHelper = serviceProvider.GetRequiredService<NavigationHelper>();
+            }
+
+            return _navigationHelper;
+        }
+    }
 
     public void SetCurrentCompanyByCompanyId(Company company)
     {
@@ -65,11 +85,11 @@ public class CompanyService(IServiceProvider serviceProvider) : ICompanyService
 
         if (notification.NotificationType == NotificationType.JobApplication)
         {
-            navigationHelper.Navigate("/company-info");
+            NavigationHelper.Navigate("/company-info");
         }
         else if (notification.NotificationType == NotificationType.None)
         {
-            navigationHelper.Navigate("/login");
+            NavigationHelper.Navigate("/login");
         }
     }
 }
