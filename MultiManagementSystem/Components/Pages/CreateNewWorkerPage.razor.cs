@@ -22,6 +22,9 @@ public partial class CreateNewWorkerPage
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
 
+    [Inject]
+    private LogFactory LogFactory { get; set; } = default!;
+
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string NewWorkerNumber { get; set; } = string.Empty;
@@ -30,7 +33,6 @@ public partial class CreateNewWorkerPage
     private bool _showErrorMessage = false;
     public bool IsManager { get; set; } = false;
     public string SelectedJobRoleId { get; set; } = string.Empty; // Store the selected JobRole Id
-    public WorkerCountry WorkerCountry { get; set; } = WorkerCountry.Default;
 
     public bool showConfirmation = false;
     public bool showInvalidPassword = false;
@@ -52,8 +54,8 @@ public partial class CreateNewWorkerPage
             }
             catch (Exception ex)
             {
-                // For debugging in the future.
-                Console.WriteLine(ex);
+                var logger = LogFactory.CreateLogger("CompanyService", LoggerType.ConsoleLogger);
+                logger.Error("CompanyService / CompanyService.CurrentCompany is null");
             }
         }
     }
@@ -96,12 +98,11 @@ public partial class CreateNewWorkerPage
 
     private void ResetForm()
     {
-        // Reset the form to allow creating another worker
         Name = string.Empty;
         Password = string.Empty;
         showConfirmation = false;
         IsManager = false;
-        SelectedJobRoleId = string.Empty; // Reset the job role selection
+        SelectedJobRoleId = string.Empty;
     }
 
     private void NavigateHome()

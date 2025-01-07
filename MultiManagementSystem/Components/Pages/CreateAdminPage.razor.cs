@@ -9,7 +9,7 @@ public partial class CreateAdminPage
     [Inject]
     private IAuthorizationService AuthorizationService { get; set; } = default!;
     [Inject]
-    private ICompanyService CompanyService { get; set; } = default!;
+    private LogFactory LogFactory { get; set; } = default!;
     [Inject]
     private IDatabaseService DatabaseService { get; set; } = default!;
     [Inject]
@@ -26,10 +26,12 @@ public partial class CreateAdminPage
             await DatabaseService.CreateAdmin(AdminUsername, AdminPassword);
 
             NavigationManager.NavigateTo("/home");
+
+            var logger = LogFactory.CreateLogger("DatabaseService", LoggerType.ConsoleLogger);
+            logger.Info("Admin created, navigated to home.");
         }
         else
         {
-            // Simulate a login process
             ResetForm();
             Message = "Login attempt failed \n Please try again";
         }

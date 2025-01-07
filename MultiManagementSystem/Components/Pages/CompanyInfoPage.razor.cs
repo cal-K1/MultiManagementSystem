@@ -10,6 +10,8 @@ public partial class CompanyInfoPage
     [Inject]
     private ICompanyService CompanyService { get; set; } = default!;
     [Inject]
+    private LogFactory LogFactory { get; set; } = default!;
+    [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
     public string CompanyName { get; set; } = string.Empty;
     public string AdminUsername { get; set; } = string.Empty;
@@ -31,7 +33,8 @@ public partial class CompanyInfoPage
         }
         else
         {
-            throw new Exception("Current Company is not set.");
+            var logger = LogFactory.CreateLogger("CompanyService", LoggerType.ConsoleLogger);
+            logger.Error("CurrentCompany is Null");
         }
     }
 }

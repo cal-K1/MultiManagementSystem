@@ -12,14 +12,13 @@ public partial class AssignJobRolePage
     [Inject]
     private IAuthorizationService authorizationService { get; set; } = default!;
     [Inject]
-    private IWorkerService workerService { get; set; } = default!;
-    [Inject]
-    private ICompanyService companyService { get; set; } = default!;
-    [Inject]
     private IDatabaseService databaseService { get; set; } = default!;
+    [Inject]
+    private LogFactory LogFactory { get; set; } = default!;
 
     public string ManagerWorkerNumber { get; set; } = string.Empty;
     public string ManagerPassword { get; set; } = string.Empty;
+    public string Message { get; set; } = string.Empty;
     public bool IsManagerAuthorized { get; set; } = false;
     public bool Submitted { get; set; } = false;
     public string ErrorMessage { get; set; } = string.Empty;
@@ -48,6 +47,9 @@ public partial class AssignJobRolePage
             && (await databaseService.GetWorkerByWorkerNumber(ManagerWorkerNumber)).Manager)
         {
             IsManagerAuthorized = true;
+
+            var logger = LogFactory.CreateLogger("DatabaseService", LoggerType.ConsoleLogger);
+            logger.Info($"Manager authorized: {ManagerWorkerNumber}");
         }
         else
         {
@@ -73,11 +75,14 @@ public partial class AssignJobRolePage
     {
         try
         {
-            // Find the selected worker.
-            SelectedWorker = Workers.FirstOrDefault(w => w.Id == SelectedWorkerId);
             if (SelectedWorker == null)
             {
-                throw new Exception("No worker selected.");
+                var logger = LogFactory.CreateLogger("DatabaseService", LoggerType.ConsoleLogger);
+                logger.Error("No Worker Selected");
+
+                ErrorMessage = "Worker not found. Please select a valid worker.";
+                ShowErrorMessage= true;
+                return;
             }
 
             if (!CreateNewRole)
@@ -85,10 +90,16 @@ public partial class AssignJobRolePage
                 // Assign an existing job role.
                 if (string.IsNullOrEmpty(SelectedJobRoleId))
                 {
-                    throw new Exception("No job role selected.");
+                    ErrorMessage = "Job Role not Selected. Please try again.";
+                    ShowErrorMessage = true;
+
+                    return;
                 }
 
                 databaseService.SaveJobRoleToWorker(SelectedWorker, SelectedJobRoleId);
+
+                var logger = LogFactory.CreateLogger("DatabaseService", LoggerType.ConsoleLogger);
+                logger.Error($"JobRole saved to worker: {SelectedWorker.WorkerNumber}");
             }
             else
             {
@@ -103,12 +114,18 @@ public partial class AssignJobRolePage
 
                 databaseService.AddNewJobRole(jobRole);
                 databaseService.SaveJobRoleToWorker(SelectedWorker, jobRole.Id);
+
+                var logger = LogFactory.CreateLogger("DatabaseService", LoggerType.ConsoleLogger);
+                logger.Error($"JobRole saved to worker: {SelectedWorker.WorkerNumber}");
             }
         }
         catch (Exception ex)
         {
             ErrorMessage = $"Error Saving Job Role - {ex.Message}";
             ShowErrorMessage = true;
+
+            var logger = LogFactory.CreateLogger("DatabaseService", LoggerType.ConsoleLogger);
+            logger.Error($"JobRole saved to worker: {SelectedWorker.WorkerNumber}");
         }
 
         Submitted = true;

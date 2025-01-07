@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using MultiManagementSystem.Models;
+using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
 namespace MultiManagementSystem.Components.Pages;
@@ -10,8 +11,10 @@ public partial class ViewPendingLeaveRequests
     private IDatabaseService databaseService { get; set; } = default!;
     [Inject]
     private ICompanyService companyService { get; set; } = default!;
+
     [Inject]
-    private IAuthorizationService authorizationService { get; set; } = default!;
+    private LogFactory LogFactory { get; set; } = default!;
+
     private List<LeaveRequest> pendingLeaveRequests { get; set; } = new();
     private bool isLoading { get; set; } = true;
 
@@ -21,14 +24,16 @@ public partial class ViewPendingLeaveRequests
         {
             if (string.IsNullOrWhiteSpace(companyService?.CurrentCompany?.Id))
             {
-                throw new ArgumentNullException(nameof(companyService.CurrentCompany.Id));
+                var logger = LogFactory.CreateLogger("CompanyService", LoggerType.ConsoleLogger);
+                logger.Error("CompanyService / CompanyService.CurrentCompany was null");
             }
 
             pendingLeaveRequests = await databaseService.GetAllPendingLeaveRequestsByCompanyId(companyService.CurrentCompany.Id);
         }
         catch (Exception ex)
         {
-            Console.Error.WriteLine($"Error loading leave requests: {ex.Message}");
+            var logger = LogFactory.CreateLogger("ComponentNavigation", LoggerType.ConsoleLogger);
+            logger.Error($"Message: {ex.Message}");
         }
         finally
         {
@@ -40,7 +45,10 @@ public partial class ViewPendingLeaveRequests
     {
         if (request == null)
         {
-            throw new ArgumentNullException(nameof(request));
+            var logger = LogFactory.CreateLogger("Component", LoggerType.ConsoleLogger);
+            logger.Error("request was null");
+
+            return;
         }
 
         await databaseService.HandleLeaveRequestInDatabase(request, isAccepted);

@@ -17,6 +17,9 @@ public partial class CreateJobRolePage
     private IDatabaseService DatabaseService { get; set; } = default!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
+    [Inject]
+    private LogFactory LogFactory { get; set; } = default!;
+
     public string JobTitle { get; set; } = string.Empty;
     public string Description { get; set; } = string.Empty;
     public int? Salary { get; set; } = null;
@@ -33,6 +36,10 @@ public partial class CreateJobRolePage
             Message = "Please fill in all fields";
             ShowMessage = true;
             ShowSuccessScreen = false;
+
+            var logger = LogFactory.CreateLogger("Authorization", LoggerType.ConsoleLogger);
+            logger.Warning("JobRole creation failed - Some fields are null");
+
             return;
         }
 

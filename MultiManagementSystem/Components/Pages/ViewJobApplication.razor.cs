@@ -22,6 +22,9 @@ public partial class ViewJobApplication
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
 
+    [Inject]
+    LogFactory LogFactory { get; set; } = default!;
+
     // Accept the ID of the application as a parameter
     [Parameter]
     public string Id { get; set; } = string.Empty;
@@ -55,7 +58,11 @@ public partial class ViewJobApplication
     {
         if (workerService == null)
         {
-            throw new ArgumentNullException(nameof(workerService));
+
+            var logger = LogFactory.CreateLogger("WorkerService", LoggerType.ConsoleLogger);
+            logger.Error("WorkerService was null.");
+
+            return;
         }
 
         Applicant = await databaseService.GetWorkerById(SelectedApplication.ApplicantId);
@@ -77,7 +84,10 @@ public partial class ViewJobApplication
     {
         if (workerService == null)
         {
-            throw new ArgumentNullException(nameof(workerService));
+            var logger = LogFactory.CreateLogger("WorkerService", LoggerType.ConsoleLogger);
+            logger.Error("WorkerService was null.");
+
+            return;
         }
 
         Notification newNotification = new Notification()

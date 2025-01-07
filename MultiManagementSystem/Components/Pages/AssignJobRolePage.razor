@@ -83,5 +83,12 @@ else
         {
             <p class="success">Job Role Assigned Successfully!</p>
         }
+
+        @if (!string.IsNullOrEmpty(Message))
+        {
+            <div class="message-container">
+                <p class="">@Message</p>
+            </div>
+        }
     </div>
 }

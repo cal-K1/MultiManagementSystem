@@ -13,6 +13,9 @@ public partial class ManageStaffPage
     NavigationManager NavigationManager { get; set; } = default!;
 
     [Inject]
+    private LogFactory LogFactory { get; set; } = default!;
+
+    [Inject]
     ICompanyService companyService { get; set; } = default!;
 
     public List<Worker> workersList { get; set; } = new();
@@ -66,5 +69,8 @@ public partial class ManageStaffPage
     public void NavigateToSpecificWorker(string workerId)
     {
         NavigationManager.NavigateTo($"/manage-worker/{workerId}");
+
+        var logger = LogFactory.CreateLogger("ComponentNavigation", LoggerType.ConsoleLogger);
+        logger.Info($"Navigated to worker with Id - {workerId}");
     }
 }

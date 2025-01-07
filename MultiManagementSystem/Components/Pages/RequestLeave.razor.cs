@@ -16,7 +16,10 @@ public partial class RequestLeave
     private IDatabaseService databaseService { get; set; } = default!;
     [Inject]
     NavigationManager NavigationManager { get; set; } = default!;
-    LeaveRequest LeaveRequest { get; set; } = default!;
+
+    [Inject]
+    private LogFactory LogFactory { get; set; } = default!;
+
     public DateTime RequestLeaveStart { get; set; } = DateTime.Now.Date;
     public DateTime RequestLeaveEnd { get; set;} = DateTime.Now.Date;
     public string RequestDescription { get; set; } = string.Empty;
@@ -46,5 +49,8 @@ public partial class RequestLeave
     public void NavigateHome()
     {
         NavigationManager.NavigateTo("/home");
+
+        var logger = LogFactory.CreateLogger("ComponentNavigation", LoggerType.ConsoleLogger);
+        logger.Info($"Navigated to /home");
     }
 }

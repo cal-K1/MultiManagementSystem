@@ -11,11 +11,10 @@ public partial class CreateCompanyPage
     [Inject]
     private IAuthorizationService AuthorizationService { get; set; } = default!;
     [Inject]
-    private ICompanyService CompanyService { get; set; } = default!;
-    [Inject]
     private IDatabaseService DatabaseService { get; set; } = default!;
     [Inject]
     private NavigationManager NavigationManager { get; set; } = default!;
+
     public string CompanyName { get; set; } = string.Empty;
     public string AdminName { get; set; } = string.Empty;
     public string AdminPassword { get; set; } = string.Empty;

@@ -8,7 +8,7 @@ namespace MultiManagementSystem.Components.Pages;
 public partial class ViewPendingApplications
 {
     [Inject]
-    private IApplicationService applicationService { get; set; } = default!;
+    private LogFactory LogFactory { get; set; } = default!;
 
     [Inject]
     private IDatabaseService databaseService { get; set; } = default!;
@@ -26,5 +26,8 @@ public partial class ViewPendingApplications
     private void NavigateToApplication(string Id)
     {
         _navigationManager.NavigateTo("/apply");
+
+        var logger = LogFactory.CreateLogger("ComponentNavigation", LoggerType.ConsoleLogger);
+        logger.Info("Navigated to /apply");
     }
 }

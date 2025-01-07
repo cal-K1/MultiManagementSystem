@@ -2,7 +2,12 @@
 
 <h3 class="header-text" style="text-align: center;">Job Apply Page</h3>
 
-@if (_submitted == false)
+@if (_showErrorMessage)
+{
+    <p style="color: red; text-align: center;">@_errorMessage</p>
+}
+
+@if (!_submitted)
 {
     <form class="form-submit">
         <label class="label-input" for="name">Name:</label>
@@ -13,6 +18,14 @@
 
         <label class="label-input" for="description">Description:</label>
         <textarea class="description-box" id="description" @bind="@_description" rows="5"></textarea>
+
+        <label class="label-input" for="jobRole">Job Role:</label>
+        <select class="input-box" id="jobRole" @bind="@_selectedJobRole">
+            @foreach (var role in _jobRoles)
+            {
+                <option value="@role.Id">@role.JobTitle</option>
+            }
+        </select>
 
         <button class="submit-button" @onclick="SubmitForm" type="button">Submit</button>
     </form>

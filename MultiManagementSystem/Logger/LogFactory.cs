@@ -1,27 +1,29 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using MultiManagementSystem.Logger;
 
-namespace MultiManagementSystem.Logger
+public class LogFactory
 {
-    public enum LoggerType
+    private readonly IConfiguration _configuration;
+
+    public LogFactory(IConfiguration configuration)
     {
-        ConsoleLogger = 0,
-        FileLogger = 1
+        _configuration = configuration;
     }
 
-    public static class LogFactory
+    public ILog CreateLogger(string serviceName, LoggerType loggerType)
     {
-        public static ILog CreateLogger(string serviceName, LoggerType loggerType, IConfiguration configuration)
+        if (loggerType == LoggerType.FileLogger)
         {
-            if (loggerType == LoggerType.FileLogger)
-            {
-                ILog fileLogger = new FileLogger(serviceName, configuration);
-                return fileLogger;
-            }
-            else
-            {
-                ILog consoleLogger = new ConsoleLogger(serviceName);
-                return consoleLogger;
-            }
+            return new FileLogger(serviceName, _configuration);
+        }
+        else
+        {
+            return new ConsoleLogger(serviceName);
         }
     }
+}
+
+public enum LoggerType
+{
+    ConsoleLogger = 0,
+    FileLogger = 1
 }
