@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using MultiManagementSystem.Models;
 using MultiManagementSystem.Models.People;
 using MultiManagementSystem.Services.Abstraction;
 
@@ -24,28 +25,60 @@ public partial class CreateNewWorkerPage
     public string Name { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty;
     public string NewWorkerNumber { get; set; } = string.Empty;
+    public List<JobRole> AllJobRoles { get; set; } = new();
+    private string _errorMessage { get; set; } = string.Empty;
+    private bool _showErrorMessage = false;
     public bool IsManager { get; set; } = false;
+    public string SelectedJobRoleId { get; set; } = string.Empty; // Store the selected JobRole Id
     public WorkerCountry WorkerCountry { get; set; } = WorkerCountry.Default;
 
-    public bool isEmployed = false;
-    public bool showForm = false;
     public bool showConfirmation = false;
     public bool showInvalidPassword = false;
 
-    private void SelectEmployeeType(bool isEmployedSelected)
+    protected override async Task OnInitializedAsync()
     {
-        showForm = true;
+        await SetJobRolesList();
+    }
+
+    private async Task SetJobRolesList()
+    {
+        if (authorizationService.CurrentAdmin != null)
+        {
+            try
+            {
+                companyService.SetCurrentCompanyAsAdmin(authorizationService.CurrentAdmin);
+
+                AllJobRoles = await databaseService.GetAllJobRolesByCompanyId(companyService.CurrentCompany.Id);
+            }
+            catch (Exception ex)
+            {
+                // For debugging in the future.
+                Console.WriteLine(ex);
+            }
+        }
     }
 
     public void CreateNewWorker()
     {
+        var selectedJobRole = AllJobRoles.FirstOrDefault(role => role.Id == SelectedJobRoleId);
+
+        if (selectedJobRole == null)
+        {
+            // Handle the case where no valid job role is selected.
+            _errorMessage = "No job role selected";
+            _showErrorMessage = true;
+            return;
+        }
+
         Worker worker = new Worker()
         {
             Name = Name,
             Id = Guid.NewGuid().ToString(),
             WorkerNumber = workerService.CreateNewWorkerNumber(),
+            JobRoleId = selectedJobRole.Id,
             Password = Password,
             Manager = IsManager,
+            CompanyId = companyService.CurrentCompany.Id ?? string.Empty,
         };
 
         if (!authorizationService.IsPasswordValid(worker.Password))
@@ -58,7 +91,6 @@ public partial class CreateNewWorkerPage
         databaseService.CreateNewWorkerInDb(worker);
 
         // Show the confirmation screen after successful creation
-        showForm = false;
         showConfirmation = true;
     }
 
@@ -67,18 +99,13 @@ public partial class CreateNewWorkerPage
         // Reset the form to allow creating another worker
         Name = string.Empty;
         Password = string.Empty;
-        showForm = false;
         showConfirmation = false;
         IsManager = false;
+        SelectedJobRoleId = string.Empty; // Reset the job role selection
     }
 
     private void NavigateHome()
     {
         NavigationManager.NavigateTo("/");
-    }
-
-    private void NavigateAssignJobRole()
-    {
-        NavigationManager.NavigateTo($"/assign-job-role/{NewWorkerNumber}");
     }
 }

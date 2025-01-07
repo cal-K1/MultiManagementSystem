@@ -1,81 +1,58 @@
 ﻿@page "/create"
-@using MultiManagementSystem.Models.People
-@namespace MultiManagementSystem.Components.Pages
 
-<div class="form-container">
-    <h3 class="page-title">Create New Worker</h3>
+<h3 class="text-center">Create New Worker</h3>
 
-    @if (showConfirmation)
-    {
-        <div class="alert alert-success" role="alert">
-            <strong>Success!</strong> The worker has been created successfully.
-            <strong>Your worker number is @NewWorkerNumber</strong>
+@if (showConfirmation)
+{
+    <div class="text-center">
+        <h4 class="alert alert-success">Worker Created Successfully!</h4>
+        <p>Worker Number: @NewWorkerNumber</p>
+        <button class="btn btn-primary" @onclick="NavigateHome">Return Home</button>
+    </div>
+}
+else
+{
+    <Microsoft.AspNetCore.Components.Forms.EditForm Model="this">
+        <div class="form-group">
+            <label for="name" class="font-weight-bold">Name</label>
+            <input type="text" id="name" class="form-control form-control-lg" @bind="Name" placeholder="Enter worker name" />
         </div>
 
-        <!-- Success Message Button -->
-        <button class="btn btn-primary mt-3" @onclick="ResetForm">Create Another Worker</button>
-
-        <!-- Navigate Home Button -->
-        <button class="btn btn-primary mt-3" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Navigate Home</button>
-
-        <button class="job-role-button>" @onclick="@(_ => NavigationManager.NavigateTo("/assign"))">Assign Job Role</button>
-    }
-    else if (showInvalidPassword)
-    {
-        <div class="password-error" style="color: red; text-align: center; margin-top: 1rem;">
-            <p>Password is invalid. It must meet the following requirements:</p>
-            <ul style="list-style-type: none; padding: 0;">
-                <li>At least 6 characters long</li>
-                <li>At least one uppercase letter (A-Z)</li>
-                <li>At least one digit (0-9)</li>
-
-                <button class="btn btn-primary mt-3" @onclick="@(_ => NavigationManager.NavigateTo("/home"))">Navigate Home</button>
-            </ul>
+        <div class="form-group">
+            <label for="password" class="font-weight-bold">Password</label>
+            <input type="password" id="password" class="form-control form-control-lg" @bind="Password" placeholder="Enter worker password" />
         </div>
-    }
-    else
-    {
-        <Microsoft.AspNetCore.Components.Forms.EditForm Model="@this" OnValidSubmit="CreateNewWorker">
-            <DataAnnotationsValidator />
-            <ValidationSummary />
 
-            <div class="form">
-                <div class="form-group">
-                    <label for="name">Name:</label>
-                    <InputText id="name" @bind-Value="Name" class="form-control" required />
-                </div>
+        <div class="form-group">
+            <label for="jobRole" class="font-weight-bold">Select Existing Job Role:</label>
+            <select id="jobRole" class="form-control form-control-lg" @bind="SelectedJobRoleId">
+                <option value="">Select a Job Role</option>
+                @foreach (var role in AllJobRoles)
+                {
+                    <option value="@role.Id">@role.JobTitle</option>
+                }
+            </select>
+        </div>
 
-                <div class="form-group">
-                    <label for="password">Password:</label>
-                    <InputText id="password" @bind-Value="Password" type="password" class="form-control" required />
-                </div>
+        <div class="form-check">
+            <input type="checkbox" id="isManager" class="form-check-input" @bind="IsManager" />
+            <label for="isManager" class="form-check-label font-weight-bold">Is Manager</label>
+        </div>
 
-                <div class="form-group">
-                    <label for="employeeType">Employee Type:</label>
-                    <InputSelect id="employeeType" @bind-Value="IsManager" class="form-control">
-                        <option value="false">Worker</option>
-                        <option value="true">Manager</option>
-                    </InputSelect>
-
-                    <div class="form-group worker-country-group">
-                        <label for="workerCountry">Country:</label>
-                        <InputSelect id="workerCountry" @bind-Value="WorkerCountry" class="form-control">
-                            @foreach (WorkerCountry country in Enum.GetValues(typeof(WorkerCountry)))
-                            {
-                                string countryName = country.ToString() ?? string.Empty;
-
-                                // Format the name by adding spaces between words
-                                string formattedCountry = string.Concat(countryName.Select((x, i) => i > 0 && char.IsUpper(x) ? " " + x : x.ToString())).Trim();
-
-                                <option value="@countryName">@formattedCountry</option>
-                            }
-                        </InputSelect>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn btn-primary mt-4">Submit</button>
+        @if (_showErrorMessage)
+        {
+            <div class="alert alert-danger mt-3">
+                @_errorMessage
             </div>
+        }
 
-        </Microsoft.AspNetCore.Components.Forms.EditForm>
-    }
-</div>
+        @if (showInvalidPassword)
+        {
+            <div class="alert alert-danger mt-3">Invalid password. Please try again.</div>
+        }
+
+        <div class="d-flex justify-content-center mt-3">
+            <button class="btn btn-primary btn-lg" @onclick="CreateNewWorker">Create Worker</button>
+        </div>
+    </Microsoft.AspNetCore.Components.Forms.EditForm>
+}
