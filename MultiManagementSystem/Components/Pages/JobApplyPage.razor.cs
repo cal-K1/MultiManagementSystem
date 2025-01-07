@@ -19,49 +19,48 @@ public partial class JobApplyPage
     [Inject]
     private LogFactory LogFactory { get; set; } = default!;
 
-    private string _name { get; set; } = string.Empty;
-    private string _phoneNumber { get; set; } = string.Empty;
-    private string _description { get; set; } = string.Empty;
-    private string _errorMessage { get; set; } = string.Empty;
-    private bool _submitted { get; set; } = false;
-    private bool _showErrorMessage { get; set; } = false;
-    private string _selectedJobRole { get; set; } = string.Empty;
-    private List<JobRole> _jobRoles { get; set; } = new List<JobRole>();
-    private Worker Applicant { get; set; } = default!;
+    private string _name = string.Empty;
+    private string _phoneNumber = string.Empty;
+    private string _description = string.Empty;
+    private string _selectedJobRole = string.Empty;
+    private bool _submitted = false;
+    private bool _showErrorMessage = false;
+    private string _errorMessage = string.Empty;
+
+    private List<JobRole> _jobRoles = new List<JobRole>
+    {
+        new JobRole { Id = "FullTime", JobTitle = "Full-Time" },
+        new JobRole { Id = "Contract", JobTitle = "Contract" }
+    };
+
+    private IJobApplicationStrategy _jobApplicationStrategy;
 
     protected override async Task OnInitializedAsync()
     {
-        Applicant = authorizationService.CurrentWorker;
-
-        if (Applicant == null)
+        // Select the appropriate strategy based on the selected job role.
+        if (_selectedJobRole == "FullTime")
         {
-            _errorMessage = "Applicant is null, try again";
-
-            var logger = LogFactory.CreateLogger("CompanyService", LoggerType.ConsoleLogger);
-            logger.Error("CompanyService / CompanyService.CurrentCompany is null");
-            return;
+            _jobApplicationStrategy = new FullTimeJobStrategy();
         }
-
-        _jobRoles = await databaseService.GetAllJobRolesByCompanyId(companyService.CurrentCompany.Id);
+        else if (_selectedJobRole == "Contract")
+        {
+            _jobApplicationStrategy = new ContractJobStrategy();
+        }
     }
 
     public async Task SubmitForm()
     {
+        // Validate inputs
         if (string.IsNullOrWhiteSpace(_name) || string.IsNullOrWhiteSpace(_phoneNumber) || string.IsNullOrWhiteSpace(_description) || string.IsNullOrWhiteSpace(_selectedJobRole))
         {
             _errorMessage = "Please fill in all fields.";
-            return;
-        }
-
-        if (string.IsNullOrWhiteSpace(Applicant.Id))
-        {
-            _errorMessage = "No user logged in, please log in to continue";
+            _showErrorMessage = true;
             return;
         }
 
         var jobApplication = new JobApplication
         {
-            ApplicantId = Applicant.Id,
+            ApplicantId = Guid.NewGuid().ToString(),  
             ApplicantName = _name,
             ApplicantPhoneNumber = _phoneNumber,
             ApplicationText = _description,
@@ -69,7 +68,15 @@ public partial class JobApplyPage
             ApplicationState = ApplicationState.Pending
         };
 
-        await databaseService.ApplyJob(jobApplication.ApplicantId, jobApplication.ApplicantName, jobApplication.ApplicantName, jobApplication.ApplicationText);
+        // Use the strategy to validate the application
+        _errorMessage = await _jobApplicationStrategy.ValidateApplication(jobApplication);
+
+        if (_errorMessage != "Application valid for full-time job." && _errorMessage != "Application valid for contract job.")
+        {
+            return;
+        }
+
+        await databaseService.ApplyJob(jobApplication.ApplicantId, jobApplication.ApplicantName, jobApplication.ApplicantPhoneNumber, jobApplication.ApplicationText);
         _submitted = true;
     }
 }

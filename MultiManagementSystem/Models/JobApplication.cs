@@ -7,16 +7,11 @@ public class JobApplication
     [Key]
     [Required]
     public string Id { get; set; } = string.Empty;
-
-    public string ApplicantId { get; set; } = string.Empty;
-
-    public string ApplicantName { get; set; } = string.Empty;
-
-    public string ApplicantPhoneNumber { get; set; } = string.Empty;
-
-    public string ApplicationText { get; set; } = string.Empty;
-
-    public JobRole JobRole { get; set; } = default!;
-
-    public ApplicationState ApplicationState { get; set; } = ApplicationState.Pending;
+    public string ApplicantId { get; set; }
+    public string ApplicantName { get; set; }
+    public string ApplicantPhoneNumber { get; set; }
+    public string ApplicationText { get; set; }
+    public JobRole JobRole { get; set; }
+    public ApplicationState ApplicationState { get; set; }
+    public bool IsFullTimeWorker { get; set; } = true;
 }

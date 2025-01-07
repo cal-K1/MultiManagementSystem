@@ -174,8 +174,14 @@ public class DatabaseServiceTests
         var jobApplication = new JobApplication
         {
             Id = Guid.NewGuid().ToString(),
-            ApplicationState = ApplicationState.Pending
+            ApplicantId = "Applicant123", // Add necessary fields
+            ApplicantName = "John Doe",
+            ApplicantPhoneNumber = "123-456-7890",
+            ApplicationText = "I am a good fit.",
+            ApplicationState = ApplicationState.Pending,
+            JobRole = new JobRole { Id = "FullTime", JobTitle = "Full-Time" }
         };
+
         _dbContext.JobApplications.Add(jobApplication);
         await _dbContext.SaveChangesAsync();
 
@@ -185,6 +191,7 @@ public class DatabaseServiceTests
         // Assert
         Assert.Contains(pendingApplications, app => app.ApplicationState == ApplicationState.Pending);
     }
+
 
     [Fact]
     public async Task GetAllPendingLeaveRequestsByCompanyId_ReturnsPendingLeaveRequests()
@@ -214,8 +221,14 @@ public class DatabaseServiceTests
         var jobApplication = new JobApplication
         {
             Id = Guid.NewGuid().ToString(),
-            ApplicationState = ApplicationState.Pending
+            ApplicantId = "Applicant123", // Add necessary fields
+            ApplicantName = "John Doe",
+            ApplicantPhoneNumber = "123-456-7890",
+            ApplicationText = "I am a good fit.",
+            ApplicationState = ApplicationState.Pending,
+            JobRole = new JobRole { Id = "FullTime", JobTitle = "Full-Time" }
         };
+
         _dbContext.JobApplications.Add(jobApplication);
         await _dbContext.SaveChangesAsync();
 
@@ -235,8 +248,14 @@ public class DatabaseServiceTests
         var jobApplication = new JobApplication
         {
             Id = Guid.NewGuid().ToString(),
-            ApplicationState = ApplicationState.Pending
+            ApplicantId = "Applicant123", // Add necessary fields
+            ApplicantName = "John Doe",
+            ApplicantPhoneNumber = "123-456-7890",
+            ApplicationText = "I am a good fit.",
+            ApplicationState = ApplicationState.Pending,
+            JobRole = new JobRole { Id = "Contract", JobTitle = "Contract" }
         };
+
         _dbContext.JobApplications.Add(jobApplication);
         await _dbContext.SaveChangesAsync();
 
