@@ -11,6 +11,7 @@
             <p><strong>Manager:</strong> @(CurrentWorker.Manager ? "Yes" : "No")</p>
             <p><strong>Country:</strong> @CurrentWorker.Country</p>
                <p><strong>Job Role:</strong> @(CurrentWorker.JobRoleId ?? "N/A")</p>
+            <p><strong>Job Description:</strong> @(JobDescription ?? "N/A")</p>
                <p><strong>Company ID:</strong> @CurrentWorker.CompanyId</p>
             <p><strong>Leave Days Remaining:</strong> @CurrentWorker.LeaveDaysRemaining</p>
 
