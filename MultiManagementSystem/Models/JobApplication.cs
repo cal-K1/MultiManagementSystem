@@ -16,5 +16,7 @@ public class JobApplication
 
     public string ApplicationText { get; set; } = string.Empty;
 
+    public JobRole JobRole { get; set; } = default!;
+
     public ApplicationState ApplicationState { get; set; } = ApplicationState.Pending;
 }
