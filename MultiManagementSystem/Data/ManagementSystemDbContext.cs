@@ -37,10 +37,6 @@ namespace MultiManagementSystem.Data
                 entity.Property(w => w.Country).IsRequired();
             });
 
-            modelBuilder.Entity<UserId>()
-                .ToTable("UserId")
-                .HasKey(u => u.Id);
-
             modelBuilder.Entity<JobApplication>()
                 .ToTable("JobApplications")
                 .HasKey(j => j.Id);
@@ -81,7 +77,6 @@ namespace MultiManagementSystem.Data
         public DbSet<JobApplication> JobApplications { get; set; }
         public DbSet<Worker> Workers { get; set; }
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
-        public DbSet<UserId> UserId { get; set; }
         public DbSet<Company> Company { get; set; }
         public DbSet<Admin> Administrator { get; set; }
         public DbSet<JobRole> JobRole { get; set; }
