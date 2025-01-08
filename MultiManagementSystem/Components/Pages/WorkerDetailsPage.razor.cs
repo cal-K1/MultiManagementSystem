@@ -27,7 +27,7 @@ public partial class WorkerDetailsPage
 
         List<JobRole> JobRoles = await databaseService.GetAllJobRolesByCompanyId(CurrentWorker.CompanyId);
 
-        foreach ( JobRole jobRole in JobRoles )
+        foreach (JobRole jobRole in JobRoles)
         {
             if (jobRole.Id == CurrentWorker.JobRoleId)
             {
